@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-export default class startScene extends Phaser.Scene {
+export default class start extends Phaser.Scene {
 	constructor() {
 		super('start-scene')
 	}
@@ -11,7 +11,7 @@ export default class startScene extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(550, 400, 'We are currently on /n the start Screne', {
+        this.add.text(550, 400, 'Currently at start /n click for home', {
 			fontSize: '40px',
 			color: '#ffffff'
 		})

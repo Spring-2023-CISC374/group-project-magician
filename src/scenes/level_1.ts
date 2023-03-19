@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 
-export default class home extends Phaser.Scene {
+export default class level_1 extends Phaser.Scene {
 	constructor() {
-		super('home')
+		super('level_1')
 	}
 
 	preload() {
@@ -11,14 +11,14 @@ export default class home extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(550, 400, 'Currently at Home \n click for map', {
+        this.add.text(550, 400, 'Click to Play \n Again!!!!', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
 
         this.input.on('pointerup', () => {
-            this.scene.stop('home')
-            this.scene.start('map')
+            this.scene.stop('level_1')
+            this.scene.start('combat_1')
 		})
 	}
 	
