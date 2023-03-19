@@ -11,7 +11,7 @@ export default class level_1 extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(550, 400, 'Click to Play \n Again!!!!', {
+        this.add.text(0, 40, 'Currently at level 1 \n Click for combat_1', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})

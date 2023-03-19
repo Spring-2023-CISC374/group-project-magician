@@ -11,7 +11,7 @@ export default class inventory extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(550, 400, 'Currently on inventory \n click for Home', {
+        this.add.text(0, 40, 'Currently on inventory \n click for Home', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})

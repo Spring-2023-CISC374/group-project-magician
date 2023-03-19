@@ -11,7 +11,7 @@ export default class combat_1 extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(550, 400, 'Currently in Combat \n Click for inventory', {
+        this.add.text(0, 40, 'Currently in Combat \n Click for inventory', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
