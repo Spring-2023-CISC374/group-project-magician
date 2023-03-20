@@ -11,7 +11,7 @@ export default class map extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(0, 40, 'currently on Map \n Click for Level 1', {
+        this.add.text(0, 40, 'Currently on Map \n Click for Level 1', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})

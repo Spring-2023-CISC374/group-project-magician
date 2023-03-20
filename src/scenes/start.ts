@@ -11,7 +11,7 @@ export default class start extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(0, 400, 'Currently at start /n click for home', {
+        this.add.text(0, 400, 'Currently at start /n Click for home', {
 			fontSize: '40px',
 			color: '#ffffff'
 		})
