@@ -33,7 +33,7 @@ export default class map extends Phaser.Scene {
 	}
 
 	private makeCharacter() {
-		this.player = this.physics.add.sprite(100,450,'mainChar')
+		this.player = this.physics.add.sprite(80,510,'mainChar')
 		this.player.setScale(2);
 		this.player.setCollideWorldBounds(true)
 	}
