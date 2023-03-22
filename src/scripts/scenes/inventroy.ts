@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 
 export default class inventory extends Phaser.Scene {
-	private count = 0
-	private countText?: Phaser.GameObjects.Text
+	//private count = 0
+	//private countText?: Phaser.GameObjects.Text
 
 	constructor() {
 		super('inventory')
@@ -26,28 +26,28 @@ export default class inventory extends Phaser.Scene {
 			color: '#ffffff'
 		})
 
-		this.countText = this.add.text(160, 150, 'count: 0', { 
+		this.add.text(160, 150, 'count: 0', { 
 			fontSize: '20px' })
 
 		this.add.text(10, 250, 'Blue Berries: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this.countText = this.add.text(170, 250, 'count: 0', { 
+		this.add.text(170, 250, 'count: 0', { 
 			fontSize: '20px' })
 
 		this.add.text(10, 350, 'Green Berries: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this.countText = this.add.text(180, 350, 'count: 0', { 
+		this.add.text(180, 350, 'count: 0', { 
 			fontSize: '20px' })
 
 		this.add.text(10, 450, 'Yellow Berries: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this.countText = this.add.text(190, 450, 'count: 0', { 
+		this.add.text(190, 450, 'count: 0', { 
 			fontSize: '20px' })
 
         this.input.on('pointerup', () => {
@@ -55,7 +55,7 @@ export default class inventory extends Phaser.Scene {
             this.scene.start('home')
 		})
 	}
-	
+	//commented out count and count text, removed this.countText = this.add.text from 4 lines.
 
 	update() {
 		//
