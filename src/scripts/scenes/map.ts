@@ -1,3 +1,4 @@
+
 import Phaser from 'phaser'
 export default class map extends Phaser.Scene {
 	private player?: Phaser.Physics.Arcade.Sprite
