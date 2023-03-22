@@ -6,14 +6,16 @@ export default class level_1 extends Phaser.Scene {
 	}
 
 	preload() {
-		//load image  for start screen here  
+		//load image  for start screen here 
+		this.load.image('soil4', 'assets/background/soil4.png')
 	}
 
 	create() {		
+		this.add.image(400, 300, 'soil4').setScale(3.5);
 
         this.add.text(0, 40, 'Currently at level 1 \n Click for combat_1', {
 			fontSize: '32px',
-			color: '#ffffff'
+			color: '#0xfffff'
 		})
 
         this.input.on('pointerup', () => {
