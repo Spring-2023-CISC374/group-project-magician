@@ -8,6 +8,7 @@ export default class combat_1 extends Phaser.Scene {
 	constructor() { super('combat_1') }
 
 	preload() {
+		// load spritesheets
 		this.load.spritesheet('player', 'assets/player.png',
 		{frameWidth: 32, frameHeight: 32})
 		this.load.spritesheet('enemyDragon', 'assets/enemyDragon.png',
@@ -17,30 +18,33 @@ export default class combat_1 extends Phaser.Scene {
 	}
 
 	create() {		
+		// create assets
 		this.player = this.makeCharacter();
-		this.setCharPosition();
 		this.enemy = this.makeEnemy()
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
+		// scene text
         this.add.text(0, 40, 'Currently in Combat \nClick for inventory \n\nPress Space to attack ', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
+		// scene change
         this.input.on('pointerup', () => {
             this.scene.stop('combat_1')
             this.scene.start('inventory')
 		})
+		// player idle animation
 		this.player.anims.play('idle', true)
-		// collision between spell and enemy
+		// add collisions
 		this.physics.add.overlap(this.enemy, this.spell, this.handleSpell, undefined, this)
 	}
 	
-
 	update() {
+		// update spells
 		if (this.keys?.space.isDown) { 
 			this.castSpell() 
 		}
-		if (this.spell?.visible == true) {
+		if (this.spell?.active == true) {
 			this.spell.setX(this.spell.x + 1)
 		}
 	}
@@ -50,13 +54,12 @@ export default class combat_1 extends Phaser.Scene {
 		this.enemy.setCollideWorldBounds(true)
 		return this.enemy
 	}
-	private setCharPosition() {
-		this.player?.setPosition(200,300)
-	}
+
 	private makeCharacter() {
 		this.player = this.physics.add.sprite(80, 510, 'player')
 		this.player
 			.setScale(2)
+			.setPosition(200, 300)
 			.setCollideWorldBounds(true)
 		this.anims.create({
 				key: 'idle', 
@@ -74,9 +77,11 @@ export default class combat_1 extends Phaser.Scene {
 		})
 		return this.player
 	}
+
 	private makeSpell(player: Phaser.GameObjects.Sprite) {
 		this.spell = this.physics.add.sprite(player.x + 30, player.y, 'darkSpell')
 		this.spell
+			.setActive(false)
 			.setVisible(false)
 			.setCollideWorldBounds(true)
 		this.anims.create({
@@ -88,17 +93,17 @@ export default class combat_1 extends Phaser.Scene {
 			}) 		
 		return this.spell
 	}
+
 	private castSpell() {
-		this.player?.anims
-			.play('cast', true)
+		this.player?.anims.play('cast', true)
 			.once('animationcomplete', () => {
-				this.spell?.setVisible(true)
-				this.spell?.anims.play('dark_spell', true)
-				this.spell?.setX(this.spell.x + 1)
+				this.spell?.setActive(true)
+					.setVisible(true)
+					.anims.play('dark_spell', true)
 				this.player?.anims.play('idle', true)
-			});	
+			})
 	}
-	// collision between spell and enemy handler
+
 	private handleSpell(enemy: Phaser.GameObjects.GameObject, spell: Phaser.GameObjects.GameObject) {
 		(spell as Phaser.Physics.Arcade.Image).disableBody(true, true);
 		(enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
