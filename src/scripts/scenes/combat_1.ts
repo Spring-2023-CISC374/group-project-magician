@@ -11,9 +11,9 @@ export default class combat_1 extends Phaser.Scene {
 		// load spritesheets
 		this.load.spritesheet('player', 'assets/player.png',
 		{frameWidth: 32, frameHeight: 32})
-		this.load.spritesheet('enemyDragon', 'assets/enemyDragon.png',
-		{frameWidth: 100, frameHeight: 100})
-		this.load.spritesheet('darkSpell', 'assets/darkSpell.png',
+		this.load.spritesheet('dragon', 'assets/enemies/dragon.png',
+		{frameWidth: 32, frameHeight: 32})
+		this.load.spritesheet('darkSpell', 'assets/spells/darkSkull.png',
 		{frameWidth: 40, frameHeight: 32})
 	}
 
@@ -35,6 +35,7 @@ export default class combat_1 extends Phaser.Scene {
 		})
 		// player idle animation
 		this.player.anims.play('idle', true)
+		this.enemy.anims.play('enemyIdle', true)
 		// add collisions
 		this.physics.add.overlap(this.enemy, this.spell, this.handleSpell, undefined, this)
 	}
@@ -50,8 +51,18 @@ export default class combat_1 extends Phaser.Scene {
 	}
 
 	private makeEnemy() {
-		this.enemy = this.physics.add.sprite(400, 300, 'enemyDragon')
-		this.enemy.setCollideWorldBounds(true)
+		this.enemy = this.physics.add.sprite(400, 300, 'dragon')
+		this.enemy
+			.setScale(2)
+			.setCollideWorldBounds(true)
+		this.enemy.flipX = true	
+		this.anims.create({
+			key: 'enemyIdle', 
+			frames: this.anims.generateFrameNumbers('dragon', {
+				start: 0, end: 7
+			}), 
+			frameRate: 10, repeat: -1
+		})
 		return this.enemy
 	}
 
@@ -107,5 +118,6 @@ export default class combat_1 extends Phaser.Scene {
 	private handleSpell(enemy: Phaser.GameObjects.GameObject, spell: Phaser.GameObjects.GameObject) {
 		(spell as Phaser.Physics.Arcade.Image).disableBody(true, true);
 		(enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
+		this.enemy?.anims.stop();
 	}
 }
