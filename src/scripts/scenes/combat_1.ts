@@ -15,16 +15,22 @@ export default class combat_1 extends Phaser.Scene {
 		{frameWidth: 32, frameHeight: 32})
 		this.load.spritesheet('darkSpell', 'assets/spells/darkSkull.png',
 		{frameWidth: 40, frameHeight: 32})
+		// load images
+		this.load.image('bg', 'assets/background/dark_forest.png')
 	}
 
-	create() {		
+	create() {
+		const bg = this.add.image(
+			this.cameras.main.width/2, this.cameras.main.height/2, 'bg')
+		bg.setScale(
+			this.cameras.main.width/bg.width, this.cameras.main.height/bg.height)		
 		// create assets
 		this.player = this.makeCharacter();
 		this.enemy = this.makeEnemy()
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
-        this.add.text(0, 40, 'Currently in Combat \nClick for inventory \n\nPress Space to attack ', {
+        this.add.text(0, 40, 'Currently in Combat \nClick for inventory \n\n\nPress Space to attack ', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
@@ -54,6 +60,7 @@ export default class combat_1 extends Phaser.Scene {
 		this.enemy = this.physics.add.sprite(400, 300, 'dragon')
 		this.enemy
 			.setScale(2)
+			.setPosition(450, this.cameras.main.height - 80)
 			.setCollideWorldBounds(true)
 		this.enemy.flipX = true	
 		this.anims.create({
@@ -70,7 +77,7 @@ export default class combat_1 extends Phaser.Scene {
 		this.player = this.physics.add.sprite(80, 510, 'player')
 		this.player
 			.setScale(2)
-			.setPosition(200, 300)
+			.setPosition(250, this.cameras.main.height - 80)
 			.setCollideWorldBounds(true)
 		this.anims.create({
 				key: 'idle', 
