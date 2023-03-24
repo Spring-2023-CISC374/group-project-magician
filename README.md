@@ -6,6 +6,5 @@ This assignment is where you will submit your code for your MVP as well as the r
 #### HW12: 
 - Added one spell for character to use in combat. 
 - Created collision between spells and enemies. 
+- Added input handling (space bar to cast spell). 
 - Implemented 3 animations (2 for character, 1 for spell).
-
-
