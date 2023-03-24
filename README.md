@@ -2,3 +2,10 @@
 # group-game-project
 
 This assignment is where you will submit your code for your MVP as well as the rest of the versions of your educational game.
+
+#### HW12: 
+- Added one spell for character to use in combat. 
+- Created collision between spells and enemies. 
+- Implemented 3 animations (2 for character, 1 for spell).
+
+
