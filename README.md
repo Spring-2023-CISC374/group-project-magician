@@ -8,3 +8,4 @@ This assignment is where you will submit your code for your MVP as well as the r
 - Created collision between spells and enemies. 
 - Added input handling (space bar to cast spell). 
 - Implemented 3 animations (2 for player, 1 for spell).
+- Add more resources and backgrounds
