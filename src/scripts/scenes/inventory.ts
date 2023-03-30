@@ -9,14 +9,15 @@ export default class inventory extends Phaser.Scene {
 	}
 
 	preload() {
+		//load image for inventory screen + button
 		this.load.image('inventoryBackground', 'assets/background_inventory.png');
-		//load image  for start screen here
+		this.load.image('button', 'assets/inventory-bag.png');
 	}
 
 	create() {	
 		this.add.image(400, 400, 'inventoryBackground')	
 
-        this.add.text(10, 40, 'Currently on inventory \n Click for Home', {
+        this.add.text(10, 20, 'Currently on Inventory \nPress Enter to go back to Combat', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
@@ -50,12 +51,19 @@ export default class inventory extends Phaser.Scene {
 		this.add.text(190, 450, 'count: 0', { 
 			fontSize: '20px' })
 
-        this.input.on('pointerup', () => {
-            this.scene.stop('inventory')
-            this.scene.start('home')
+        //this.input.on('pointerup', () => {
+        //    this.scene.stop('inventory')
+        //    this.scene.start('home')
+		//})
+
+		//button
+		const button = this.add.sprite(25, 565, 'button')
+		button.setInteractive()
+		this.input.keyboard.on('keydown-ENTER', () => {
+			this.scene.stop('inventory')
+			this.scene.start('combat_1')
 		})
 	}
-	//commented out count and count text, removed this.countText = this.add.text from 4 lines.
 
 	update() {
 		//

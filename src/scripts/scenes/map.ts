@@ -18,7 +18,7 @@ export default class map extends Phaser.Scene {
 		this.makeCharacter();
 		this.cursors = this.input.keyboard.createCursorKeys() //Allows keys to work
 
-        this.add.text(0, 40, 'currently on Map \n Click for Level 1', {
+        this.add.text(10, 20, 'Currently on Map \nClick for Level 1', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})

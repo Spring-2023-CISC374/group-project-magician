@@ -17,6 +17,7 @@ export default class combat_1 extends Phaser.Scene {
 		{frameWidth: 40, frameHeight: 32})
 		// load images
 		this.load.image('bg', 'assets/background/dark_forest.png')
+		this.load.image('button', 'assets/inventory-bag.png');
 	}
 
 	create() {
@@ -30,20 +31,28 @@ export default class combat_1 extends Phaser.Scene {
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
-        this.add.text(0, 40, 'Currently in Combat \nClick for inventory \n\n\nPress Space to attack ', {
+        this.add.text(10, 20, 'Currently in Combat \nClick for Home\n\n\n\nPress Space to attack\nPress Enter to see Inventory', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
 		// scene change
         this.input.on('pointerup', () => {
             this.scene.stop('combat_1')
-            this.scene.start('inventory')
+            this.scene.start('home')
 		})
 		// player idle animation
 		this.player.anims.play('idle', true)
 		this.enemy.anims.play('enemyIdle', true)
 		// add collisions
 		this.physics.add.overlap(this.enemy, this.spell, this.handleSpell, undefined, this)
+		//button for inventory
+		const button = this.add.sprite(770, 525, 'button')
+		button.setInteractive()
+		this.input.keyboard.on('keydown-ENTER', () => {
+			this.scene.stop('combat_1')
+			this.scene.start('inventory')
+		})
+
 	}
 	
 	update() {

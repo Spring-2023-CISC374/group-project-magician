@@ -13,7 +13,7 @@ export default class level_1 extends Phaser.Scene {
 	create() {		
 		//this.add.image(400, 300, 'soil4').setScale(3.5);
 
-        this.add.text(0, 40, 'Currently at level 1 \n Click for combat_1', {
+        this.add.text(10, 20, 'Currently at Level 1 \nClick for Combat', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})

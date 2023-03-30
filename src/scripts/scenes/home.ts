@@ -11,7 +11,7 @@ export default class home extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(0, 40, 'Currently at Home \n Click for map', {
+        this.add.text(10, 20, 'Currently at Home \nClick for Map', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
