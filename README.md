@@ -2,3 +2,10 @@
 # group-game-project
 
 This assignment is where you will submit your code for your MVP as well as the rest of the versions of your educational game.
+
+#### renross HW12: 
+- Added one spell for player to use in combat. 
+- Created collision between spells and enemies. 
+- Added input handling (space bar to cast spell). 
+- Implemented 3 animations (2 for player, 1 for spell).
+- Add more resources and backgrounds
