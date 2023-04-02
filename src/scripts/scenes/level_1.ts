@@ -38,10 +38,10 @@ export default class level_1 extends Phaser.Scene {
 			color: '#ffffff'
 		})
 
-        //this.input.on('pointerup', () => {
-        //    this.scene.stop('level_1')
-        //    this.scene.start('combat_1')
-		//})
+        this.input.on('pointerup', () => {
+            this.scene.stop('level_1')
+            this.scene.start('combat_1')
+		})
 
 		//adding the bins
 		this.redbin = this.physics.add.image(100, 485, 'redbin')

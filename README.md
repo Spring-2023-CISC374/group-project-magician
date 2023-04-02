@@ -12,7 +12,7 @@ This assignment is where you will submit your code for your MVP as well as the r
 
 #### sonika HW12:
 - Added the inventory and level 1 background image
-- Implemented drag and drop to level 1 scene
+- Implemented drag and drop to level 1 scene - used game recycle or not recycle as resource
 - Added a counter to keep track of resources in level 1
 - Changed scenes from Comabat to Inventory when pressing "resource button"
 
