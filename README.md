@@ -9,3 +9,12 @@ This assignment is where you will submit your code for your MVP as well as the r
 - Added input handling (space bar to cast spell). 
 - Implemented 3 animations (2 for player, 1 for spell).
 - Add more resources and backgrounds
+
+#### sonika HW12:
+- Added the inventory and level 1 background image
+- Implemented drag and drop to level 1 scene
+- Added a counter to keep track of resources in level 1
+- Changed scenes from Comabat to Inventory when pressing "resource button"
+
+
+
