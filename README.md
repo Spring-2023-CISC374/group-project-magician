@@ -8,3 +8,10 @@ This assignment is where you will submit your code for your MVP as well as the r
 - Created collision between spells and enemies. 
 - Added input handling (space bar to cast spell). 
 - Implemented 3 animations (2 for player, 1 for spell).
+- Add more resources and backgrounds
+#### Sean Johnson, seanjohn@udel.edu HW12:
+    - Made MainCharacter class and all its functions for creating sprite, handling movement,and handling
+        map and enemy collisions. 
+    - Added overworld background for map elementary map traversal
+    - Added level 1 marker (white dot) and overlap handler to start level_1 scene upon character colliding
+        with level 1 marker. 
