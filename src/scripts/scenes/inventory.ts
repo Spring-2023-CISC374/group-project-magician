@@ -4,19 +4,27 @@ export default class inventory extends Phaser.Scene {
 	//private count = 0
 	//private countText?: Phaser.GameObjects.Text
 
+
 	constructor() {
 		super('inventory')
 	}
 
 	preload() {
 		this.load.image('inventoryBackground', 'assets/background_inventory.png');
+		this.load.image('exit_icon', 'assets/icons/exit_Icon.png');
 		//load image  for start screen here
 	}
 
 	create() {	
 		this.add.image(400, 400, 'inventoryBackground')	
+		const exit_icon = this.add.image(100, 100, 'exit_icon')
 
-        this.add.text(10, 40, 'Currently on inventory \n Click for Home', {
+		exit_icon.setInteractive().on('pointerout', () => {
+			this.scene.stop('inventory')
+			this.scene.start('level_1')
+		})
+
+        this.add.text(10, 40, 'Currently on inventory \n Click X to return to level', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
@@ -49,11 +57,6 @@ export default class inventory extends Phaser.Scene {
 		})
 		this.add.text(190, 450, 'count: 0', { 
 			fontSize: '20px' })
-
-        this.input.on('pointerup', () => {
-            this.scene.stop('inventory')
-            this.scene.start('home')
-		})
 	}
 	//commented out count and count text, removed this.countText = this.add.text from 4 lines.
 

@@ -17,6 +17,7 @@ export default class combat_1 extends Phaser.Scene {
 		{frameWidth: 40, frameHeight: 32})
 		// load images
 		this.load.image('bg', 'assets/background/dark_forest.png')
+		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
 	}
 
 	create() {
@@ -30,14 +31,9 @@ export default class combat_1 extends Phaser.Scene {
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
-        this.add.text(0, 40, 'Currently in Combat \nClick for inventory \n\n\nPress Space to attack ', {
+        this.add.text(0, 40, 'Currently in Combat \n \n\n\nPress Space to attack ', {
 			fontSize: '32px',
 			color: '#ffffff'
-		})
-		// scene change
-        this.input.on('pointerup', () => {
-            this.scene.stop('combat_1')
-            this.scene.start('inventory')
 		})
 		// player idle animation
 		this.player.anims.play('idle', true)
@@ -126,5 +122,18 @@ export default class combat_1 extends Phaser.Scene {
 		(spell as Phaser.Physics.Arcade.Image).disableBody(true, true);
 		(enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
 		this.enemy?.anims.stop();
+
+		this.exit_combat();
+	}
+
+	private exit_combat(){
+		this.add.text(0, 40, 'Currently in Combat \nClick for inventory \n\n\nPress Space to attack ', {
+			fontSize: '32px',
+			color: '#ffffff'
+		})
+		this.input.on('pointerup', () => {
+            this.scene.stop('combat_1')
+            this.scene.start('level_1')
+		})
 	}
 }
