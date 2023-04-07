@@ -1,7 +1,12 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene'
+import MainCharacter from '../objects/MainCharacter'
 
 export default class level_1 extends Phaser.Scene {
+
+	private player?: MainCharacter
+	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
+
 	constructor() {
 		super('level_1')
 	}
@@ -23,15 +28,20 @@ export default class level_1 extends Phaser.Scene {
 			this.scene.start('inventory')
 			this.scene.stop('level_1')
 		}));
-		this.add.existing(new Click_Change_Scene(this, 50, 300, 'go', () => {		// enter combat button
-			this.scene.start('combat_1')
-			this.scene.stop('level_1')
-		}));
+
+		const enemy = this.physics.add.sprite(300, 450, 'dragon');
+		this.player = new MainCharacter(this, 80, 510)
+
+		this.player.handleEnemyCollision(this.player, enemy, 'level_1', 'combat_1') 			// enemy 
 	}
 	
 
 	update() {
-		//
+		//this.handleMoving();
+		if (!this.player || !this.cursors) {
+			return
+		}
+		this.player.handleMoving(this.player, this.cursors);
 	}
 
 }

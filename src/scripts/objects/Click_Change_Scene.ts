@@ -1,6 +1,6 @@
-//This button is going to allow the user to exit the inventory
+//The general structure for the buttons 
 // this is an 'image' button 
-// tint changes on pointer events
+// Taken from code provided by professsor Wassil in phaser-scenes
 export default class Click_Change_Scene extends Phaser.GameObjects.Image {
 
     constructor(scene: Phaser.Scene, x: number, y: number,

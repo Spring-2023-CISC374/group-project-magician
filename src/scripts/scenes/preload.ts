@@ -12,8 +12,14 @@ export default class start extends Phaser.Scene {
         this.load.image('home_marker','assets/Icons/house.png')                 // button to return home
 		this.load.image('exit_icon', 'assets/icons/exit_Icon.png');             // button to exit inventory
 		this.load.image('level_1_marker','assets/Icons/Pink_1.png')
-        //dragon 
-        this.load.image('go','assets/Icons/Pink_1.png')					        // dragon
+		// player sprit
+		this.load.spritesheet('mainChar', 'assets/hooded_sprite_16x28_no_background.png',
+		{frameWidth: 16, frameHeight:28})
+		// enemy sprites
+		this.load.spritesheet('dragon', 'assets/enemies/dragon.png',				
+		{frameWidth: 32, frameHeight: 32})										// enemy dragon
+		// background stuff
+		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
 	}
 
 	create() {

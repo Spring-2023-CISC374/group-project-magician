@@ -1,8 +1,11 @@
 import Phaser from 'phaser'
+import Click_Change_Scene from '../objects/Click_Change_Scene';
 
 export default class inventory extends Phaser.Scene {
 	//private count = 0
 	//private countText?: Phaser.GameObjects.Text
+
+	prev_scene!: string;						// eventually get inventory correct
 
 
 	constructor() {
@@ -16,12 +19,11 @@ export default class inventory extends Phaser.Scene {
 
 	create() {	
 		this.add.image(400, 400, 'inventoryBackground')	
-		const exit_icon = this.add.image(100, 100, 'exit_icon')
 
-		exit_icon.setInteractive().on('pointerout', () => {
-			this.scene.stop('inventory')
+		this.add.existing(new Click_Change_Scene(this, 50, 300, 'exit_icon', () => {		// enter combat button
 			this.scene.start('level_1')
-		})
+			this.scene.stop('inventory')
+		}));
 
         this.add.text(10, 40, 'Currently on inventory \n Click X to return to level', {
 			fontSize: '32px',
