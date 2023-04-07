@@ -11,7 +11,6 @@ export default class inventory extends Phaser.Scene {
 
 	preload() {
 		this.load.image('inventoryBackground', 'assets/background_inventory.png');
-		this.load.image('exit_icon', 'assets/icons/exit_Icon.png');
 		//load image  for start screen here
 	}
 

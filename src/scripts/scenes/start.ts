@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 
 export default class start extends Phaser.Scene {
 	constructor() {
-		super('start-scene')
+		super('start')
 	}
 
 	preload() {
@@ -17,7 +17,7 @@ export default class start extends Phaser.Scene {
 		})
 
         this.input.on('pointerup', () => {
-            this.scene.stop('start-scene')
+            this.scene.stop('start')
             this.scene.start('home')
 		})
 	}

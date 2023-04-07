@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class home extends Phaser.Scene {
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
@@ -6,15 +7,13 @@ export default class home extends Phaser.Scene {
 		super('home')
 	}
 
-	preload() {
-		//load image  for start screen here
-		this.load.image('home_marker','assets/Icons/house.png')
-		this.load.image('map_marker','assets/Icons/map.png')
-	}
-
 	create() {	
 		const home_marker = this.physics.add.image(500,400,'home_marker')
-		const map_marker = this.physics.add.image(300,400,'map_marker')
+
+		this.add.existing(new Click_Change_Scene(this, 50, 50, 'map_marker', () => {			// create button to go to map
+			this.scene.start('map')											
+			this.scene.stop('home')
+		}));
 
 		home_marker.setScale(5)
 
@@ -22,16 +21,6 @@ export default class home extends Phaser.Scene {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
-
-		// change to new scene when map icon pressed
-		map_marker.setInteractive().on('pointerout', () => {
-            this.scene.stop('home')
-            this.scene.start('map')
-		})
-	}
-
-	update() {
-		//
 	}
 
 }
