@@ -19,13 +19,14 @@ export default class map extends Phaser.Scene {
 		this.add.image(400, 300, 'overworld');
 		const level_1_marker = this.physics.add.image(500,400,'level_1_marker')
 		level_1_marker.setScale(0.05)
-		this.player = new MainCharacter(this, 80, 510)
+		this.player = new MainCharacter(this, 80, 510, 100)
 		this.cursors = this.input.keyboard.createCursorKeys()
 		
         this.add.text(0, 40, 'currently on Map \n Click for Level 1', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
+		this.player.displayHealth()
 
         this.input.on('pointerup', () => {
             this.scene.stop('map')

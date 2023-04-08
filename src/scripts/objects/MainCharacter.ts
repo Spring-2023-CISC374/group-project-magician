@@ -1,6 +1,9 @@
 export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene: any, x: any, y: any) {
+    private health: number
+    constructor(scene: any, x: any, y: any, healthValue: number) {
         super(scene, x, y, 'mainChar')
+
+        this.health = healthValue;
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -42,8 +45,19 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         currentScene: Phaser.Scene, newScene: Phaser.Scene) {
         this.scene.physics.add.overlap(player, mapElement, () => {
         this.scene.scene.stop(currentScene)
-        this.scene.scene.start(newScene)
+        this.scene.scene.start(newScene, {storedHealth: this.health})
         })
     }
-    
+    getHealth() {
+        return this.health;
+    }
+    setHealth(newHealth: number) {
+        this.health = newHealth;
+    }
+    displayHealth() {
+        this.scene.add.text(0,100, 'Current health is: ' + this.health, {
+			fontSize: '32px',
+			color: '#ff0000'
+		})
+    }
 }
