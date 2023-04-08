@@ -9,8 +9,10 @@ export default class home extends Phaser.Scene {
 	}
 
 	create() {	
-		const background = this.physics.add.image(400, 300, 'home_Background')
+		const background = this.physics.add.image(500, 300, 'home_Background').setScale(1.5)
 		const home_marker = this.physics.add.image(500,400,'home_marker')
+
+		this.createEmitter("petal"); // cpde for this taken from blog.ourcase.co
 
 		this.add.existing(new Click_Change_Scene(this, 600, 50, 'map_marker', () => {			// create button to go to map
 			this.scene.start('map')											
@@ -29,7 +31,6 @@ export default class home extends Phaser.Scene {
 			color: '#ffffff'
 		})
 		
-		this.createEmitter("petal"); // cpde for this taken from blog.ourcase.co
 	}
 
 	private createEmitter(textureName: string)
@@ -37,14 +38,16 @@ export default class home extends Phaser.Scene {
 		const particles = this.add.particles(textureName)
 
         const emitter = particles.createEmitter({
-            x: {min: 0, max: 800},
+            x: {min: 0, max: 1000},
 			y: -5,
-			lifespan: 4000,
+			lifespan: 7000,
 			speedX: {min: -5, max: -100},
+			tint: 0x550000,
 			speedY: {min: 25, max: 100},
-			scale: {start: 1, end:.5},
+			scale: {start: .75, end:.25},
 			blendMode: 'ADD',
-			quantity: 1
+			rotate: { min: -180, max: 180 },
+			quantity: .25
 		})	
 
 		return emitter
