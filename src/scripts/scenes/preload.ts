@@ -20,6 +20,9 @@ export default class start extends Phaser.Scene {
 		{frameWidth: 32, frameHeight: 32})										// enemy dragon
 		// background stuff
 		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
+
+		//image for inventory button
+		this.load.image('button', 'assets/inventory-bag.png');
 	}
 
 	create() {

@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import Click_Change_Scene from '../objects/Click_Change_Scene'
+
 export default class combat_1 extends Phaser.Scene {
 	private player?: Phaser.Physics.Arcade.Sprite
 	private enemy?: Phaser.Physics.Arcade.Sprite
@@ -18,6 +20,7 @@ export default class combat_1 extends Phaser.Scene {
 		// load images
 		this.load.image('bg', 'assets/background/dark_forest.png')
 		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
+		this.load.image('button', 'assets/Icons/Inventory_Icon.png');
 	}
 
 	create() {
@@ -40,6 +43,14 @@ export default class combat_1 extends Phaser.Scene {
 		this.enemy.anims.play('enemyIdle', true)
 		// add collisions
 		this.physics.add.overlap(this.enemy, this.spell, this.handleSpell, undefined, this)
+		
+		const button = this.add.sprite(770, 525, 'button')
+
+		this.add.existing(new Click_Change_Scene(this, 770, 525, 'button', () => {			// create button to go to map
+			this.scene.start('inventory')											
+			this.scene.stop('combat_1')
+		}));
+
 	}
 	
 	update() {
