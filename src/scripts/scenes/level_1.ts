@@ -12,7 +12,7 @@ export default class level_1 extends Phaser.Scene {
 	}
 
 	create() {		
-		//this.add.image(400, 300, 'soil4').setScale(3.5);
+		this.add.image(400, 300, 'soil4').setScale(3.5);
 
         this.add.text(50, 40, 'Currently at level 1 \n Click pink 1 for combat_1 \n Click chest for inventory \n Click map icon for map', {
 			fontSize: '32px',
@@ -31,6 +31,7 @@ export default class level_1 extends Phaser.Scene {
 
 		const enemy = this.physics.add.sprite(300, 450, 'dragon');
 		this.player = new MainCharacter(this, 80, 510)
+		this.cursors = this.input.keyboard.createCursorKeys()
 
 		this.player.handleEnemyCollision(this.player, enemy, 'level_1', 'combat_1') 			// enemy 
 	}

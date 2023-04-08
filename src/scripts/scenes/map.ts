@@ -28,7 +28,7 @@ export default class map extends Phaser.Scene {
 	}
 	
 	update() {
-		//this.handleMoving();
+		//this.handleMoving(); 
 		if (!this.player || !this.cursors) {
 			return
 		}
