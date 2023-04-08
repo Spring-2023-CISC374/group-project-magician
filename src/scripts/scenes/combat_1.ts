@@ -44,7 +44,6 @@ export default class combat_1 extends Phaser.Scene {
 		// add collisions
 		this.physics.add.overlap(this.enemy, this.spell, this.handleSpell, undefined, this)
 		
-		const button = this.add.sprite(770, 525, 'button')
 
 		this.add.existing(new Click_Change_Scene(this, 770, 525, 'button', () => {			// create button to go to map
 			this.scene.start('inventory')											

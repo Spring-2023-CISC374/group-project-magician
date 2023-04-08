@@ -25,7 +25,7 @@ export default class inventory extends Phaser.Scene {
 			this.scene.stop('inventory')
 		}));
 
-        this.add.text(10, 40, 'Currently on inventory \n Click X to return to level', {
+        this.add.text(10, 40, 'Currently on Inventory \nClick X to return to Level', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})

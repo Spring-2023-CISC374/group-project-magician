@@ -23,6 +23,9 @@ export default class start extends Phaser.Scene {
 
 		//image for inventory button
 		this.load.image('button', 'assets/inventory-bag.png');
+
+		//background image for level 1
+		this.load.image('background-level1', 'assets/background/night_forest.png');
 	}
 
 	create() {
