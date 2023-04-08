@@ -10,9 +10,14 @@ export default class level_1 extends Phaser.Scene {
 	constructor() {
 		super('level_1')
 	}
+	preload() {
+		// load background image
+		this.load.image('background-level1', 'assets/background/night_forest.png');
+	}
 
-	create() {		
-		this.add.image(400, 300, 'soil4').setScale(3.5);
+	create() {
+		//this.add.image(300, 300, 'background-level1')
+		//this.add.image(400, 300, 'soil4').setScale(3.5);
 
         this.add.text(50, 40, 'Currently at level 1 \n Click pink 1 for combat_1 \n Click chest for inventory \n Click map icon for map', {
 			fontSize: '32px',

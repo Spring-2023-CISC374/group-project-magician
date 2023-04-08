@@ -26,6 +26,9 @@ export default class start extends Phaser.Scene {
 
 		// for petal
 		this.load.image('petal', "assets/petal.png");
+		
+		//background image for level 1
+		this.load.image('background-level1', 'assets/background/night_forest.png');
 	}
 
 	create() {
