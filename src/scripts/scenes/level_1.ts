@@ -16,7 +16,10 @@ export default class level_1 extends Phaser.Scene {
 	}
 
 	create() {
-		//this.add.image(300, 300, 'background-level1')
+		const bg = this.add.image(
+			this.cameras.main.width/2, this.cameras.main.height/2, 'background-level1')
+		bg.setScale(
+			this.cameras.main.width/(1.0005 * bg.width), this.cameras.main.height/(1.0005 * bg.height))
 		//this.add.image(400, 300, 'soil4').setScale(3.5);
 
         this.add.text(50, 40, 'Currently at level 1 \n Click pink 1 for combat_1 \n Click chest for inventory \n Click map icon for map', {
