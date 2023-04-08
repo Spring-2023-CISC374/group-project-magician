@@ -22,14 +22,14 @@ export default class Click_Change_Scene extends Phaser.GameObjects.Image {
     }
 
     enterButtonHoverState() {
-        this.setTint(  0x44ff44 );
+        this.setTint(  0xffdd00 );
     }
 
     enterButtonRestState() {
-        this.setTint( 0x42ff44 );
+        this.setTint( 0xffffff );
     }
 
     enterButtonActiveState() {
-        this.setTint( 0x22ff44 );
+        this.setTint( 0x22ff00 );
     }
 }

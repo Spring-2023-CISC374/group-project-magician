@@ -23,6 +23,9 @@ export default class start extends Phaser.Scene {
 
 		//image for inventory button
 		this.load.image('button', 'assets/inventory-bag.png');
+
+		// for petal
+		this.load.image('petal', "assets/petal.png");
 	}
 
 	create() {

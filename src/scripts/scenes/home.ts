@@ -3,6 +3,7 @@ import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class home extends Phaser.Scene {
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
+	
 	constructor() {
 		super('home')
 	}
@@ -11,12 +12,12 @@ export default class home extends Phaser.Scene {
 		const background = this.physics.add.image(400, 300, 'home_Background')
 		const home_marker = this.physics.add.image(500,400,'home_marker')
 
-		this.add.existing(new Click_Change_Scene(this, 50, 50, 'map_marker', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 600, 50, 'map_marker', () => {			// create button to go to map
 			this.scene.start('map')											
 			this.scene.stop('home')
 		}));
 
-		this.add.existing(new Click_Change_Scene(this, 50, 200, 'inventory_icon', () => {		// enter inventory
+		this.add.existing(new Click_Change_Scene(this, 700, 50, 'inventory_icon', () => {		// enter inventory
 			this.scene.start('inventory') 
 			this.scene.stop('level_1')
 		}));
@@ -27,6 +28,25 @@ export default class home extends Phaser.Scene {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
+		
+		this.createEmitter("petal"); // cpde for this taken from blog.ourcase.co
 	}
 
+	private createEmitter(textureName: string)
+	{
+		const particles = this.add.particles(textureName)
+
+        const emitter = particles.createEmitter({
+            x: {min: 0, max: 800},
+			y: -5,
+			lifespan: 4000,
+			speedX: {min: -5, max: -100},
+			speedY: {min: 25, max: 100},
+			scale: {start: 1, end:.5},
+			blendMode: 'ADD',
+			quantity: 1
+		})	
+
+		return emitter
+	}
 }
