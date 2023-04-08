@@ -7,6 +7,7 @@ import inventory from './scenes/inventory'
 import level_1 from './scenes/level_1'
 import map from './scenes/map'
 import start from './scenes/start'
+import preload from './scenes/preload'
 
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -20,7 +21,7 @@ const config: Phaser.Types.Core.GameConfig = {
 			debug: false
 		},
 	},
-	scene: [start, home, map, level_1, combat_1, inventory],
+	scene: [preload, start, home, map, level_1, combat_1, inventory],
 }
 
 export default new Phaser.Game(config)
