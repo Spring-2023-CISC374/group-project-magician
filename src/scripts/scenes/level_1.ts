@@ -13,6 +13,7 @@ export default class level_1 extends Phaser.Scene {
 	preload() {
 		// load background image
 		this.load.image('background-level1', 'assets/background/night_forest.png');
+		
 	}
 
 	create() {
