@@ -38,7 +38,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         currentScene: Phaser.Scene, newScene: Phaser.Scene) {
         this.scene.physics.add.overlap(player, enemy, () => {
         this.scene.scene.stop(currentScene)
-        this.scene.scene.start(newScene)
+        this.scene.scene.start(newScene, {storedHealth: this.health})
         })
     }
     handleMapCollision(player: MainCharacter, mapElement: Phaser.Physics.Arcade.Image, 
@@ -55,9 +55,34 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         this.health = newHealth;
     }
     displayHealth() {
-        this.scene.add.text(0,100, 'Current health is: ' + this.health, {
+        this.scene.add.text(50,15, 'Current health is: ' + this.health, {
 			fontSize: '32px',
-			color: '#ff0000'
+			color: '#ffffff'
 		})
+    }
+    handleIdleAnimation() {
+        this.anims.create({
+            key: 'idle', 
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 0, end: 1
+            }), 
+            frameRate: 5, repeat: -1
+        })
+    this.anims.create({
+        key: 'cast', 
+        frames: this.anims.generateFrameNumbers('player', {
+            start: 65, end: 68
+        }), 
+        frameRate: 8
+        })
+    }
+    castSpell(player: MainCharacter, spell: Phaser.Physics.Arcade.Sprite) {
+        player.anims.play('cast', true)
+			.once('animationcomplete', () => {
+				spell.setActive(true)
+					.setVisible(true)
+					.anims.play('dark_spell', true)
+				player.anims.play('idle', true)
+			})
     }
 }

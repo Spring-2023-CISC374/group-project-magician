@@ -25,7 +25,6 @@ export default class map extends Phaser.Scene {
 
 		this.player.handleMapCollision(this.player, level_1_marker, 'map', 'level_1')
 		this.player.handleMapCollision(this.player, home_marker, 'map', 'home')
-		this.player.displayHealth()
 	}
 	
 	update() {

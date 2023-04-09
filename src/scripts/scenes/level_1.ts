@@ -15,11 +15,11 @@ export default class level_1 extends Phaser.Scene {
 	}
 	preload() {
 		
-		//this.load.image('soil4', 'assets/background/soil4.png')
+		this.load.image('ground', 'assets/background/simpleGround.png')
 	}
 
 	create() {		
-		this.add.image(400, 300, 'soil4').setScale(3.5);
+		this.add.image(400, 300, 'ground').setScale(3.5);
         this.add.text(50, 40, 'Currently at level 1 \n Click pink 1 for combat_1 \n Click chest for inventory \n Click map icon for map', {
 			fontSize: '32px',
 			color: '#ffffff'
@@ -36,8 +36,8 @@ export default class level_1 extends Phaser.Scene {
 			this.scene.stop('level_1')
 		}));
 
-		const enemy = this.physics.add.sprite(300, 450, 'dragon');
-		this.player = new MainCharacter(this, 80, 510,this.currentHealth)
+		const enemy = this.physics.add.sprite(300, 485, 'dragon');
+		this.player = new MainCharacter(this, 80, 480,this.currentHealth)
 		this.player.displayHealth()
 		this.cursors = this.input.keyboard.createCursorKeys()
 
