@@ -13,6 +13,7 @@ export default class level_1 extends Phaser.Scene {
 	preload() {
 		// load background image
 		this.load.image('background-level1', 'assets/background/night_forest.png');
+		this.load.image('resource1', 'assets/Icons/resource_icon.png');
 		
 	}
 
@@ -23,19 +24,24 @@ export default class level_1 extends Phaser.Scene {
 			this.cameras.main.width/(1.0005 * bg.width), this.cameras.main.height/(1.0005 * bg.height))
 		//this.add.image(400, 300, 'soil4').setScale(3.5);
 
-        this.add.text(50, 40, 'Currently at level 1 \n Click pink 1 for combat_1 \n Click chest for inventory \n Click map icon for map', {
+        this.add.text(10, 40, 'Currently at level 1 \n\nConfront the Enemy for Combat\nClick Chest for Inventory \nClick Map Icon for Map\nClick Resource to collect more gems', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
 
-		this.add.existing(new Click_Change_Scene(this, 50, 100, 'map_marker', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 750, 50, 'map_marker', () => {			// create button to go to map
 			this.scene.start('map')											
 			this.scene.stop('level_1')
 		}));
 
-        this.add.existing(new Click_Change_Scene(this, 50, 200, 'inventory_icon', () => {		// inventory button
+        this.add.existing(new Click_Change_Scene(this, 750, 550, 'inventory_icon', () => {		// inventory button
 			this.scene.start('inventory')
 			this.scene.stop('level_1')
+		}));
+
+		this.add.existing(new Click_Change_Scene(this, 750, 100, 'resource1', () => {		// resource button
+			this.scene.stop('level_1')
+			this.scene.start('resource')
 		}));
 
 		const enemy = this.physics.add.sprite(300, 450, 'dragon');

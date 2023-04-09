@@ -34,7 +34,7 @@ export default class combat_1 extends Phaser.Scene {
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
-        this.add.text(0, 40, 'Currently in Combat \n \n\n\nPress Space to attack ', {
+        this.add.text(0, 40, 'Currently in Combat \n \n\n\nPress Space to attack\nClick Chest for Inventory\n', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})

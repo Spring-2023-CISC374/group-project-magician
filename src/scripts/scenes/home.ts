@@ -26,7 +26,7 @@ export default class home extends Phaser.Scene {
 
 		home_marker.setScale(2)
 
-        this.add.text(0, 40, 'Currently at Home \n Press the Map Icon to go to Map', {
+        this.add.text(0, 40, 'Currently at Home \nPress the Map Icon to go to Map', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
