@@ -10,7 +10,6 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 
         this.setScale(2);
         this.setCollideWorldBounds(true);
-
     }
     handleMoving(player: MainCharacter, cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
 		if (!cursors) {
@@ -55,9 +54,9 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         this.health = newHealth;
     }
     displayHealth() {
-        this.scene.add.text(50,15, 'Current health is: ' + this.health, {
-			fontSize: '32px',
-			color: '#ffffff'
+        this.scene.add.text(20,20, 'Current health is: ' + this.health, {
+			fontSize: '25px',
+			color: '#ff0000'
 		})
     }
     handleIdleAnimation() {

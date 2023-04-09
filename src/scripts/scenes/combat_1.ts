@@ -33,14 +33,14 @@ export default class combat_1 extends Phaser.Scene {
 		bg.setScale(
 			this.cameras.main.width/bg.width, this.cameras.main.height/bg.height)		
 		// create assets
-		this.player = new MainCharacter(this, 80, 510, this.currentHealth)
+		this.player = new MainCharacter(this, 80, 515, this.currentHealth)
 		this.player.displayHealth()
 		this.enemy = this.makeEnemy()
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
-        this.add.text(50, 40, 'Currently in Combat \n \n\n\nPress Space to attack ', {
-			fontSize: '32px',
+        this.add.text(20, 45, 'Currently in Combat \nPress Space to attack ', {
+			fontSize: '25px',
 			color: '#ffffff'
 		})
 		this.player.handleIdleAnimation()
@@ -103,9 +103,10 @@ export default class combat_1 extends Phaser.Scene {
 	}
 
 	private exit_combat(){
-		this.add.text(0, 40, 'Currently in Combat \nClick for inventory \n\n\nPress Space to attack ', {
-			fontSize: '32px',
-			color: '#ffffff'
+		this.add.text(20, 100, 'Combat Finished', {
+			fontSize: '25px',
+			color: '#ffffff',
+			backgroundColor: '#ff0000'
 		})
 		this.input.on('pointerup', () => {
             this.scene.stop('combat_1')
