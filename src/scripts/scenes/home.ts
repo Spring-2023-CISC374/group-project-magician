@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
-import Click_Change_Scene from '../objects/Click_Change_Scene'
+import CommonLevel from './CommonLevel'
 
-export default class home extends Phaser.Scene {
+export default class home extends CommonLevel {
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
 	
 	constructor() {
@@ -11,26 +11,12 @@ export default class home extends Phaser.Scene {
 	create() {	
 		this.physics.add.image(450, 300, 'home_Background').setScale(1.455)
 		const home_marker = this.physics.add.image(500,400,'home_marker')
-
-		this.createEmitter("petal"); // cpde for this taken from blog.ourcase.co
-
-		this.add.existing(new Click_Change_Scene(this, 600, 50, 'map_marker', () => {			// create button to go to map
-			this.scene.start('map')											
-			this.scene.stop('home')
-		}));
-
-		this.add.existing(new Click_Change_Scene(this, 700, 50, 'inventory_icon', () => {		// enter inventory
-			this.scene.start('inventory') 
-			this.scene.stop('level_1')
-		}));
+		super.createInformation()
+		super.createButtons(this.scene.scene)
 
 		home_marker.setScale(2)
 
-        this.add.text(0, 40, 'Currently at Home \n Press the Map Icon to go to Map', {
-			fontSize: '32px',
-			color: '#ffffff'
-		})
-		
+		this.createEmitter("petal"); // cpde for this taken from blog.ourcase.co
 	}
 
 	private createEmitter(textureName: string)
