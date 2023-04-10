@@ -20,7 +20,7 @@ export default class map extends Phaser.Scene {
 		const level_1_marker = this.physics.add.image(400,400,'level_1_marker')
 		const home_marker = this.physics.add.image(500,400,'home_marker')
 
-		this.player = new MainCharacter(this, 80, 510)
+		this.player = new MainCharacter(this, 80, 510, 100)
 		this.cursors = this.input.keyboard.createCursorKeys()
 
 		this.player.handleMapCollision(this.player, level_1_marker, 'map', 'level_1')

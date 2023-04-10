@@ -1,13 +1,20 @@
 import Phaser from 'phaser'
+import MainCharacter from '../objects/MainCharacter';
 import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class combat_1 extends Phaser.Scene {
-	private player?: Phaser.Physics.Arcade.Sprite
+	private player?: MainCharacter
 	private enemy?: Phaser.Physics.Arcade.Sprite
 	private spell?: Phaser.Physics.Arcade.Sprite
 	private keys?: Phaser.Types.Input.Keyboard.CursorKeys;
+	private currentHealth: number
 
 	constructor() { super('combat_1') }
+
+	init (data: any) {
+		console.log('init', data)
+		this.currentHealth = data.storedHealth
+	}
 
 	preload() {
 		// load spritesheets
@@ -29,15 +36,17 @@ export default class combat_1 extends Phaser.Scene {
 		bg.setScale(
 			this.cameras.main.width/bg.width, this.cameras.main.height/bg.height)		
 		// create assets
-		this.player = this.makeCharacter();
+		this.player = new MainCharacter(this, 80, 515, this.currentHealth)
+		this.player.displayHealth()
 		this.enemy = this.makeEnemy()
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
-        this.add.text(0, 40, 'Currently in Combat \n \n\n\nPress Space to attack ', {
-			fontSize: '32px',
+        this.add.text(20, 45, 'Currently in Combat \nPress Space to attack ', {
+			fontSize: '25px',
 			color: '#ffffff'
 		})
+		this.player.handleIdleAnimation()
 		// player idle animation
 		this.player.anims.play('idle', true)
 		this.enemy.anims.play('enemyIdle', true)
@@ -55,7 +64,7 @@ export default class combat_1 extends Phaser.Scene {
 	update() {
 		// update spells
 		if (this.keys?.space.isDown) { 
-			this.castSpell() 
+			this.player?.castSpell(this.player,this.spell)
 		}
 		if (this.spell?.active == true) {
 			this.spell.setX(this.spell.x + 1)
@@ -79,29 +88,6 @@ export default class combat_1 extends Phaser.Scene {
 		return this.enemy
 	}
 
-	private makeCharacter() {
-		this.player = this.physics.add.sprite(80, 510, 'player')
-		this.player
-			.setScale(2)
-			.setPosition(250, this.cameras.main.height - 80)
-			.setCollideWorldBounds(true)
-		this.anims.create({
-				key: 'idle', 
-				frames: this.anims.generateFrameNumbers('player', {
-					start: 0, end: 1
-				}), 
-				frameRate: 5, repeat: -1
-			})
-		this.anims.create({
-			key: 'cast', 
-			frames: this.anims.generateFrameNumbers('player', {
-				start: 65, end: 68
-			}), 
-			frameRate: 8
-		})
-		return this.player
-	}
-
 	private makeSpell(player: Phaser.GameObjects.Sprite) {
 		this.spell = this.physics.add.sprite(player.x + 30, player.y, 'darkSpell')
 		this.spell
@@ -118,16 +104,6 @@ export default class combat_1 extends Phaser.Scene {
 		return this.spell
 	}
 
-	private castSpell() {
-		this.player?.anims.play('cast', true)
-			.once('animationcomplete', () => {
-				this.spell?.setActive(true)
-					.setVisible(true)
-					.anims.play('dark_spell', true)
-				this.player?.anims.play('idle', true)
-			})
-	}
-
 	private handleSpell(enemy: Phaser.GameObjects.GameObject, spell: Phaser.GameObjects.GameObject) {
 		(spell as Phaser.Physics.Arcade.Image).disableBody(true, true);
 		(enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
@@ -137,9 +113,10 @@ export default class combat_1 extends Phaser.Scene {
 	}
 
 	private exit_combat(){
-		this.add.text(0, 40, 'Currently in Combat \nClick for inventory \n\n\nPress Space to attack ', {
-			fontSize: '32px',
-			color: '#ffffff'
+		this.add.text(20, 100, 'Combat Finished', {
+			fontSize: '25px',
+			color: '#ffffff',
+			backgroundColor: '#ff0000'
 		})
 		this.input.on('pointerup', () => {
             this.scene.stop('combat_1')
