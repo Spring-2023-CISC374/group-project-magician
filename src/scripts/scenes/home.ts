@@ -9,7 +9,7 @@ export default class home extends Phaser.Scene {
 	}
 
 	create() {	
-		const background = this.physics.add.image(500, 300, 'home_Background').setScale(1.5)
+		this.physics.add.image(450, 300, 'home_Background').setScale(1.455)
 		const home_marker = this.physics.add.image(500,400,'home_marker')
 
 		this.createEmitter("petal"); // cpde for this taken from blog.ourcase.co
