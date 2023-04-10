@@ -9,6 +9,9 @@ export default class map extends Phaser.Scene {
     private star?: Phaser.Physics.Arcade.Group
     private bluescore = 0
 	private bluescoreText?: Phaser.GameObjects.Text
+	private gameOverText?: Phaser.GameObjects.Text
+	private bomb?: Phaser.Physics.Arcade.Group
+	private gameOver = false
 	
     constructor() {
 		super('resource')
@@ -17,9 +20,10 @@ export default class map extends Phaser.Scene {
 	preload() {
 		//load image  for start screen here
         this.load.image('background-level1', 'assets/background/night_forest.png');
-        this.load.image('ground', 'assets/Icons/platform.png')
-        this.load.image('gem', 'assets/resource/bluegem.png')
-        this.load.image('backbutton', 'assets/Icons/backbutton.png')
+        this.load.image('ground', 'assets/Icons/platform.png');
+        this.load.image('gem', 'assets/resource/bluegem.png');
+        this.load.image('backbutton', 'assets/Icons/backbutton.png');
+		this.load.image('bomb', 'assets/Icons/bomb.png' );
         
 	}
 
@@ -55,22 +59,19 @@ export default class map extends Phaser.Scene {
 			this.scene.stop('resource')
 		}));
 
-        this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// inventory button
+        this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// back button
 			this.scene.start('level_1')
 			this.scene.stop('resource')
 		}));
 
-       
-
         //Adding the character
         this.player = new MainCharacter(this, 80, 510)
         this.physics.add.existing(this.player)
-		this.cursors = this.input.keyboard.createCursorKeys()
 
         this.player.setBounce(0.2)
 		this.player.setCollideWorldBounds(true)
         this.physics.add.collider(this.player, this.platform)
-
+		this.cursors = this.input.keyboard.createCursorKeys()
         this.physics.world.gravity.y = 3000;
 
         //adding the gems - blue only now
@@ -84,7 +85,7 @@ export default class map extends Phaser.Scene {
 
 		this.star.children.iterate(c => {
 			const child = c as Phaser.Physics.Arcade.Image
-			child.setBounceY(Phaser.Math.FloatBetween(0.2, 0.4))
+			child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
 			child.setCollideWorldBounds(true);
 			child.setGravityY(10);
 
@@ -94,7 +95,30 @@ export default class map extends Phaser.Scene {
 		this.physics.add.overlap(this.player, this.star, this.handleCollectStar, undefined, this)
 		this.bluescoreText = this.add.text(400, 10, 'Blue Gems Collected: 0', { 
 			fontSize: '30px' })
+
+		this.gameOverText = this.add.text(450, 300, 'Game Over\nPlease Click\nthe Back Button\nto go to Level 1', { 
+			fontSize: '30px' })
+
+		this.gameOverText.setOrigin(0.5)
+		this.gameOverText.visible = false
+		
+
+		this.bomb = this.physics.add.group()
+
+		this.physics.add.collider(this.bomb, this.platform)
+		this.physics.add.collider(this.player, this.bomb, this.handleHitBomb, undefined, this)
 	}
+
+	private handleHitBomb(player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject){
+		this.physics.pause()
+		this.player?.setTint(0xff0000)
+		this.player?.anims.play('turn')
+		this.gameOver = true
+		this.gameOverText.visible = true
+
+
+	}
+	
     private handleCollectStar(player: Phaser.GameObjects.GameObject, s:Phaser.GameObjects.GameObject){
 		const newstar = s as Phaser.Physics.Arcade.Image
 		newstar.disableBody(true, true)
@@ -113,6 +137,12 @@ export default class map extends Phaser.Scene {
 			const x = this.player.x < 400
 			? Phaser.Math.Between(400, 800)
 			: Phaser.Math.Between(0, 400)
+
+			const bomb: Phaser.Physics.Arcade.Image = this.bomb?.create(x, 16, 'bomb')
+			bomb.setBounce(1)
+			bomb.setCollideWorldBounds(true)
+			bomb.setVelocityY(Phaser.Math.Between(-200, 200))
+
 			}
 
 		}
