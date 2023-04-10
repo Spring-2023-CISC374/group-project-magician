@@ -10,19 +10,25 @@ export default class level_1 extends CommonLevel {
 	constructor() {
 		super('level_1')
 	}
+  
 	init (data: any) {
 		console.log('init', data)
 		this.currentHealth = data.storedHealth
 	}
-	preload() {
-		
-		this.load.image('ground', 'assets/background/simpleGround.png')
+  preload() {
+		// load background image
+		this.load.image('background-level1', 'assets/background/night_forest.png');
 	}
-
 	create() {		
+    const bg = this.add.image(
+			this.cameras.main.width/2, this.cameras.main.height/2, 'background-level1')
+		bg.setScale(
+			this.cameras.main.width/(1.0005 * bg.width), this.cameras.main.height/(1.0005 * bg.height))
+      
 		this.add.image(400, 300, 'ground').setScale(3.5);
 		super.createInformation()
 		super.createButtons(this.scene.scene)
+
 
 		const enemy = this.physics.add.sprite(300, 485, 'dragon');
 		this.player = new MainCharacter(this, 80, 480,this.currentHealth)
