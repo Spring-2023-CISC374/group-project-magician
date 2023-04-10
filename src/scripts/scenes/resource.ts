@@ -74,6 +74,12 @@ export default class map extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys()
         this.physics.world.gravity.y = 3000;
 
+		//adding a bomb to make it diffcult 
+		this.bomb = this.physics.add.group()
+
+		this.physics.add.collider(this.bomb, this.platform)
+		this.physics.add.collider(this.player, this.bomb, this.handleHitBomb, undefined, this)
+
         //adding the gems - blue only now
         this.star = this.physics.add.group(
 			{
@@ -96,22 +102,16 @@ export default class map extends Phaser.Scene {
 		this.bluescoreText = this.add.text(400, 10, 'Blue Gems Collected: 0', { 
 			fontSize: '30px' })
 
-		this.gameOverText = this.add.text(450, 300, 'Game Over\nPlease Click\nthe Back Button\nto go to Level 1', { 
+		this.gameOverText = this.add.text(425, 300, 'Game Over\nPlease Click\nthe Back Button\nto go to Level 1', { 
 			fontSize: '30px' })
 
 		this.gameOverText.setOrigin(0.5)
 		this.gameOverText.visible = false
-		
-
-		this.bomb = this.physics.add.group()
-
-		this.physics.add.collider(this.bomb, this.platform)
-		this.physics.add.collider(this.player, this.bomb, this.handleHitBomb, undefined, this)
 	}
 
 	private handleHitBomb(player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject){
 		this.physics.pause()
-		this.player?.setTint(0xff0000)
+		this.player?.setTint(0x00000)
 		this.player?.anims.play('turn')
 		this.gameOver = true
 		this.gameOverText.visible = true
