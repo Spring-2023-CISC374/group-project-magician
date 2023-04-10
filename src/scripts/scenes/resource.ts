@@ -42,7 +42,7 @@ export default class map extends Phaser.Scene {
 		this.platform.create(400, 568, 'ground').setScale(2).refreshBody()
 		this.platform.create(600, 400, 'ground');
 		this.platform.create(750, 250, 'ground');
-        this.platform.create(-50, 300, 'ground');
+        this.platform.create(-25, 300, 'ground');
 
         //adding the buttons to go to different scenes
         this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {			// create button to go to map
@@ -118,7 +118,7 @@ export default class map extends Phaser.Scene {
 		}
 
 	}
-	
+
 	update() {
 		//this.handleMoving(); 
 		if (!this.player || !this.cursors) {
