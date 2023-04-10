@@ -24,8 +24,7 @@ export default class level_1 extends CommonLevel {
 			this.cameras.main.width/2, this.cameras.main.height/2, 'background-level1')
 		bg.setScale(
 			this.cameras.main.width/(1.0005 * bg.width), this.cameras.main.height/(1.0005 * bg.height))
-      
-		this.add.image(400, 300, 'ground').setScale(3.5);
+
 		super.createInformation()
 		super.createButtons(this.scene.scene)
 

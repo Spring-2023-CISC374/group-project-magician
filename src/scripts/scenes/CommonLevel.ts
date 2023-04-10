@@ -18,7 +18,7 @@ export default class CommonLevel extends Phaser.Scene {
         this.add.text(20, 40, 'Currently at ' + this.scene.key + 
         '\nPress the Map Icon to go to map\nPress the Chest Icon to go to your inventory', {
 			fontSize: '28px',
-			color: '#000000'
+			color: '#ffffff'
 		})
     }
 	createButtons(currentScene: Phaser.Scene) {
