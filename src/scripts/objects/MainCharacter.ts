@@ -1,5 +1,6 @@
 export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private health: number
+    private characterHealth: Phaser.GameObjects.Text
     constructor(scene: any, x: any, y: any, healthValue: number) {
         super(scene, x, y, 'mainChar')
 
@@ -54,7 +55,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         this.health = newHealth;
     }
     displayHealth() {
-        this.scene.add.text(20,20, 'Current health is: ' + this.health, {
+        this.characterHealth = this.scene.add.text(20,20, 'Current health is: ' + this.health, {
 			fontSize: '25px',
 			color: '#ff0000'
 		})
@@ -83,5 +84,8 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 					.anims.play('dark_spell', true)
 				player.anims.play('idle', true)
 			})
+    }
+    setText() {
+        this.characterHealth.setText('Current health is: ' + this.health)
     }
 }
