@@ -40,8 +40,8 @@ export default class level_1 extends Phaser.Scene {
 		}));
 
 		this.add.existing(new Click_Change_Scene(this, 750, 100, 'resource1', () => {		// resource button
-			this.scene.stop('level_1')
 			this.scene.start('resource')
+			this.scene.stop('level_1')
 		}));
 
 		const enemy = this.physics.add.sprite(300, 450, 'dragon');

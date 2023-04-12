@@ -2,16 +2,17 @@ import Phaser from 'phaser'
 import MainCharacter from "../objects/MainCharacter"
 import Click_Change_Scene from '../objects/Click_Change_Scene'
 
-export default class map extends Phaser.Scene {
+export default class resource extends Phaser.Scene {
     private player?: MainCharacter
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
     private platform?: Phaser.Physics.Arcade.StaticGroup
     private star?: Phaser.Physics.Arcade.Group
-    private bluescore = 0
 	private bluescoreText?: Phaser.GameObjects.Text
-	private gameOverText?: Phaser.GameObjects.Text
+	private gameOverText?: any
 	private bomb?: Phaser.Physics.Arcade.Group
 	private gameOver = false
+	private inventoryScene?: any
+	private blueGemsCollected: number
 	
     constructor() {
 		super('resource')
@@ -28,7 +29,7 @@ export default class map extends Phaser.Scene {
 	}
 
 	create() {
-        //creating background image		
+        //creating background image
         const bg = this.add.image(
 			this.cameras.main.width/2, this.cameras.main.height/2, 'background-level1')
 		bg.setScale(
@@ -40,29 +41,12 @@ export default class map extends Phaser.Scene {
 			color: '#ffffff'
 		})
         
-
         //creating platform 
         this.platform = this.physics.add.staticGroup()
 		this.platform.create(400, 568, 'ground').setScale(2).refreshBody()
 		this.platform.create(600, 400, 'ground');
 		this.platform.create(750, 250, 'ground');
         this.platform.create(-25, 300, 'ground');
-
-        //adding the buttons to go to different scenes
-        this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {			// create button to go to map
-			this.scene.start('map')											
-			this.scene.stop('resource')
-		}));
-
-        this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {		// inventory button
-			this.scene.start('inventory')
-			this.scene.stop('resource')
-		}));
-
-        this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// back button
-			this.scene.start('level_1')
-			this.scene.stop('resource')
-		}));
 
         //Adding the character
         this.player = new MainCharacter(this, 80, 510)
@@ -97,6 +81,9 @@ export default class map extends Phaser.Scene {
 
 		})
         
+		// Initialize gem collected here
+		this.blueGemsCollected = 0;
+
 		this.physics.add.collider(this.star, this.platform)
 		this.physics.add.overlap(this.player, this.star, this.handleCollectStar, undefined, this)
 		this.bluescoreText = this.add.text(400, 10, 'Blue Gems Collected: 0', { 
@@ -107,6 +94,24 @@ export default class map extends Phaser.Scene {
 
 		this.gameOverText.setOrigin(0.5)
 		this.gameOverText.visible = false
+
+		//adding the buttons to go to different scenes
+        this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {			// create button to go to map
+			this.scene.start('map')											
+			this.scene.stop('resource')
+		}));
+
+        this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {		// inventory button
+			this.scene.start('inventory', {
+				"blueGemsCollected": this.blueGemsCollected
+			})
+			this.scene.stop('resource')
+		}));
+
+        this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// back button
+			this.scene.start('level_1')
+			this.scene.stop('resource')
+		}));
 	}
 
 	private handleHitBomb(player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject){
@@ -116,6 +121,15 @@ export default class map extends Phaser.Scene {
 		this.gameOver = true
 		this.gameOverText.visible = true
 
+		//this.scene.get('inventory')?.setData('bluescore', this.bluescore);
+
+		// Transfer to inventory scene
+		//this.scene.start('inventory');
+		//this.scene.stop('resource');
+				
+		//if (inventoryScene) {
+		//	inventoryScene.setData('myBlueGemData', this.bluescoreText.text);
+		//}
 
 	}
 	
@@ -123,8 +137,10 @@ export default class map extends Phaser.Scene {
 		const newstar = s as Phaser.Physics.Arcade.Image
 		newstar.disableBody(true, true)
 
-		this.bluescore += 2
-		this.bluescoreText?.setText('Blue Gems Collected:' + this.bluescore)
+		this.blueGemsCollected = this.blueGemsCollected + 2
+		this.bluescoreText?.setText('Blue Gems Collected:' + this.blueGemsCollected)
+		//transfer data
+		//this.scene.manager.getScene('inventory').data.set('myBlueGemData', this.bluescoreText);
 
 		if(this.star?.countActive(true) === 0){
 			this.star.children.iterate(c => {
