@@ -31,6 +31,32 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 
+    levelhandleMoving(player: MainCharacter, cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
+		if (!cursors) {
+			return
+		}
+        if (cursors.left.isDown) {
+			player.setVelocityX(-160)
+		}
+		else if(cursors.right.isDown){
+			player.setVelocityX(160)
+		}
+		//else if(cursors.up.isDown && player.body.touching.down){
+		//	player.setVelocityY(-500)
+		//}
+		else if(cursors.up.isDown){
+			player.setVelocityY(-500)
+        }
+		else {
+			player.setVelocityX(0)
+			player.setVelocityY(0)
+		}
+        //if(cursors.up.isDown && player.body.touching.down){
+        //    player.setVelocityY(-500)
+        //}
+	}
+
+
     handleEnemyCollision(player: MainCharacter, enemy: Phaser.Physics.Arcade.Sprite, 
         currentScene: Phaser.Scene, newScene: Phaser.Scene) {
         this.scene.physics.add.overlap(player, enemy, () => {

@@ -54,6 +54,7 @@ export default class resource extends Phaser.Scene {
 
         this.player.setBounce(0.2)
 		this.player.setCollideWorldBounds(true)
+		//this.player.setBounceY(500)
         this.physics.add.collider(this.player, this.platform)
 		this.cursors = this.input.keyboard.createCursorKeys()
         this.physics.world.gravity.y = 3000;
@@ -170,6 +171,6 @@ export default class resource extends Phaser.Scene {
 		if (!this.player || !this.cursors) {
 			return
 		}
-		this.player.handleMoving(this.player, this.cursors);
+		this.player.levelhandleMoving(this.player, this.cursors);
 	}
 }
