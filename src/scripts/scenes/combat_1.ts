@@ -8,8 +8,22 @@ export default class combat_1 extends Phaser.Scene {
 	private spell?: Phaser.Physics.Arcade.Sprite
 	private keys?: Phaser.Types.Input.Keyboard.CursorKeys;
 	private currentHealth: number
+	private playerTurn: boolean
+	private enemyHealth: number
+	private spellDamage: number
+	private isDisabled: boolean
+	private enemyText: Phaser.GameObjects.Text
+	private enemyAttack: Phaser.GameObjects.Text
+	private playerAttack: Phaser.GameObjects.Text
+	private timer: Phaser.Time.Clock
 
-	constructor() { super('combat_1') }
+	constructor() { 
+		super('combat_1') 
+		this.playerTurn = true
+		this.enemyHealth = 10
+		this.spellDamage = 5
+		this.isDisabled = false;
+	}
 
 	init (data: any) {
 		console.log('init', data)
@@ -59,16 +73,47 @@ export default class combat_1 extends Phaser.Scene {
 			this.scene.stop('combat_1')
 		}));
 
-	}
-	
+		this.enemyText = this.add.text(400,20, 'Enemy health is: ' + this.enemyHealth, {
+			fontSize: '25px',
+			color: '#ff0000'
+		})
+
+		this.playerAttack = this.add.text(20,115,"You have hit the monster for 5 HP!", 
+		{
+			fontSize: '30px',
+			color: '#ff0000',
+			backgroundColor: '#ffffff'
+		})
+		this.playerAttack.setVisible(false)
+
+		this.enemyAttack = this.add.text(20,150,"You have been hit by the monster for 10 HP!", 
+		{
+			fontSize: '30px',
+			color: '#ff0000',
+			backgroundColor: '#ffffff'
+		})
+		this.enemyAttack.setVisible(false)
+    }
+
 	update() {
+
+		this.enemyText.setText('Enemy health is: ' + this.enemyHealth)
+		this.player?.setText()
 		// update spells
+		if (this.enemyHealth === 0) {
+			this.handleDeath(this.enemy)
+		}
 		if (this.keys?.space.isDown) { 
 			this.player?.castSpell(this.player,this.spell)
 		}
 		if (this.spell?.active == true) {
-			this.spell.setX(this.spell.x + 1)
+			this.spell.setX(this.spell.x + 2)
 		}
+		if (this.isDisabled == true) {
+			this.handleEnemyAttack()
+			this.resetSpellPosition()
+		}
+		
 	}
 
 	private makeEnemy() {
@@ -104,16 +149,47 @@ export default class combat_1 extends Phaser.Scene {
 		return this.spell
 	}
 
-	private handleSpell(enemy: Phaser.GameObjects.GameObject, spell: Phaser.GameObjects.GameObject) {
-		(spell as Phaser.Physics.Arcade.Image).disableBody(true, true);
+	private handleDeath(enemy: Phaser.GameObjects.GameObject,) {
 		(enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
 		this.enemy?.anims.stop();
 
 		this.exit_combat();
 	}
+	private handleSpell(enemy:Phaser.GameObjects.GameObject, spell: Phaser.GameObjects.GameObject) {
+		(spell as Phaser.Physics.Arcade.Image).disableBody(true, true);
+		this.handleCharacterAttack()
+		this.isDisabled = true
+
+	}
+	private handleEnemyAttack() {
+		this.currentHealth -= 10;
+		this.player?.setHealth(this.player?.getHealth()-10)
+		this.enemyAttack.setVisible(true)
+		setTimeout(()=> {
+			this.enemyAttack.setVisible(false)
+		}, 4000)	
+		
+}
+	
+	private handleCharacterAttack() {
+		this.enemyHealth -= this.spellDamage;
+		this.playerAttack.setVisible(true)
+		setTimeout(()=> {
+			this.playerAttack.setVisible(false)
+		}, 4000)	
+	}
+	private resetSpellPosition() {
+		this.spell?.enableBody(true, this.player.x + 30, this.player.y, true, false)
+		this.spell?.setActive(false)
+		this.isDisabled = false;
+
+
+	}
+
+
 
 	private exit_combat(){
-		this.add.text(20, 100, 'Combat Finished', {
+		this.add.text(400, 45, 'Combat Finished', {
 			fontSize: '25px',
 			color: '#ffffff',
 			backgroundColor: '#ff0000'
