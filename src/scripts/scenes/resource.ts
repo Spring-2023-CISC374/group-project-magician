@@ -1,8 +1,9 @@
 import Phaser from 'phaser'
 import MainCharacter from "../objects/MainCharacter"
 import Click_Change_Scene from '../objects/Click_Change_Scene'
+import CommonLevel from './CommonLevel'
 
-export default class resource extends Phaser.Scene {
+export default class resource extends CommonLevel {
     private player?: MainCharacter
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
     private platform?: Phaser.Physics.Arcade.StaticGroup
@@ -13,10 +14,16 @@ export default class resource extends Phaser.Scene {
 	private gameOver = false
 	private inventoryScene?: any
 	private blueGemsCollected: number
+	//private currentHealth: number
 	
     constructor() {
 		super('resource')
 	}
+	
+	//init (data: any) {
+	//	console.log('init', data)
+	//	this.currentHealth = data.storedHealth
+	//}
 
 	preload() {
 		//load image  for start screen here
@@ -36,8 +43,9 @@ export default class resource extends Phaser.Scene {
 			this.cameras.main.width/(1.0005 * bg.width), this.cameras.main.height/(1.0005 * bg.height))
 
         //Telling location
-        this.add.text(10, 40, 'Currently at Resource \nPress Map Icon to go to Map\nPress Inventory Icon to go to Inventory\nCollect as many resources as possible', {
-			fontSize: '32px',
+		super.createInformation()
+		this.add.text(20, 115, 'Press the back button to go back to level 1\nCollect as many resources as possible', {
+			fontSize: '28px',
 			color: '#ffffff'
 		})
         
@@ -49,7 +57,8 @@ export default class resource extends Phaser.Scene {
         this.platform.create(-25, 300, 'ground');
 
         //Adding the character
-        this.player = new MainCharacter(this, 80, 510)
+        this.player = new MainCharacter(this, 80, 480,this.currentHealth)
+		//this.player.displayHealth()
         this.physics.add.existing(this.player)
 
         this.player.setBounce(0.2)
@@ -87,8 +96,8 @@ export default class resource extends Phaser.Scene {
 
 		this.physics.add.collider(this.star, this.platform)
 		this.physics.add.overlap(this.player, this.star, this.handleCollectStar, undefined, this)
-		this.bluescoreText = this.add.text(400, 10, 'Blue Gems Collected: 0', { 
-			fontSize: '30px' })
+		this.bluescoreText = this.add.text(450, 10, 'Blue Gems Collected: 0', { 
+			fontSize: '24px' })
 
 		this.gameOverText = this.add.text(425, 300, 'Game Over\nPlease Click\nthe Back Button\nto go to Level 1', { 
 			fontSize: '30px' })
@@ -121,16 +130,6 @@ export default class resource extends Phaser.Scene {
 		this.player?.anims.play('turn')
 		this.gameOver = true
 		this.gameOverText.visible = true
-
-		//this.scene.get('inventory')?.setData('bluescore', this.bluescore);
-
-		// Transfer to inventory scene
-		//this.scene.start('inventory');
-		//this.scene.stop('resource');
-				
-		//if (inventoryScene) {
-		//	inventoryScene.setData('myBlueGemData', this.bluescoreText.text);
-		//}
 
 	}
 	
