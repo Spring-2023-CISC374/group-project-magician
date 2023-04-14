@@ -34,7 +34,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 	}
 
     handleEnemyCollision(player: MainCharacter, enemy: Phaser.Physics.Arcade.Sprite, 
-        currentScene: Phaser.Scene, newScene: Phaser.Scene) {
+        currentScene: string, newScene: string) {
         this.scene.physics.add.overlap(player, enemy, () => {
         this.scene.scene.stop(currentScene)
         this.scene.scene.start(newScene, {storedHealth: this.health})

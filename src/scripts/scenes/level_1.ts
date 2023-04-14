@@ -4,7 +4,7 @@ import MainCharacter from '../objects/MainCharacter'
 
 export default class level_1 extends CommonLevel {
 	private player?: MainCharacter
-	private currentHealth: number
+	private currentHealth?: number
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
 
 	constructor() {
