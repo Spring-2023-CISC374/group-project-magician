@@ -20,3 +20,5 @@ scene changers to specific update function and collision handlers.
     - Added overworld background for map elementary map traversal
     - Added level 1 marker (white dot) and overlap handler to start level_1 scene upon character colliding
         with level 1 marker. 
+#### Shaozhe Li HW12:
+    - add more suitable background and resource(gem).
