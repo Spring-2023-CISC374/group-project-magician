@@ -4,17 +4,21 @@ import Click_Change_Scene from '../objects/Click_Change_Scene';
 export default class inventory extends Phaser.Scene {
 	//private count = 0
 	//private countText?: Phaser.GameObjects.Text
-
-	prev_scene!: string;						// eventually get inventory correct
-
+	private blueGemsCollected: number
+	prev_scene!: string;					
 
 	constructor() {
 		super('inventory')
 	}
 
+	init(data: any) {
+		console.log("inventory scene = ", data);
+		this.blueGemsCollected = data.blueGemsCollected;
+	}
+
 	preload() {
-		this.load.image('inventoryBackground', 'assets/background_inventory.png');
 		//load image  for start screen here
+		this.load.image('inventoryBackground', 'assets/background_inventory.png');
 	}
 
 	create() {	
@@ -38,12 +42,10 @@ export default class inventory extends Phaser.Scene {
 		this.add.text(160, 150, 'count: 0', { 
 			fontSize: '20px' })
 
-		this.add.text(10, 250, 'Blue Berries: ', {
+		this.add.text(10, 250, 'Blue Gems: ' + this.blueGemsCollected, {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this.add.text(170, 250, 'count: 0', { 
-			fontSize: '20px' })
 
 		this.add.text(10, 350, 'Green Berries: ', {
 			fontSize: '20px',

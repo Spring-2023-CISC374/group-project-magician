@@ -1,5 +1,6 @@
 export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private health: number
+    private characterHealth: Phaser.GameObjects.Text
     constructor(scene: any, x: any, y: any, healthValue: number) {
         super(scene, x, y, 'mainChar')
 
@@ -33,6 +34,32 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 
+    levelhandleMoving(player: MainCharacter, cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
+		if (!cursors) {
+			return
+		}
+        if (cursors.left.isDown) {
+			player.setVelocityX(-160)
+		}
+		else if(cursors.right.isDown){
+			player.setVelocityX(160)
+		}
+		//else if(cursors.up.isDown && player.body.touching.down){
+		//	player.setVelocityY(-500)
+		//}
+		else if(cursors.up.isDown){
+			player.setVelocityY(-500)
+        }
+		else {
+			player.setVelocityX(0)
+			player.setVelocityY(0)
+		}
+        //if(cursors.up.isDown && player.body.touching.down){
+        //    player.setVelocityY(-500)
+        //}
+	}
+
+
     handleEnemyCollision(player: MainCharacter, enemy: Phaser.Physics.Arcade.Sprite, 
         currentScene: string, newScene: string) {
         this.scene.physics.add.overlap(player, enemy, () => {
@@ -54,7 +81,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         this.health = newHealth;
     }
     displayHealth() {
-        this.scene.add.text(20,20, 'Current health is: ' + this.health, {
+        this.characterHealth = this.scene.add.text(20,20, 'Current health is: ' + this.health, {
 			fontSize: '25px',
 			color: '#ff0000'
 		})
@@ -83,5 +110,8 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 					.anims.play('dark_spell', true)
 				player.anims.play('idle', true)
 			})
+    }
+    setText() {
+        this.characterHealth.setText('Current health is: ' + this.health)
     }
 }
