@@ -4,7 +4,15 @@ import Click_Change_Scene from '../objects/Click_Change_Scene';
 export default class inventory extends Phaser.Scene {
 	//private count = 0
 	//private countText?: Phaser.GameObjects.Text
-	private blueGemsCollected: number
+	private blueGemText?: Phaser.GameObjects.Text
+	private redGemText?: Phaser.GameObjects.Text
+	private yellowGemText?: Phaser.GameObjects.Text
+	private greenGemText?: Phaser.GameObjects.Text
+
+	private blueGems = 0
+	private redGems = 0
+	private yellowGems = 0
+	private greenGems = 0
 	prev_scene!: string;					
 
 	constructor() {
@@ -13,7 +21,11 @@ export default class inventory extends Phaser.Scene {
 
 	init(data: any) {
 		console.log("inventory scene = ", data);
-		this.blueGemsCollected = data.blueGemsCollected;
+		this.blueGems = this.blueGems + data.blueGemsCollected;
+		this.redGems = this.redGems + data.redGemsCollected
+		this.yellowGems = this.yellowGems + data.yellowGemsCollected
+		this.greenGems = this.greenGems + data.greenGemsCollected
+		this.prev_scene = data.prev_scene
 	}
 
 	preload() {
@@ -34,32 +46,29 @@ export default class inventory extends Phaser.Scene {
 			color: '#ffffff'
 		})
 
-		this.add.text(10, 150, 'Red Berries: ', {
+		this.redGemText = this.add.text(10, 150, 'Red Gems: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
+		this.redGemText?.setText('Red Gems: ' + this.redGems)
 
-		this.add.text(160, 150, 'count: 0', { 
-			fontSize: '20px' })
-
-		this.add.text(10, 250, 'Blue Gems: ' + this.blueGemsCollected, {
+		this.blueGemText = this.add.text(10, 200, 'Blue Gems: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
+		this.blueGemText?.setText('Blue Gems: ' + this.blueGems)
 
-		this.add.text(10, 350, 'Green Berries: ', {
+		this.yellowGemText = this.add.text(10, 250, 'Yellow Gems: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this.add.text(180, 350, 'count: 0', { 
-			fontSize: '20px' })
+		this.yellowGemText?.setText('Yellow Gems: ' + this.yellowGems)
 
-		this.add.text(10, 450, 'Yellow Berries: ', {
+		this.greenGemText = this.add.text(10, 300, 'Green Gems: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this.add.text(190, 450, 'count: 0', { 
-			fontSize: '20px' })
+		this.greenGemText?.setText('Green Gems: ' + this.greenGems)
 	}
 	//commented out count and count text, removed this.countText = this.add.text from 4 lines.
 

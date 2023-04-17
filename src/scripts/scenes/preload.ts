@@ -22,13 +22,19 @@ export default class start extends Phaser.Scene {
 		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
 
 		//image for inventory button
-		this.load.image('button', 'assets/inventory-bag.png');
+		this.load.image('button', 'assets/player.png');
 
 		// for petal
 		this.load.image('petal', "assets/petal.png");
 		
 		//background image for level 1
 		this.load.image('background-level1', 'assets/background/night_forest.png');
+
+		// loading gems for inventory and resource gathering
+		this.load.image('blue-gem', 'assets/resource/bluegem.png');
+		this.load.image('red-gem', 'assets/resource/redgem.png');
+		this.load.image('yellow-gem', 'assets/resource/yellowgem.png');
+		this.load.image('green-gem', 'assets/resource/greengem.png');
 	}
 
 	create() {
