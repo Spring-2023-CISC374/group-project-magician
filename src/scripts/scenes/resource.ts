@@ -11,9 +11,7 @@ export default class resource extends CommonLevel {
 	private bluescoreText?: Phaser.GameObjects.Text
 	private gameOverText?: any
 	private bomb?: Phaser.Physics.Arcade.Group
-	private currentHealth: number
-	private gameOver = false
-	private inventoryScene?: any
+	protected gameOver: boolean
 	private GemsCollected: number	
 	private collected = [0, 0, 0, 0]				// this will store the amount of gems that have been collected of each type
 	private gem_index: number						// this will allow us to add the correct numer of gems in the correct place in the array
@@ -22,6 +20,7 @@ export default class resource extends CommonLevel {
 		super('resource')
 		this.GemsCollected = 0
 		this.gem_index = -1 						// no value determined yet
+		this.gameOver = false
 	}
 	
 	init (data: any) {
@@ -40,6 +39,8 @@ export default class resource extends CommonLevel {
 
 	create() {
         //creating background image
+		this.gameOver = false
+
         const bg = this.add.image(
 			this.cameras.main.width/2, this.cameras.main.height/2, 'background-level1')
 		bg.setScale(
@@ -142,19 +143,20 @@ export default class resource extends CommonLevel {
 		}));
 	}
 
-	private handleHitBomb(player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject){
+	private handleHitBomb(/*player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject*/){
 		// make the player fly off the screen
 		// make the bomb explode
 		this.physics.pause()
 		this.player?.setTint(0x00000)
 		this.player?.anims.play('turn')
 		this.gameOver = true
+		this.collected[this.gem_index]=-this.GemsCollected
 		this.GemsCollected = 0 				// set the gems collected to 0 because you were hit
 		this.gameOverText.visible = true
 
 	}
 	
-    private handleCollectStar(player: Phaser.GameObjects.GameObject, s:Phaser.GameObjects.GameObject){
+    private handleCollectStar(/*player: Phaser.GameObjects.GameObject,*/ s:Phaser.GameObjects.GameObject){
 
 		// make the player have a sparkle animation
 		const newstar = s as Phaser.Physics.Arcade.Image

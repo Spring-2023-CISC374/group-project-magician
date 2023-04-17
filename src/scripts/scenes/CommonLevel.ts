@@ -2,14 +2,26 @@ import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class CommonLevel extends Phaser.Scene {
-	private currentHealth?: number
-	private blueGems = 0
-	private redGems = 0
-	private yellowGems = 0
-	private greenGems = 0
+	protected blueGems!: number
+	protected redGems!: number
+	protected yellowGems!: number
+	protected greenGems!: number
+	protected currentHealth!: number
+	protected prev_scene!: string
 
 	constructor(key: any) {
 		super(key)
+		this.prev_scene = key
+	}
+	init (data: any) { // data will have info about the rpevious scene, the number of gems for each type and the characters health
+		console.log('init', data)
+		this.currentHealth = data.storedHealth
+		this.blueGems = data.blueGems
+		this.redGems = data.redGems
+		this.yellowGems = data.yellowGems
+		this.greenGems = data.greenGems
+		this.prev_scene = data.prev_scene
+
 	}
 
 	preload() {

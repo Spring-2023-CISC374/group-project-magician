@@ -25,6 +25,7 @@ export default class inventory extends Phaser.Scene {
 		this.redGems = this.redGems + data.redGemsCollected
 		this.yellowGems = this.yellowGems + data.yellowGemsCollected
 		this.greenGems = this.greenGems + data.greenGemsCollected
+		this.prev_scene = data.prev_scene
 	}
 
 	preload() {
