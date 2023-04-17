@@ -25,4 +25,4 @@ const config: Phaser.Types.Core.GameConfig = {
 	scene: [preload, start, home, map, level_1, combat_1, inventory,resource],
 }
 
-export default new Phaser.Game(config)
+export default new Phaser.Game(config) 
