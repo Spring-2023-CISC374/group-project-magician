@@ -7,17 +7,19 @@ export default class resource extends CommonLevel {
     private player?: MainCharacter
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
     private platform?: Phaser.Physics.Arcade.StaticGroup
-    private star?: Phaser.Physics.Arcade.Group
+    private gem?: Phaser.Physics.Arcade.Group
 	private bluescoreText?: Phaser.GameObjects.Text
 	private gameOverText?: any
 	private bomb?: Phaser.Physics.Arcade.Group
 	private gameOver = false
 	private inventoryScene?: any
-	private blueGemsCollected: number
-	//private currentHealth: number
+	private GemsCollected: number
+	private currentHealth: number
 	
     constructor() {
 		super('resource')
+		this.GemsCollected = 0
+		this.currentHealth = 100
 	}
 	
 	//init (data: any) {
@@ -29,7 +31,6 @@ export default class resource extends CommonLevel {
 		//load image  for start screen here
         this.load.image('background-level1', 'assets/background/night_forest.png');
         this.load.image('ground', 'assets/Icons/platform.png');
-        this.load.image('gem', 'assets/resource/bluegem.png');
         this.load.image('backbutton', 'assets/Icons/backbutton.png');
 		this.load.image('bomb', 'assets/Icons/bomb.png' );
         
@@ -74,16 +75,21 @@ export default class resource extends CommonLevel {
 		this.physics.add.collider(this.bomb, this.platform)
 		this.physics.add.collider(this.player, this.bomb, this.handleHitBomb, undefined, this)
 
-        //adding the gems - blue only now
-        this.star = this.physics.add.group(
+        //adding the gems - could be any different type
+
+		// select the gem type 
+
+		const gem_type = this.select_gem_type() // function will randomly select the type of gem that will spawn
+
+        this.gem = this.physics.add.group(
 			{
-				key: 'gem',
+				key: gem_type,
 				repeat: 10,
 				setXY: { x: 12, y: 0, stepX: 70}
 			}
 		)
 
-		this.star.children.iterate(c => {
+		this.gem.children.iterate(c => {
 			const child = c as Phaser.Physics.Arcade.Image
 			child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
 			child.setCollideWorldBounds(true);
@@ -92,11 +98,11 @@ export default class resource extends CommonLevel {
 		})
         
 		// Initialize gem collected here
-		this.blueGemsCollected = 0;
+		this.GemsCollected = 0;
 
-		this.physics.add.collider(this.star, this.platform)
-		this.physics.add.overlap(this.player, this.star, this.handleCollectStar, undefined, this)
-		this.bluescoreText = this.add.text(450, 10, 'Blue Gems Collected: 0', { 
+		this.physics.add.collider(this.gem, this.platform)
+		this.physics.add.overlap(this.player, this.gem, this.handleCollectStar, undefined, this)
+		this.bluescoreText = this.add.text(450, 10, 'Gems Collected: 0', { 
 			fontSize: '24px' })
 
 		this.gameOverText = this.add.text(425, 300, 'Game Over\nPlease Click\nthe Back Button\nto go to Level 1', { 
@@ -113,7 +119,7 @@ export default class resource extends CommonLevel {
 
         this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {		// inventory button
 			this.scene.start('inventory', {
-				"blueGemsCollected": this.blueGemsCollected
+				"GemsCollected": this.GemsCollected
 			})
 			this.scene.stop('resource')
 		}));
@@ -125,25 +131,30 @@ export default class resource extends CommonLevel {
 	}
 
 	private handleHitBomb(player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject){
+		// make the player fly off the screen
+		// make the bomb explode
 		this.physics.pause()
 		this.player?.setTint(0x00000)
 		this.player?.anims.play('turn')
 		this.gameOver = true
+		this.GemsCollected = 0 				// set the gems collected to 0 because you were hit
 		this.gameOverText.visible = true
 
 	}
 	
     private handleCollectStar(player: Phaser.GameObjects.GameObject, s:Phaser.GameObjects.GameObject){
+
+		// make the player have a sparkle animation
 		const newstar = s as Phaser.Physics.Arcade.Image
 		newstar.disableBody(true, true)
 
-		this.blueGemsCollected = this.blueGemsCollected + 2
-		this.bluescoreText?.setText('Blue Gems Collected:' + this.blueGemsCollected)
+		this.GemsCollected = this.GemsCollected + 2
+		this.bluescoreText?.setText('Gems Collected:' + this.GemsCollected)
 		//transfer data
 		//this.scene.manager.getScene('inventory').data.set('myBlueGemData', this.bluescoreText);
 
-		if(this.star?.countActive(true) === 0){
-			this.star.children.iterate(c => {
+		if(this.gem?.countActive(true) === 0){
+			this.gem.children.iterate(c => {
 				const child = c as Phaser.Physics.Arcade.Image
 				child.enableBody(true, child.x, 0, true, true)
 
@@ -163,6 +174,24 @@ export default class resource extends CommonLevel {
 
 		}
 
+	}
+
+	private select_gem_type(): string {
+		let gem_type = ""
+		const gem_seed = Math.random() % 100 // random number that determines what our gem type will be 
+
+		if (gem_seed < 0.3) {
+			gem_type = "blue-gem"
+		} else if (gem_seed < 0.6) {
+			gem_type = "red-gem"
+		} else if (gem_seed < 0.9) {
+			gem_type = "yellow-gem"
+		} else { 
+			gem_type = "green-gem"
+		}
+
+		console.log(gem_type + " " + gem_seed)
+		return gem_type
 	}
 
 	update() {

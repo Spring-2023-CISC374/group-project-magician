@@ -1,6 +1,7 @@
 export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private health: number
     private characterHealth: Phaser.GameObjects.Text
+
     constructor(scene: any, x: any, y: any, healthValue: number) {
         super(scene, x, y, 'mainChar')
 
@@ -12,6 +13,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         this.setScale(2);
         this.setCollideWorldBounds(true);
     }
+    
     handleMoving(player: MainCharacter, cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
 		if (!cursors) {
 			return
