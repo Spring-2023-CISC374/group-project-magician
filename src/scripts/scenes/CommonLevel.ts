@@ -31,7 +31,7 @@ export default class CommonLevel extends Phaser.Scene {
 		//
 	}
 	update() {
-		//
+		//n
 	}
     createInformation() {
         this.add.text(20, 40, 'Currently at ' + this.scene.key + 
