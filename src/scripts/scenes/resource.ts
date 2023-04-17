@@ -11,21 +11,23 @@ export default class resource extends CommonLevel {
 	private bluescoreText?: Phaser.GameObjects.Text
 	private gameOverText?: any
 	private bomb?: Phaser.Physics.Arcade.Group
+	private currentHealth: number
 	private gameOver = false
 	private inventoryScene?: any
-	private GemsCollected: number
-	private currentHealth: number
-	
+	private GemsCollected: number	
+	private collected = [0, 0, 0, 0]				// this will store the amount of gems that have been collected of each type
+	private gem_index: number						// this will allow us to add the correct numer of gems in the correct place in the array
+
     constructor() {
 		super('resource')
 		this.GemsCollected = 0
-		this.currentHealth = 100
+		this.gem_index = -1 						// no value determined yet
 	}
 	
-	//init (data: any) {
-	//	console.log('init', data)
-	//	this.currentHealth = data.storedHealth
-	//}
+	init (data: any) {
+		console.log('init', data)
+		this.currentHealth = data.storedHealth
+	}
 
 	preload() {
 		//load image  for start screen here
@@ -80,6 +82,7 @@ export default class resource extends CommonLevel {
 		// select the gem type 
 
 		const gem_type = this.select_gem_type() // function will randomly select the type of gem that will spawn
+		this.get_gem_index(gem_type);
 
         this.gem = this.physics.add.group(
 			{
@@ -118,14 +121,23 @@ export default class resource extends CommonLevel {
 		}));
 
         this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {		// inventory button
-			this.scene.start('inventory', {
-				"GemsCollected": this.GemsCollected
-			})
+			this.scene.start('inventory',  {prev_scene: "resource", 
+				storedHealth: this.currentHealth, 
+				blueGemsCollected: this.collected[0], 
+				redGemsCollected: this.collected[1], 
+				yellowGemsCollected: this.collected[2],
+				greenGemsCollected: this.collected[3]})
 			this.scene.stop('resource')
 		}));
 
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// back button
-			this.scene.start('level_1')
+			this.scene.start('level_1', {prev_scene: "resource", 
+				storedHealth: this.currentHealth, 
+				blueGemsCollected: this.collected[0], 
+				redGemsCollected: this.collected[1], 
+				yellowGemsCollected: this.collected[2],
+				greenGemsCollected: this.collected[3]})
+			
 			this.scene.stop('resource')
 		}));
 	}
@@ -149,6 +161,7 @@ export default class resource extends CommonLevel {
 		newstar.disableBody(true, true)
 
 		this.GemsCollected = this.GemsCollected + 2
+		this.collected[this.gem_index] = this.GemsCollected;						// only one type of gem can be collected, here
 		this.bluescoreText?.setText('Gems Collected:' + this.GemsCollected)
 		//transfer data
 		//this.scene.manager.getScene('inventory').data.set('myBlueGemData', this.bluescoreText);
@@ -192,6 +205,18 @@ export default class resource extends CommonLevel {
 
 		console.log(gem_type + " " + gem_seed)
 		return gem_type
+	}
+
+	private get_gem_index(gem_type: string) {
+		if (gem_type == "blue-gem") {
+			this.gem_index = 0
+		} else if (gem_type == "red-gem") {
+			this.gem_index = 1
+		} else if (gem_type == "yellow-gem") {
+			this.gem_index = 2
+		} else { 
+			this.gem_index = 3
+		}
 	}
 
 	update() {

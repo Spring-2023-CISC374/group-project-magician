@@ -2,9 +2,16 @@ import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class CommonLevel extends Phaser.Scene {
+	private currentHealth?: number
+	private blueGems = 0
+	private redGems = 0
+	private yellowGems = 0
+	private greenGems = 0
+
 	constructor(key: any) {
 		super(key)
 	}
+
 	preload() {
 		//
 	}
@@ -27,7 +34,12 @@ export default class CommonLevel extends Phaser.Scene {
 			this.scene.stop(currentScene)
 		}));
         this.add.existing(new Click_Change_Scene(this, 50, 300, 'inventory_icon', () => {		// inventory button
-			this.scene.start('inventory', )
+			this.scene.start('inventory', {prev_scene: "level_1", 
+				blueGemsCollected: this.blueGems, 
+				redGemsCollected: this.redGems, 
+				yellowGemsCollected: this.yellowGems, 
+				greenGemsCollected: this.greenGems})
+
 			this.scene.stop(currentScene)
 		}));
 	}
