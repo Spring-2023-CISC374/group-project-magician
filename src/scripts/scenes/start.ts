@@ -20,14 +20,13 @@ export default class start extends CommonLevel {
 
     this.input.on('pointerup', () => {
 		this.op_text?.setText("LETS GO!!!")
-        this.scene.stop('start')
+        this.scene.stop('start', {blueGemsCollected: 0, 
+			redGemsCollected: 0, 
+			yellowGemsCollected: 0, 
+			greenGemsCollected: 0})
+		console.log(this.data)
         this.scene.start('home')
 	})
-	this.blueGems = 0
-	this.redGems = 0
-	this.yellowGems = 0
-	this.greenGems = 0
-	this.currentHealth = 100
 	}
 	
 

@@ -8,6 +8,15 @@ export default class home extends CommonLevel {
 		super('home')
 	}
 
+	init(data: any) {
+		console.log("inventory scene = ", data);
+		this.blueGems = this.blueGems + data.blueGemsCollected;
+		this.redGems = this.redGems + data.redGemsCollected
+		this.yellowGems = this.yellowGems + data.yellowGemsCollected
+		this.greenGems = this.greenGems + data.greenGemsCollected
+		this.prev_scene = data.prev_scene
+	}
+
 	create() {	
 		this.physics.add.image(450, 300, 'home_Background').setScale(1.455)
 		const home_marker = this.physics.add.image(500,400,'home_marker')

@@ -156,7 +156,7 @@ export default class resource extends CommonLevel {
 
 	}
 	
-    private handleCollectStar(/*player: Phaser.GameObjects.GameObject,*/ s:Phaser.GameObjects.GameObject){
+    private handleCollectStar(player: Phaser.GameObjects.GameObject, s:Phaser.GameObjects.GameObject){
 
 		// make the player have a sparkle animation
 		const newstar = s as Phaser.Physics.Arcade.Image

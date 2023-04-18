@@ -13,6 +13,7 @@ export default class inventory extends Phaser.Scene {
 	private redGems = 0
 	private yellowGems = 0
 	private greenGems = 0
+	
 	prev_scene!: string;					
 
 	constructor() {
