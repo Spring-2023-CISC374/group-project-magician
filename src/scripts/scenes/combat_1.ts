@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import MainCharacter from '../objects/MainCharacter';
+import Enemy from '../objects/Enemy';
 import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class combat_1 extends Phaser.Scene {
@@ -41,7 +42,7 @@ export default class combat_1 extends Phaser.Scene {
 		// load images
 		this.load.image('bg', 'assets/background/dark_forest.png')
 		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
-		this.load.image('button', 'assets/Icons/Inventory_Icon.png');
+		this.load.image('chest', 'assets/Icons/Inventory_Icon.png');
 	}
 
 	create() {
@@ -52,7 +53,9 @@ export default class combat_1 extends Phaser.Scene {
 		// create assets
 		this.player = new MainCharacter(this, 80, 515, this.currentHealth)
 		this.player.displayHealth()
-		this.enemy = this.makeEnemy()
+		//this.enemy = this.makeEnemy()
+		this.enemy = new Enemy(this, 400, 300, 'dragon', 10, 5)
+		this.makeAnims()
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
@@ -67,8 +70,7 @@ export default class combat_1 extends Phaser.Scene {
 		// add collisions
 		this.physics.add.overlap(this.enemy, this.spell, this.handleSpell, undefined, this)
 		
-
-		this.add.existing(new Click_Change_Scene(this, 770, 525, 'button', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {			// create button to go to map
 			this.scene.start('inventory')											
 			this.scene.stop('combat_1')
 		}));
@@ -103,7 +105,7 @@ export default class combat_1 extends Phaser.Scene {
 		if (this.enemyHealth === 0) {
 			this.handleDeath(this.enemy)
 		}
-		if (this.keys?.space.isDown) { 
+		if (this.keys?.space.isDown && this.spell?.active==false) { 
 			this.player?.castSpell(this.player,this.spell)
 		}
 		if (this.spell?.active == true) {
@@ -197,6 +199,15 @@ export default class combat_1 extends Phaser.Scene {
 		this.input.on('pointerup', () => {
             this.scene.stop('combat_1')
             this.scene.start('level_1')
+		})
+	}
+	private makeAnims() {
+		this.anims.create({
+			key: 'enemyIdle', 
+			frames: this.anims.generateFrameNumbers('dragon', {
+				start: 0, end: 7
+			}), 
+			frameRate: 10, repeat: -1
 		})
 	}
 }

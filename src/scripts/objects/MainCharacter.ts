@@ -24,14 +24,17 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		else if(cursors.right.isDown){
 			player.setVelocityX(160)
 		}
-		else if(cursors.down.isDown){
+        else {
+            player.setVelocityX(0)
+        }
+		
+        if(cursors.down.isDown){
 			player.setVelocityY(160)
 		}
 		else if(cursors.up.isDown){
 			player.setVelocityY(-160)
 		}
 		else {
-			player.setVelocityX(0)
 			player.setVelocityY(0)
 		}
 	}
@@ -49,13 +52,13 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		//else if(cursors.up.isDown && player.body.touching.down){
 		//	player.setVelocityY(-500)
 		//}
-		else if(cursors.up.isDown){
-			player.setVelocityY(-500)
-        }
-		else {
+        else {
 			player.setVelocityX(0)
-			player.setVelocityY(0)
 		}
+		if(cursors.up.isDown && player.body.touching.down){
+			player.setVelocityY(-330)
+        }
+		
         //if(cursors.up.isDown && player.body.touching.down){
         //    player.setVelocityY(-500)
         //}
