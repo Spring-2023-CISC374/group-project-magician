@@ -22,7 +22,7 @@ export default class start extends Phaser.Scene {
 		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
 
 		//image for inventory button
-		this.load.image('button', 'assets/inventory-bag.png');
+		this.load.image('button', 'assets/player.png');
 
 		// for petal
 		this.load.image('petal', "assets/petal.png");

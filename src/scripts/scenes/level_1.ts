@@ -6,25 +6,11 @@ import Click_Change_Scene from '../objects/Click_Change_Scene'
 export default class level_1 extends CommonLevel {
 	private player?: MainCharacter
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
-	private blueGems: number
-	private redGems: number
-	private yellowGems: number
-	private greenGems: number
-	private currentHealth?: number
 
 	constructor() {
 		super('level_1')
 	}
   
-	init (data: any) { // data will have info about the rpevious scene, the number of gems for each type and the characters health
-		console.log('init', data)
-		this.currentHealth = data.storedHealth
-		this.blueGems = data.blueGems
-		this.redGems = data.redGems
-		this.yellowGems = data.yellowGems
-		this.greenGems = data.greenGems
-
-	}
   preload() {
 		// load background image
 		this.load.image('background-level1', 'assets/background/night_forest.png');
