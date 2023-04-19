@@ -9,10 +9,10 @@ export default class inventory extends Phaser.Scene {
 	private yellowGemText?: Phaser.GameObjects.Text
 	private greenGemText?: Phaser.GameObjects.Text
 
-	private blueGems = 0
-	private redGems = 0
-	private yellowGems = 0
-	private greenGems = 0
+	private blueGems = 5
+	private redGems = 5
+	private yellowGems = 5
+	private greenGems = 5
 	prev_scene!: string;					
 
 	constructor() {
