@@ -5,7 +5,7 @@ import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class combat_1 extends Phaser.Scene {
 	private player?: MainCharacter
-	private enemy?: Phaser.Physics.Arcade.Sprite
+	private enemy?: Enemy
 	private spell?: Phaser.Physics.Arcade.Sprite
 	private keys?: Phaser.Types.Input.Keyboard.CursorKeys;
 	private currentHealth: number
