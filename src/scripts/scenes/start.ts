@@ -1,8 +1,10 @@
 import Phaser from 'phaser'
+import CommonLevel from './CommonLevel'
 
-export default class start extends Phaser.Scene {
+export default class start extends CommonLevel {
+	private op_text?: Phaser.GameObjects.Text
 	constructor() {
-		super('start-scene')
+		super('start')
 	}
 
 	preload() {
@@ -11,20 +13,25 @@ export default class start extends Phaser.Scene {
 
 	create() {		
 
-        this.add.text(0, 400, 'Currently at start /n click for home', {
-			fontSize: '40px',
-			color: '#ffffff'
-		})
+    this.op_text = this.add.text(175, 250, 'Currently at Start \n Click for Home', {
+		fontSize: '40px',
+		color: '#ffffff'
+	})
 
-        this.input.on('pointerup', () => {
-            this.scene.stop('start-scene')
-            this.scene.start('home')
-		})
+    this.input.on('pointerup', () => {
+		this.op_text?.setText("LETS GO!!!")
+        this.scene.stop('start')
+        this.scene.start('home')
+	})
+	this.blueGems = 0
+	this.redGems = 0
+	this.yellowGems = 0
+	this.greenGems = 0
+	this.currentHealth = 100
 	}
 	
 
 	update() {
 		//
 	}
-
 }

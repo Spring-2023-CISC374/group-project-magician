@@ -3,6 +3,11 @@
 
 This assignment is where you will submit your code for your MVP as well as the rest of the versions of your educational game.
 
+Sydney Hester: I was the one who copied the code from our phaser game to create a running enviornment for the code. I was also the one
+who created all of the scenes and created a way to move between the scenes. I also organized all of the files in the way they are now. (as
+displayed in class this past wednesday). I plan to upgrade these things as others complete their parts. Mostly will just have to move the
+scene changers to specific update function and collision handlers. 
+
 #### renross HW12: 
 - Added one spell for player to use in combat. 
 - Created collision between spells and enemies. 
@@ -15,3 +20,5 @@ This assignment is where you will submit your code for your MVP as well as the r
     - Added overworld background for map elementary map traversal
     - Added level 1 marker (white dot) and overlap handler to start level_1 scene upon character colliding
         with level 1 marker. 
+#### Shaozhe Li HW12:
+    - add more suitable background and resource(gem).

@@ -1,32 +1,57 @@
 import Phaser from 'phaser'
+import CommonLevel from './CommonLevel'
+import MainCharacter from '../objects/MainCharacter'
+import Click_Change_Scene from '../objects/Click_Change_Scene'
 
-export default class level_1 extends Phaser.Scene {
+export default class level_1 extends CommonLevel {
+	private player?: MainCharacter
+	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
+
 	constructor() {
 		super('level_1')
 	}
-
-	preload() {
-		//load image  for start screen here 
-		//this.load.image('soil4', 'assets/background/soil4.png')
+  
+  preload() {
+		// load background image
+		this.load.image('background-level1', 'assets/background/night_forest.png');
+		this.load.image('resource1', 'assets/Icons/resource_icon.png');
+		
 	}
-
 	create() {		
-		//this.add.image(400, 300, 'soil4').setScale(3.5);
+    const bg = this.add.image(
+			this.cameras.main.width/2, this.cameras.main.height/2, 'background-level1')
+		bg.setScale(
+			this.cameras.main.width/(1.0005 * bg.width), this.cameras.main.height/(1.0005 * bg.height))
 
-        this.add.text(0, 40, 'Currently at level 1 \n Click for combat_1', {
-			fontSize: '32px',
+		super.createInformation()
+		super.createButtons(this.scene.scene)
+
+		this.add.text(20, 120, 'Press the Resource Icon to go to collect some\nresources', {
+			fontSize: '28px',
 			color: '#ffffff'
 		})
 
-        this.input.on('pointerup', () => {
-            this.scene.stop('level_1')
-            this.scene.start('combat_1')
-		})
+		this.add.existing(new Click_Change_Scene(this, 50, 400, 'resource1', () => {		// resource button
+			this.scene.start('resource')
+			this.scene.stop('level_1')
+		}));
+
+
+		const enemy = this.physics.add.sprite(300, 485, 'dragon');
+		this.player = new MainCharacter(this, 80, 480,this.currentHealth)
+		this.player.displayHealth()
+		this.cursors = this.input.keyboard.createCursorKeys()
+
+		this.player.handleEnemyCollision(this.player, enemy, 'level_1', 'combat_1') 			// enemy  
 	}
-	
 
 	update() {
-		//
+		//this.handleMoving();
+		if (!this.player || !this.cursors) {
+			return
+		}
+		this.player.handleMoving(this.player, this.cursors);
 	}
 
+	
 }
