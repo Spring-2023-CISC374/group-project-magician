@@ -9,19 +9,14 @@ export default class combat_1 extends Phaser.Scene {
 	private spell?: Phaser.Physics.Arcade.Sprite
 	private keys?: Phaser.Types.Input.Keyboard.CursorKeys;
 	private currentHealth: number
-	private playerTurn: boolean
-	private enemyHealth: number
+	//private playerTurn: boolean
 	private spellDamage: number
 	private isDisabled: boolean
 	//private enemyText: Phaser.GameObjects.Text
-	private enemyAttack: Phaser.GameObjects.Text
-	private playerAttack: Phaser.GameObjects.Text
-	private timer: Phaser.Time.Clock
 
 	constructor() { 
 		super('combat_1') 
-		this.playerTurn = true
-		this.enemyHealth = 10
+		//this.playerTurn = true
 		this.spellDamage = 5
 		this.isDisabled = false;
 	}
@@ -74,13 +69,7 @@ export default class combat_1 extends Phaser.Scene {
 			this.scene.start('inventory')											
 			this.scene.stop('combat_1')
 		}))
-		/*
-		this.enemyText = this.add.text(this.enemy.x-75,this.enemy.y - 75, 'Health: ' + this.enemyHealth, {
-			fontSize: '25px',
-			color: '#ff0000',
-			fontStyle: "bold"
-		})
-		*/
+
 		this.enemy.displayHealth()
 		this.enemy.displayAttack()
 		this.player.displayAttack()
@@ -92,8 +81,9 @@ export default class combat_1 extends Phaser.Scene {
 		this.enemy?.setText()
 		this.player?.setText()
 		// update spells
-		if (this.enemyHealth === 0) {
-			this.handleDeath(this.enemy)
+		if (this.enemy?.getHealth() === 0) {
+			this.enemy?.handleEnemyDeath()
+			this.player?.handleLeavingCombat("combat_1", "map")
 		}
 		if (this.keys?.space.isDown && this.spell?.active==false) { 
 			this.player?.castSpell(this.player,this.spell)
@@ -123,30 +113,16 @@ export default class combat_1 extends Phaser.Scene {
 			}) 		
 		return this.spell
 	}
-
-	private handleDeath(enemy: Phaser.GameObjects.GameObject,) {
-		(enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
-		this.enemy?.anims.stop();
-
-		this.exit_combat();
+	private resetSpellPosition() {
+		this.spell?.enableBody(true, this.player.x + 30, this.player.y, true, false)
+		this.spell?.setActive(false)
+		this.isDisabled = false;
 	}
+
 	private handleSpell(enemy:Phaser.GameObjects.GameObject, spell: Phaser.GameObjects.GameObject) {
 		(spell as Phaser.Physics.Arcade.Image).disableBody(true, true);
 		this.enemy?.handleCharacterAttacked(this.player, this.spellDamage)
 		this.isDisabled = true
-	}
-
-
-	private exit_combat(){
-		this.add.text(400, 45, 'Combat Finished', {
-			fontSize: '25px',
-			color: '#ffffff',
-			backgroundColor: '#ff0000'
-		})
-		this.input.on('pointerup', () => {
-            this.scene.stop('combat_1')
-            this.scene.start('level_1')
-		})
 	}
 	//Make anims for enemy
 	private makeAnims() {

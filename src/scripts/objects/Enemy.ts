@@ -55,7 +55,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		}, 4000)	
     }
     setText() {
-        this.enemyHealth.setText('Health ' + this.health)
+        this.enemyHealth.setText('Health: ' + this.health)
     }
     setVisibility(visible: boolean) {
             this.enemyAttack.setVisible(visible)
@@ -69,4 +69,23 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		})
 		this.enemyAttack.setVisible(false)
     }
+    handleEnemyDeath(){
+        (this as Phaser.Physics.Arcade.Image).setTint(0xff0000);
+        setTimeout(()=> {
+			this.disableBody(true, true)
+            this.enemyHealth.setVisible(false)
+		}, 4000)	
+		this.anims.stop();
+		this.scene.add.text(400, 45, 'Enemy Dead', {
+			fontSize: '25px',
+			color: '#ffffff',
+			backgroundColor: '#ff0000'
+		})
+        /*
+		this.input.on('pointerup', () => {
+            this.scene.stop('combat_1')
+            this.scene.start('level_1')
+		})
+        */
+	}
 }

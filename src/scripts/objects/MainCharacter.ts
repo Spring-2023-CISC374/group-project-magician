@@ -149,4 +149,10 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		})
 		this.characterAttack.setVisible(false)
     }
+    handleLeavingCombat(currentScene: string, newScene: string) {
+        setTimeout(()=> {
+            this.scene.scene.stop(currentScene)
+            this.scene.scene.start(newScene, {storedHealth: this.health})
+		}, 5000)
+    }
 }
