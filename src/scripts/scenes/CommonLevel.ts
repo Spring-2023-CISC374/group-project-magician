@@ -1,27 +1,21 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene'
+import Inventory_Items from '../objects/Inventory_Items'
 
 export default class CommonLevel extends Phaser.Scene {
-	protected blueGems!: number
-	protected redGems!: number
-	protected yellowGems!: number
-	protected greenGems!: number
-	protected currentHealth!: number
+	public inventory!: Inventory_Items
+	public currentHealth!: number
 	protected prev_scene!: string
 
 	constructor(key: any) {
 		super(key)
 		this.prev_scene = key
 	}
-	init (data: any) { // data will have info about the rpevious scene, the number of gems for each type and the characters health
-		console.log('init', data)
-		this.currentHealth = data.storedHealth
-		this.blueGems = data.blueGems
-		this.redGems = data.redGems
-		this.yellowGems = data.yellowGems
-		this.greenGems = data.greenGems
+	init(data: any) {
+		console.log("common scene = ", data);
+		this.inventory = data.inventory_items
 		this.prev_scene = data.prev_scene
-
+		this.currentHealth = data.storedHealth
 	}
 
 	preload() {
@@ -46,11 +40,7 @@ export default class CommonLevel extends Phaser.Scene {
 			this.scene.stop(currentScene)
 		}));
         this.add.existing(new Click_Change_Scene(this, 50, 300, 'inventory_icon', () => {		// inventory button
-			this.scene.start('inventory', {prev_scene: "level_1", 
-				blueGemsCollected: this.blueGems, 
-				redGemsCollected: this.redGems, 
-				yellowGemsCollected: this.yellowGems, 
-				greenGemsCollected: this.greenGems})
+			this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHeath: this.currentHealth})
 
 			this.scene.stop(currentScene)
 		}));

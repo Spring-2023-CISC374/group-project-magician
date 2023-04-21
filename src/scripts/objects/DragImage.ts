@@ -7,7 +7,7 @@ export default class DraggableImage extends Phaser.GameObjects.Image {
         scene.input.setDraggable(this);
 
         this.on('pointerover', () => {
-            this.setTint(0x44ff44);
+            this.setTint(0xdddddd);
         });
 
         this.on('pointerout', () => {
