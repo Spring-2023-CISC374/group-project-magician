@@ -12,7 +12,7 @@ export default class combat_1 extends Phaser.Scene {
 	//private playerTurn: boolean
 	private spellDamage: number
 	private isDisabled: boolean
-	//private enemyText: Phaser.GameObjects.Text
+
 
 	constructor() { 
 		super('combat_1') 
@@ -46,11 +46,12 @@ export default class combat_1 extends Phaser.Scene {
 		bg.setScale(
 			this.cameras.main.width/bg.width, this.cameras.main.height/bg.height)		
 		// create assets
-		this.player = new MainCharacter(this, 80, 515, this.currentHealth)
+		this.player = new MainCharacter(this, 80, 515, this.currentHealth as number)
 		this.player.displayCombatHealth()
 		//this.enemy = this.makeEnemy()
 		this.enemy = new Enemy(this, 400, 300, 'dragon', 10, 10)
 		this.makeAnims()
+
 		this.spell = this.makeSpell(this.player)
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
@@ -65,7 +66,8 @@ export default class combat_1 extends Phaser.Scene {
 		// add collisions
 		this.physics.add.overlap(this.enemy, this.spell, this.handleSpell, undefined, this)
 		
-		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {			// create button to go to inventory
+
 			this.scene.start('inventory')											
 			this.scene.stop('combat_1')
 		}))
@@ -77,7 +79,6 @@ export default class combat_1 extends Phaser.Scene {
     }
 
 	update() {
-
 		this.enemy?.setText()
 		this.player?.setText()
 		// update spells
@@ -95,7 +96,6 @@ export default class combat_1 extends Phaser.Scene {
 			this.player?.handleBeingAttacked(this.enemy, this.enemy?.getEnemyDamage())
 			this.resetSpellPosition()
 		}
-		
 	}
 
 	private makeSpell(player: Phaser.GameObjects.Sprite) {
