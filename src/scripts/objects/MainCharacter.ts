@@ -1,6 +1,9 @@
+import Enemy from "./Enemy"
 export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private health: number
     private characterHealth!: Phaser.GameObjects.Text
+    private characterCombatHealth!: Phaser.GameObjects.Text
+    private characterAttack!: Phaser.GameObjects.Text
 
     constructor(scene: any, x: any, y: any, healthValue: number) {
         super(scene, x, y, 'mainChar')
@@ -88,7 +91,15 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     displayHealth() {
         this.characterHealth = this.scene.add.text(20,20, 'Current health is: ' + this.health, {
 			fontSize: '25px',
-			color: '#ff0000'
+			color: '#ff0000',
+            fontStyle: "bold"
+		})
+    }
+    displayCombatHealth() {
+        this.characterCombatHealth = this.scene.add.text(this.x - 75,this.y - 75, 'Health: ' + this.health, {
+			fontSize: '25px',
+			color: '#ff0000',
+            fontStyle: "bold"
 		})
     }
     handleIdleAnimation() {
@@ -117,6 +128,25 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 			})
     }
     setText() {
-        this.characterHealth.setText('Current health is: ' + this.health)
+        this.characterCombatHealth.setText('Health: ' + this.health)
+    }
+    setVisibility(visible: boolean) {
+        this.characterAttack.setVisible(visible)
+    }
+    handleBeingAttacked(enemy: Enemy, damage: number) {
+        this.health -= damage
+		enemy.setVisibility(true)
+		setTimeout(()=> {
+			enemy.setVisibility(false)
+		}, 4000)	
+    }
+    displayAttack() {    
+        this.characterAttack = this.scene.add.text(20,115,"You have hit the monster for 5 HP!", 
+		{
+			fontSize: '30px',
+			color: '#ff0000',
+			backgroundColor: '#ffffff'
+		})
+		this.characterAttack.setVisible(false)
     }
 }

@@ -1,3 +1,5 @@
+import MainCharacter from "./MainCharacter";
+
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private health: number
     private enemyHealth: Phaser.GameObjects.Text;
@@ -8,10 +10,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.health = healthValue;
         this.enemyDamage = newDamage
-        this.enemyHealth = this.scene.add.text(20,20, '')
-        this.enemyHealth.setVisible(false)
-        this.enemyAttack = this.scene.add.text(20,20, '')
-        this.enemyAttack.setVisible(false)
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -27,10 +25,17 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     setHealth(newHealth: number) {
         this.health = newHealth;
     }
+    getEnemyDamage() {
+        return this.enemyDamage
+    }
+    setEnemyDamage(newDamage: number) {
+        this.enemyDamage = newDamage;
+    }
     displayHealth() {
-        this.enemyHealth = this.scene.add.text(20,20, 'Current health is: ' + this.health, {
+        this.enemyHealth = this.scene.add.text(this.x-75,this.y - 75, 'Health: ' + this.health, {
 			fontSize: '25px',
-			color: '#ff0000'
+			color: '#ff0000',
+			fontStyle: "bold"
 		})
     }
     displayAttack() {
@@ -40,8 +45,28 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 			color: '#ff0000',
 			backgroundColor: '#ffffff'
 		})
+        this.enemyAttack.setVisible(false)
+    }
+    handleCharacterAttacked(player: MainCharacter, damage: number) {
+        this.health -= damage
+		player.setVisibility(true)
+		setTimeout(()=> {
+			player.setVisibility(false)
+		}, 4000)	
     }
     setText() {
-        this.enemyHealth.setText('Current health is: ' + this.health)
+        this.enemyHealth.setText('Health ' + this.health)
+    }
+    setVisibility(visible: boolean) {
+            this.enemyAttack.setVisible(visible)
+    }
+    displayEnemyAttack() {
+        this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for 10 HP!", 
+		{
+			fontSize: '30px',
+			color: '#ff0000',
+			backgroundColor: '#ffffff'
+		})
+		this.enemyAttack.setVisible(false)
     }
 }
