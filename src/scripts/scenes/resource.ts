@@ -73,7 +73,7 @@ export default class resource extends CommonLevel {
 		//this.player.setBounceY(500)
         this.physics.add.collider(this.player, this.platform)
 		this.cursors = this.input.keyboard.createCursorKeys()
-        this.physics.world.gravity.y = 3000;
+        this.physics.world.gravity.y = 300;
 
 		//adding a bomb to make it diffcult 
 		this.bomb = this.physics.add.group()
