@@ -119,7 +119,9 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         }), 
         frameRate: 8
         })
+    this.anims.play('idle', true)
     }
+    
     castSpell(player: MainCharacter, spell: Phaser.Physics.Arcade.Sprite) {
         player.anims.play('cast', true)
 			.once('animationcomplete', () => {
