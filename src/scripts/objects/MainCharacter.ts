@@ -64,7 +64,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         }
 		
         //if(cursors.up.isDown && player.body.touching.down){
-        //    player.setVelocityY(-500)
+        //    player.setVelocityY(-500) 
         //}
 	}
 
