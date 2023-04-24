@@ -1,4 +1,5 @@
 import Enemy from "./Enemy"
+import Inventory_Items from "./Inventory_Items"
 export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private health: number
     private characterHealth!: Phaser.GameObjects.Text
@@ -69,17 +70,17 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 
 
     handleEnemyCollision(player: MainCharacter, enemy: Phaser.Physics.Arcade.Sprite, 
-        currentScene: string, newScene: string) {
+        currentScene: string, newScene: string, inventory: Inventory_Items) {
         this.scene.physics.add.overlap(player, enemy, () => {
         this.scene.scene.stop(currentScene)
-        this.scene.scene.start(newScene, {storedHealth: this.health})
+        this.scene.scene.start(newScene, {inventory_items: inventory, storedHealth: this.health})
         })
     }
     handleMapCollision(player: MainCharacter, mapElement: Phaser.Physics.Arcade.Image, 
-        currentScene: string, newScene: string) {
+        currentScene: string, newScene: string, inventory: Inventory_Items) {
         this.scene.physics.add.overlap(player, mapElement, () => {
         this.scene.scene.stop(currentScene)
-        this.scene.scene.start(newScene, {storedHealth: this.health})
+        this.scene.scene.start(newScene, {inventory_items: inventory, storedHealth: this.health})
         })
     }
     getHealth() {
@@ -87,6 +88,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     }
     setHealth(newHealth: number) {
         this.health = newHealth;
+        this.characterHealth
     }
     displayHealth() {
         this.characterHealth = this.scene.add.text(20,20, 'Current health is: ' + this.health, {
