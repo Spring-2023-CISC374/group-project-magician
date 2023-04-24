@@ -2,23 +2,20 @@ import Phaser from 'phaser'
 import MainCharacter from '../objects/MainCharacter';
 import Enemy from '../objects/Enemy';
 import Click_Change_Scene from '../objects/Click_Change_Scene'
+import Spell from '../objects/Spell'
 
 export default class combat_1 extends Phaser.Scene {
 	private player?: MainCharacter
 	private enemy?: Enemy
-	private spell?: Phaser.Physics.Arcade.Sprite
+	private spell?: Spell
 	private keys?: Phaser.Types.Input.Keyboard.CursorKeys;
 	private currentHealth: number
-	//private playerTurn: boolean
-	private spellDamage: number
-	private isDisabled: boolean
+
 
 
 	constructor() { 
 		super('combat_1') 
 		//this.playerTurn = true
-		this.spellDamage = 5
-		this.isDisabled = false;
 	}
 
 	init (data: any) {
@@ -52,7 +49,8 @@ export default class combat_1 extends Phaser.Scene {
 		this.enemy = new Enemy(this, 400, 300, 'dragon', 10, 10)
 		this.makeAnims()
 
-		this.spell = this.makeSpell(this.player)
+		this.spell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell', 5)
+		this.makeSpellAnims()
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
         this.add.text(20, 45, 'Currently in Combat \nPress Space to attack ', {
@@ -61,13 +59,12 @@ export default class combat_1 extends Phaser.Scene {
 		})
 		this.player.handleIdleAnimation()
 		// player idle animation
-		this.player.anims.play('idle', true)
 		this.enemy.anims.play('enemyIdle', true)
 		// add collisions
-		this.physics.add.overlap(this.enemy, this.spell, this.handleSpell, undefined, this)
+		this.spell.checkForOverlap(this.player, this.enemy)
 		
-		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {			// create button to go to inventory
-
+		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {
+			// create button to go to inventory
 			this.scene.start('inventory')											
 			this.scene.stop('combat_1')
 		}))
@@ -90,20 +87,15 @@ export default class combat_1 extends Phaser.Scene {
 			this.player?.castSpell(this.player,this.spell)
 		}
 		if (this.spell?.active == true) {
-			this.spell.setX(this.spell.x + 2)
+			this.spell.moveSpell()
 		}
-		if (this.isDisabled == true) {
+		if (this.spell?.isDisabled() == true) {
 			this.player?.handleBeingAttacked(this.enemy, this.enemy?.getEnemyDamage())
-			this.resetSpellPosition()
+			this.spell.resetSpellPosition(this.player)
 		}
 	}
-
-	private makeSpell(player: Phaser.GameObjects.Sprite) {
-		this.spell = this.physics.add.sprite(player.x + 30, player.y, 'darkSpell')
-		this.spell
-			.setActive(false)
-			.setVisible(false)
-			.setCollideWorldBounds(true)
+	
+	private makeSpellAnims() {
 		this.anims.create({
 				key: 'dark_spell', 
 				frames: this.anims.generateFrameNumbers('darkSpell', {
@@ -111,18 +103,6 @@ export default class combat_1 extends Phaser.Scene {
 				}), 
 				frameRate: 10, repeat: -1
 			}) 		
-		return this.spell
-	}
-	private resetSpellPosition() {
-		this.spell?.enableBody(true, this.player.x + 30, this.player.y, true, false)
-		this.spell?.setActive(false)
-		this.isDisabled = false;
-	}
-
-	private handleSpell(enemy:Phaser.GameObjects.GameObject, spell: Phaser.GameObjects.GameObject) {
-		(spell as Phaser.Physics.Arcade.Image).disableBody(true, true);
-		this.enemy?.handleCharacterAttacked(this.player, this.spellDamage)
-		this.isDisabled = true
 	}
 	//Make anims for enemy
 	private makeAnims() {
@@ -134,4 +114,5 @@ export default class combat_1 extends Phaser.Scene {
 			frameRate: 10, repeat: -1
 		})
 	}
+	
 }
