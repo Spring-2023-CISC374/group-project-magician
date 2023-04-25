@@ -21,6 +21,14 @@ export default class start extends Phaser.Scene {
 		// background stuff
 		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
 
+		//spell images
+		/*
+		this.load.spritesheet('fireSpell', 'assets/spells/fireBoltSheet.png', 
+		{frameWidth: 44, frameHeight: 48})
+		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
+		{frameWidth: 48, frameHeight: 32})
+		*/
+
 		//image for inventory button
 		this.load.image('button', 'assets/player.png');
 

@@ -5,14 +5,15 @@ import MainCharacter from "./MainCharacter";
 export default class Spell extends Phaser.Physics.Arcade.Sprite {
   private disabled: boolean
   private spellDamage: number
+  public name: string
     // source: https://programmingmind.net/phaser/fun-with-spells-using-phaser
     
   
-    constructor(scene: Phaser.Scene, x: number, y: number, key: string, newDamage: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, key: string, newName: string, newDamage: number) {
         super(scene, x, y, key)
         this.disabled = false;
         this.spellDamage = newDamage;
-
+        this.name = newName
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -35,6 +36,12 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
   }
   setDisabled(flag: boolean) {
     this.disabled = flag;
+  }
+  getName() {
+    return this.name;
+  }
+  setNewName(newName: string) {
+    this.name = newName;
   }
   getSpellDamage() {
     return this.spellDamage;
