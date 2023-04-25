@@ -105,7 +105,7 @@ export default class combat_1 extends Phaser.Scene {
 		this.enemy?.setText()
 		this.player?.setText()
 		// update spells
-		if (this.enemy?.getHealth() === 0) {
+		if (this.enemy?.getHealth() <= 0) {
 			this.enemy?.handleEnemyDeath()
 			this.player?.handleLeavingCombat("combat_1", "map")
 		}
