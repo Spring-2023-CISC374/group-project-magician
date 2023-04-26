@@ -55,7 +55,7 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
   handleSpell(player: MainCharacter, enemy: Enemy) {
 		this.disableBody(true, true);
     this.disabled = true;
-		enemy.handleCharacterAttacked(player, this.spellDamage)
+		enemy.handleCharacterAttacked(player, this)
 	}
   resetSpellPosition(player: MainCharacter) {
 		this.enableBody(true, player.x + 30, player.y, true, false)

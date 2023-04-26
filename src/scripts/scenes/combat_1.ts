@@ -6,12 +6,12 @@ import Spell from '../objects/Spell'
 import SpellButtons from '../objects/SpellButtons'
 
 export default class combat_1 extends Phaser.Scene {
-	private player?: MainCharacter
-	private enemy?: Enemy
-	private spell?: Spell
-	private keys?: Phaser.Types.Input.Keyboard.CursorKeys;
-	private currentHealth?: number
-	private spellList?: Array<Spell>
+	private player!: MainCharacter
+	private enemy!: Enemy
+	private spell!: Spell
+	private keys!: Phaser.Types.Input.Keyboard.CursorKeys;
+	private currentHealth!: number
+	private spellList!: Array<Spell>
 
 
 
@@ -42,6 +42,7 @@ export default class combat_1 extends Phaser.Scene {
 		this.load.image('bg', 'assets/background/dark_forest.png')
 		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
 		this.load.image('chest', 'assets/Icons/Inventory_Icon.png');
+		this.load.image('flame', 'assets/Icons/smallFlame.png')
 	}
 
 	create() {
@@ -53,7 +54,7 @@ export default class combat_1 extends Phaser.Scene {
 		this.player = new MainCharacter(this, 80, 515, this.currentHealth as number)
 		this.player.displayCombatHealth()
 		//this.enemy = this.makeEnemy()
-		this.enemy = new Enemy(this, 400, 300, 'dragon', 10, 10)
+		this.enemy = new Enemy(this, 400, 525, 'dragon', 50, 10)
 		this.makeAnims()
 		const darkSpell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell',"Dark Spell", 5)
         const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10)
@@ -101,15 +102,16 @@ export default class combat_1 extends Phaser.Scene {
     }
 
 	update() {
-		this.player?.displayAttack(this.spell)
-		this.enemy?.setText()
+		this.player?.setAttackText(this.spell)
 		this.player?.setText()
+		this.enemy?.setAttackText()
+		this.enemy?.setText()
 		// update spells
 		if (this.enemy?.getHealth() <= 0) {
 			this.enemy?.handleEnemyDeath()
 			this.player?.handleLeavingCombat("combat_1", "map")
 		}
-		if (this.keys?.space.isDown && this.spell?.active==false) { 
+		if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true) { 
 			this.player?.castSpell(this.player,this.spell)
 		}
 		if (this.spell?.active == true) {
@@ -119,9 +121,14 @@ export default class combat_1 extends Phaser.Scene {
 			this.player?.handleBeingAttacked(this.enemy, this.enemy?.getEnemyDamage())
 			this.spell.resetSpellPosition(this.player)
 		}
+		if (this.enemy.getStatusEffect() === true) {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const flameEffect = this.add.image(this.enemy.x, this.enemy.y - 100, 'flame') 
+		}
 		this.spell?.checkForOverlap(this.player, this.enemy)
 	}
 	//Need to implement for 3 spells depending on which picked, not sure how
+	/*
 	private makeSpellAnims() {
 		this.anims.create({
 				key: 'dark_spell', 
@@ -131,6 +138,7 @@ export default class combat_1 extends Phaser.Scene {
 				frameRate: 10, repeat: -1
 			}) 		
 	}
+	*/
 	//Make anims for enemy
 	private makeAnims() {
 		this.anims.create({
@@ -141,5 +149,4 @@ export default class combat_1 extends Phaser.Scene {
 			frameRate: 10, repeat: -1
 		})
 	}
-	
 }
