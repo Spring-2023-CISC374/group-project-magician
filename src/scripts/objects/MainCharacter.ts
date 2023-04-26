@@ -1,5 +1,6 @@
 import Enemy from "./Enemy"
 import Inventory_Items from "./Inventory_Items"
+import Spell from "./Spell"
 export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private health: number
     private characterHealth!: Phaser.GameObjects.Text
@@ -144,8 +145,8 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 			enemy.setVisibility(false)
 		}, 4000)	
     }
-    displayAttack() {    
-        this.characterAttack = this.scene.add.text(20,115,"You have hit the monster for 5 HP!", 
+    displayAttack(spell: Spell) {    
+        this.characterAttack = this.scene.add.text(20,115,"You have hit the monster for " + spell.getSpellDamage() + " HP!", 
 		{
 			fontSize: '30px',
 			color: '#ff0000',
@@ -158,5 +159,9 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             this.scene.scene.stop(currentScene)
             this.scene.scene.start(newScene, {storedHealth: this.health})
 		}, 5000)
+    }
+    setSpellPosition(spell: Spell) {
+        spell.x = this.x + 30;
+        spell.y = this.y;
     }
 }

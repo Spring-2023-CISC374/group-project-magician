@@ -3,13 +3,15 @@ import MainCharacter from '../objects/MainCharacter';
 import Enemy from '../objects/Enemy';
 import Click_Change_Scene from '../objects/Click_Change_Scene'
 import Spell from '../objects/Spell'
+import SpellButtons from '../objects/SpellButtons'
 
 export default class combat_1 extends Phaser.Scene {
 	private player?: MainCharacter
 	private enemy?: Enemy
 	private spell?: Spell
 	private keys?: Phaser.Types.Input.Keyboard.CursorKeys;
-	private currentHealth: number
+	private currentHealth?: number
+	private spellList?: Array<Spell>
 
 
 
@@ -31,6 +33,11 @@ export default class combat_1 extends Phaser.Scene {
 		{frameWidth: 32, frameHeight: 32})
 		this.load.spritesheet('darkSpell', 'assets/spells/darkSkull.png',
 		{frameWidth: 40, frameHeight: 32})
+		//spell images
+		this.load.spritesheet('fireSpell', 'assets/spells/fireBoltSheet.png', 
+		{frameWidth: 44, frameHeight: 48})
+		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
+		{frameWidth: 48, frameHeight: 32})
 		// load images
 		this.load.image('bg', 'assets/background/dark_forest.png')
 		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
@@ -48,9 +55,28 @@ export default class combat_1 extends Phaser.Scene {
 		//this.enemy = this.makeEnemy()
 		this.enemy = new Enemy(this, 400, 300, 'dragon', 10, 10)
 		this.makeAnims()
+		const darkSpell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell',"Dark Spell", 5)
+        const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10)
+        const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8)
+        this.spellList = [darkSpell,fireSpell,iceSpell]
+		this.spell = this.spellList[0]
+		this.add.text(10, 300, "Choose Your Spell:" , {
+			fontSize: '12px',
+			color: '#ffffff'
+		})
+		let currentX = 200;
+		for (const newSpell of this.spellList) {
+			this.add.text(currentX-25, 300, newSpell.getName(), {
+			fontSize: '12px',
+			color: '#ffffff'
+		})
+			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {			// create button to go to map
+				this.spell = newSpell
+			}));
+			currentX+=100;
+		}
 
-		this.spell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell', 5)
-		this.makeSpellAnims()
+		//this.makeSpellAnims()
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
         this.add.text(20, 45, 'Currently in Combat \nPress Space to attack ', {
@@ -61,7 +87,7 @@ export default class combat_1 extends Phaser.Scene {
 		// player idle animation
 		this.enemy.anims.play('enemyIdle', true)
 		// add collisions
-		this.spell.checkForOverlap(this.player, this.enemy)
+		
 		
 		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {
 			// create button to go to inventory
@@ -71,15 +97,15 @@ export default class combat_1 extends Phaser.Scene {
 
 		this.enemy.displayHealth()
 		this.enemy.displayAttack()
-		this.player.displayAttack()
 		
     }
 
 	update() {
+		this.player?.displayAttack(this.spell)
 		this.enemy?.setText()
 		this.player?.setText()
 		// update spells
-		if (this.enemy?.getHealth() === 0) {
+		if (this.enemy?.getHealth() <= 0) {
 			this.enemy?.handleEnemyDeath()
 			this.player?.handleLeavingCombat("combat_1", "map")
 		}
@@ -93,8 +119,9 @@ export default class combat_1 extends Phaser.Scene {
 			this.player?.handleBeingAttacked(this.enemy, this.enemy?.getEnemyDamage())
 			this.spell.resetSpellPosition(this.player)
 		}
+		this.spell?.checkForOverlap(this.player, this.enemy)
 	}
-	
+	//Need to implement for 3 spells depending on which picked, not sure how
 	private makeSpellAnims() {
 		this.anims.create({
 				key: 'dark_spell', 

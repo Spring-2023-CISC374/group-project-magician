@@ -61,7 +61,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.enemyAttack.setVisible(visible)
     }
     displayEnemyAttack() {
-        this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for 10 HP!", 
+        this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for " + this.enemyDamage + " HP!", 
 		{
 			fontSize: '30px',
 			color: '#ff0000',
