@@ -149,7 +149,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		setTimeout(()=> {
 			enemy.setVisibility(false)
             this.noMoreText = true;
-		}, 4000)	
+		}, 5000)	
     }
     setAttackText(spell: Spell) {   
         if (spell.name === "Dark Spell") {
