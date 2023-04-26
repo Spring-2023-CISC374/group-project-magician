@@ -34,6 +34,11 @@ export default class resource extends CommonLevel {
         this.load.image('ground', 'assets/Icons/platform.png');
         this.load.image('backbutton', 'assets/Icons/backbutton.png');
 		this.load.image('bomb', 'assets/Icons/bomb.png' );
+        //this.load.image('background-level1', 'assets/background/night_forest.png');
+        //this.load.image('ground', 'assets/Icons/platform.png');
+        //this.load.image('gem', 'assets/resource/bluegem.png');
+        //this.load.image('backbutton', 'assets/Icons/backbutton.png');
+		//this.load.image('bomb', 'assets/Icons/bomb.png' );
         
 	}
 

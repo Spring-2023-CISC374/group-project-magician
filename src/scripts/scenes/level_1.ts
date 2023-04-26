@@ -13,8 +13,9 @@ export default class level_1 extends CommonLevel {
   
   preload() {
 		// load background image
-		this.load.image('background-level1', 'assets/background/night_forest.png');
-		this.load.image('resource1', 'assets/Icons/resource_icon.png');
+		//this.load.image('background-level1', 'assets/background/night_forest.png');
+		//this.load.image('resource1', 'assets/Icons/resource_icon.png');
+		//this.load.image('wand', 'assets/Icons/newand.png')
 		
 	}
 	create() {		
@@ -31,8 +32,18 @@ export default class level_1 extends CommonLevel {
 			color: '#ffffff'
 		})
 
+		this.add.text(20, 170, 'Press the Wand Icon to go to make some spells', {
+			fontSize: '28px',
+			color: '#ffffff'
+		})
+
 		this.add.existing(new Click_Change_Scene(this, 50, 400, 'resource1', () => {		// resource button
 			this.scene.start('resource')
+			this.scene.stop('level_1')
+		}));
+
+		this.add.existing(new Click_Change_Scene(this, 50, 500, 'wand', () => {		// wand button
+			this.scene.start('craftSpells')
 			this.scene.stop('level_1')
 		}));
 
