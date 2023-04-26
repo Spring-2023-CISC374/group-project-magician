@@ -22,7 +22,7 @@ export default class CommonLevel extends Phaser.Scene {
 		})
     }
 	createButtons(currentScene: Phaser.Scene) {
-		this.add.existing(new Click_Change_Scene(this, 50, 200, 'map_marker', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 50, 225, 'map_marker', () => {			// create button to go to map
 			this.scene.start('map')											
 			this.scene.stop(currentScene)
 		}));

@@ -32,15 +32,15 @@ export default class combat_1 extends Phaser.Scene {
 
 	preload() {
 		// load spritesheets
-		this.load.spritesheet('player', 'assets/player.png',
-		{frameWidth: 32, frameHeight: 32})
-		this.load.spritesheet('dragon', 'assets/enemies/dragon.png',
-		{frameWidth: 32, frameHeight: 32})
-		this.load.spritesheet('darkSpell', 'assets/spells/darkSkull.png',
-		{frameWidth: 40, frameHeight: 32})
+		//this.load.spritesheet('player', 'assets/player.png',
+		//{frameWidth: 32, frameHeight: 32})
+		//this.load.spritesheet('dragon', 'assets/enemies/dragon.png',
+		//{frameWidth: 32, frameHeight: 32})
+		//this.load.spritesheet('darkSpell', 'assets/spells/darkSkull.png',
+		//{frameWidth: 40, frameHeight: 32})
 		// load images
-		this.load.image('bg', 'assets/background/dark_forest.png')
-		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
+		//this.load.image('bg', 'assets/background/dark_forest.png')
+		//this.load.image('run_away_icon', 'assets/Icons/run_away.png');
 		this.load.image('button', 'assets/Icons/Inventory_Icon.png');
 	}
 

@@ -10,8 +10,8 @@ export default class map extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.image('overworld', 'assets/background/overworldResize.png')
-		this.load.image('home_marker','assets/Icons/house.png')
+		//this.load.image('overworld', 'assets/background/overworldResize.png')
+		//this.load.image('home_marker','assets/Icons/house.png')
 	}
 
 	create() {		
