@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import MainCharacter from "../objects/MainCharacter"
 import Click_Change_Scene from '../objects/Click_Change_Scene'
 import CommonLevel from './CommonLevel'
+import Inventory_Items from '../objects/Inventory_Items'
 
 export default class resource extends CommonLevel {
     private player?: MainCharacter
@@ -13,8 +14,8 @@ export default class resource extends CommonLevel {
 	private bomb?: Phaser.Physics.Arcade.Group
 	protected gameOver: boolean
 	private GemsCollected: number	
-	private collected = [0, 0, 0, 0]				// this will store the amount of gems that have been collected of each type
 	private gem_index: number						// this will allow us to add the correct numer of gems in the correct place in the array
+	protected inventory_items!: Inventory_Items
 
     constructor() {
 		super('resource')
@@ -26,6 +27,7 @@ export default class resource extends CommonLevel {
 	init (data: any) {
 		console.log('init', data)
 		this.currentHealth = data.storedHealth
+		this.inventory_items = data.inventory_items
 	}
 
 	preload() {
@@ -122,27 +124,22 @@ export default class resource extends CommonLevel {
 
 		//adding the buttons to go to different scenes
         this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {			// create button to go to map
-			this.scene.start('map')											
+			this.add_Collected_Gems()
+			this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth})											
 			this.scene.stop('resource')
 		}));
 
         this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {		// inventory button
+			this.add_Collected_Gems()
 			this.scene.start('inventory',  {prev_scene: "resource", 
-				storedHealth: this.currentHealth, 
-				blueGemsCollected: this.collected[0], 
-				redGemsCollected: this.collected[1], 
-				yellowGemsCollected: this.collected[2],
-				greenGemsCollected: this.collected[3]})
+				storedHealth: this.currentHealth, inventory_items: this.inventory_items})
 			this.scene.stop('resource')
 		}));
 
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// back button
+			this.add_Collected_Gems()
 			this.scene.start('level_1', {prev_scene: "resource", 
-				storedHealth: this.currentHealth, 
-				blueGemsCollected: this.collected[0], 
-				redGemsCollected: this.collected[1], 
-				yellowGemsCollected: this.collected[2],
-				greenGemsCollected: this.collected[3]})
+				storedHealth: this.currentHealth, inventory_items: this.inventory_items})
 			
 			this.scene.stop('resource')
 		}));
@@ -155,7 +152,6 @@ export default class resource extends CommonLevel {
 		this.player?.setTint(0x00000)
 		this.player?.anims.play('turn')
 		this.gameOver = true
-		this.collected[this.gem_index]=-this.GemsCollected
 		this.GemsCollected = 0 				// set the gems collected to 0 because you were hit
 		this.gameOverText.visible = true
 
@@ -164,11 +160,12 @@ export default class resource extends CommonLevel {
     private handleCollectStar(player: Phaser.GameObjects.GameObject, s:Phaser.GameObjects.GameObject){
 
 		// make the player have a sparkle animation
+		player; // used to get rid of yellow squiggles
 		const newstar = s as Phaser.Physics.Arcade.Image
 		newstar.disableBody(true, true)
 
 		this.GemsCollected = this.GemsCollected + 2
-		this.collected[this.gem_index] = this.GemsCollected;						// only one type of gem can be collected, here
+
 		this.bluescoreText?.setText('Gems Collected:' + this.GemsCollected)
 		//transfer data
 		//this.scene.manager.getScene('inventory').data.set('myBlueGemData', this.bluescoreText);
@@ -196,6 +193,18 @@ export default class resource extends CommonLevel {
 
 	}
 
+	private add_Collected_Gems() {
+		console.log(this.inventory_items)
+		if (this.gem_index == 0) {
+			this.inventory_items.blueGems = this.GemsCollected + this.inventory_items.blueGems;
+		} else if (this.gem_index == 1) {
+			this.inventory_items.redGems = this.GemsCollected + this.inventory_items.redGems;
+		} else if (this.gem_index == 2) {
+			this.inventory_items.yellowGems = this.GemsCollected + this.inventory_items.yellowGems;
+		} else {
+			this.inventory_items.greenGems = this.GemsCollected + this.inventory_items.greenGems;
+		}
+	}
 	private select_gem_type(): string {
 		let gem_type = ""
 		const gem_seed = Math.random() % 100 // random number that determines what our gem type will be 

@@ -38,7 +38,8 @@ export default class level_1 extends CommonLevel {
 		})
 
 		this.add.existing(new Click_Change_Scene(this, 50, 400, 'resource1', () => {		// resource button
-			this.scene.start('resource')
+			console.log("entering resource", this.inventory)
+			this.scene.start('resource', {inventory_items: this.inventory, prev_scene: this.scene.key})
 			this.scene.stop('level_1')
 		}));
 
@@ -53,7 +54,7 @@ export default class level_1 extends CommonLevel {
 		this.player.displayHealth()
 		this.cursors = this.input.keyboard.createCursorKeys()
 
-		this.player.handleEnemyCollision(this.player, enemy, 'level_1', 'combat_1') 			// enemy  
+		this.player.handleEnemyCollision(this.player, enemy, 'level_1', 'combat_1', this.inventory) 			// enemy  
 	}
 
 	update() {

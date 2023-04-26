@@ -7,7 +7,7 @@ export default class DraggableImage extends Phaser.GameObjects.Image {
         scene.input.setDraggable(this);
 
         this.on('pointerover', () => {
-            this.setTint(0x44ff44);
+            this.setTint(0xdddddd);
         });
 
         this.on('pointerout', () => {
@@ -20,6 +20,9 @@ export default class DraggableImage extends Phaser.GameObjects.Image {
     }
     // when this is called from other scenes it will pass these values    
     handleDrag(mouse: Phaser.Input.Pointer, gameObject: DraggableImage, dragX: number, dragY: number) {
+        mouse
+        gameObject // getting rid of yellow squiggles
+
         console.log("handleDrag " + this.x + " " + this.y);
         this.x = dragX;
         this.y = dragY;
