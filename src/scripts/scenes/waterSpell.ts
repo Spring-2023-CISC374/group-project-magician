@@ -20,6 +20,7 @@ export default class waterSpell extends Phaser.Scene {
 		this.inventory = data.inventory_items
 	}
 
+
 	create() {	
 		//making background
         //this.add.image(400, 400, 'background-waterspell')

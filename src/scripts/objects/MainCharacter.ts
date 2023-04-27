@@ -6,12 +6,18 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private characterHealth!: Phaser.GameObjects.Text
     private characterCombatHealth!: Phaser.GameObjects.Text
     private characterAttack!: Phaser.GameObjects.Text
-
+    private noMoreText!: boolean
     constructor(scene: any, x: any, y: any, healthValue: number) {
         super(scene, x, y, 'mainChar')
-
+        this.noMoreText = true;
         this.health = healthValue;
-
+        this.characterAttack = this.scene.add.text(20,115,"You have hit the monster for 0 HP", 
+		{
+			fontSize: '20px',
+			color: '#ff0000',
+			backgroundColor: '#ffffff'
+		})
+        this.characterAttack.setVisible(false)
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -141,18 +147,24 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     handleBeingAttacked(enemy: Enemy, damage: number) {
         this.health -= damage
 		enemy.setVisibility(true)
+        this.noMoreText = false;
 		setTimeout(()=> {
 			enemy.setVisibility(false)
-		}, 4000)	
+            this.noMoreText = true;
+		}, 5000)	
     }
-    displayAttack(spell: Spell) {    
-        this.characterAttack = this.scene.add.text(20,115,"You have hit the monster for " + spell.getSpellDamage() + " HP!", 
-		{
-			fontSize: '30px',
-			color: '#ff0000',
-			backgroundColor: '#ffffff'
-		})
-		this.characterAttack.setVisible(false)
+    setAttackText(spell: Spell) {   
+        if (spell.name === "Dark Spell") {
+            this.characterAttack.setText("You have hit the monster for 30% of their currebt HP!")
+        }
+        else if (spell.name === "Fire Spell") {
+            this.characterAttack.setText("You have hit the monster for 5, activated fire DOT")
+        } else if(spell.name === "Ice Spell") {
+            this.characterAttack.setText("You have hit the monster for 5, and reduced their damage")
+        }
+        else {
+            this.characterAttack.setText("You have hit the monster for " + spell.getSpellDamage())
+        } 
     }
     handleLeavingCombat(currentScene: string, newScene: string) {
         setTimeout(()=> {
@@ -163,5 +175,11 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     setSpellPosition(spell: Spell) {
         spell.x = this.x + 30;
         spell.y = this.y;
+    }
+    getNoMoreText() {
+        return this.noMoreText;
+    }
+    setNoMoreText(flag: boolean) {
+        this.noMoreText = flag;
     }
 }
