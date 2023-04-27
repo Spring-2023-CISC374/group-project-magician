@@ -1,44 +1,52 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
+import Inventory_Items from '../objects/Inventory_Items'
 
 
 export default class waterSpell extends Phaser.Scene {
-    private blueGemsCollected: number
+    public blueGemsCollected: number
+    public inventory!: Inventory_Items
+	protected prev_scene!: string	
+	
 	constructor() {
 		super('waterSpell')
+        this.blueGemsCollected = 0
+	}
+
+    init(data: any) {
+		console.log("water spell scene = ", data);
+		this.inventory = data.inventory_items
+		this.prev_scene = data.prev_scene
 	}
 
 	create() {	
 		//making background
-        //this.add.image(400, 400, 'background-waterspell')
         const bg = this.add.image(
             this.cameras.main.width/2, this.cameras.main.height/2, 'background-waterspell');
        bg.setScale(
            this.cameras.main.width/(0.5 * bg.width), this.cameras.main.height/(0.5 * bg.height));
 
         //telling the location
-        const message = this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
+        this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
             fontSize: '32px',
             color: '#ffffff'
         });
 
         //making buttons
-        this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
-            this.scene.start('loopSpell');
-            this.scene.stop('waterSpell');
-        }));
+        this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// back button
+			this.scene.start('level_1', {inventory_items: this.inventory, prev_scene: this.scene.key})
+			this.scene.stop('waterSpell')
+		}));
 
-        this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {            // create button to go to map
-            this.scene.start('map');
-            this.scene.stop('waterSpell');
-        }));
+        this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {			// create button to go to map
+			this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key})											
+			this.scene.stop('waterSpell')
+		}));
 
-        this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {        // inventory button
-            this.scene.start('inventory', {
-                "blueGemsCollected": this.blueGemsCollected
-            });
-            this.scene.stop('waterSpell');
-        }));
+        this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {		// inventory button
+			this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key})
+			this.scene.stop('waterSpell')
+		}));
 
         //telling how to make loop
         this.add.text(20, 150, 'You need to use 4 Blue Gems to make this Spell\nEnter the number of Water Spells you want', {

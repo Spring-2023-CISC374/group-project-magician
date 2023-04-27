@@ -85,6 +85,10 @@ export default class start extends Phaser.Scene {
 		//waterSpell images
 		this.load.image('background-waterspell', 'assets/background/waterSpell_Background.png')
 		
+		//load image for start screen here - craftSpell
+		this.load.image('background-craftSpells', 'assets/background/magicshop_bakground.png');
+		this.load.image('loopIcon', 'assets/Icons/loopIcon.png');
+		this.load.image('starIcon', 'assets/Icons/stars-craft.png');
 
 	}
 

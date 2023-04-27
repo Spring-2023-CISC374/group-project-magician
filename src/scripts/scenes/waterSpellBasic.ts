@@ -3,7 +3,7 @@ import Click_Change_Scene from '../objects/Click_Change_Scene';
 
 
 export default class waterSpellBasic extends Phaser.Scene {
-    private blueGemsCollected: number
+    public blueGemsCollected: number
 	constructor() {
 		super('waterSpellBasic')
 	}
