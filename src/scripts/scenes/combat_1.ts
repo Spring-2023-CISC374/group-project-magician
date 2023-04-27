@@ -116,6 +116,7 @@ export default class combat_1 extends Phaser.Scene {
 		}
 		if (this.enemy.getStatusEffect() === true) {
 			const flameEffect = this.add.image(this.enemy.x, this.enemy.y - 100, 'flame') 
+			console.log(flameEffect) // to remove warning until implementation
 		}
 		this.spell?.checkForOverlap(this.player, this.enemy)
 	}

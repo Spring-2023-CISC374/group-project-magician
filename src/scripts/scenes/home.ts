@@ -1,8 +1,6 @@
-import Phaser from 'phaser'
 import CommonLevel from './CommonLevel'
 
 export default class home extends CommonLevel {
-	//private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
 	
 	constructor() {
 		super('home')
@@ -12,10 +10,11 @@ export default class home extends CommonLevel {
         this.physics.add.image(450, 300, 'home_Background').setScale(1.555)
         const home_marker = this.physics.add.image(500,400,'house')
             .setScale(0.5)
+		console.log(home_marker) // to remove warning until implementation
         super.createInformation()
         super.createButtons(this.scene.scene)
-
-        this.createEmitter("petal"); // code for this taken from blog.ourcase.co
+		// code for this taken from blog.ourcase.co
+        this.createEmitter("petal"); 
     }
 
 	private createEmitter(textureName: string)
