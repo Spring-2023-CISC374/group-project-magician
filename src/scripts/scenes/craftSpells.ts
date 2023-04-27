@@ -1,23 +1,23 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-import Inventory_Items from '../objects/Inventory_Items'
+import Inventory_Items from '../objects/Inventory_Items';
 
-export default class craftSpells extends Phaser.Scene {	
-	public inventory!: Inventory_Items
-	protected prev_scene!: string		
+export default class craftSpells extends Phaser.Scene {			
+	protected inventory!: Inventory_Items
+    protected currentHealth!: number
 
 	constructor() {
 		super('craftSpells')
 	}
-	
-	init(data: any) {
-		console.log("craft spell scene = ", data);
+
+	init (data: any) {
+		console.log('craftSpells', data)
+		this.currentHealth = data.storedHealth
 		this.inventory = data.inventory_items
-		this.prev_scene = data.prev_scene
 	}
 
 	preload() {
-		//load image for start screen here
+		//load image  for start screen here
 		this.load.image('background-craftSpells', 'assets/background/magicshop_bakground.png');
 		this.load.image('loopIcon', 'assets/Icons/loopIcon.png');
 		this.load.image('starIcon', 'assets/Icons/stars-craft.png');
@@ -32,7 +32,7 @@ export default class craftSpells extends Phaser.Scene {
 		
 
 		//telling the character their location
-        this.add.text(10, 40, 'Currently on Craft Spells \nClick on Map Button to go to the Map\nClick on Inventory Button to go to\nInventory\nClick on Back Button to return to Level', {
+        this.add.text(10, 40, 'Currently on Crafting Spells \nClick on Map Button to go to the Map\nClick on Inventory Button to go to\nInventory\nClick on Back Button to return to Level', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
@@ -58,29 +58,29 @@ export default class craftSpells extends Phaser.Scene {
 		//adding the buttons to go to different scenes
         this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {			// create button to go to map
 			this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key})											
-			this.scene.stop('craftSpells')
+			this.scene.stop('resource')
 		}));
 
         this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {		// inventory button
 			this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key})
-			this.scene.stop('craftSpells')
+			this.scene.stop('resource')
 		}));
 
 		this.add.existing(new Click_Change_Scene(this, 190, 370, 'loopIcon', () => {			// create button to go to map
 			this.scene.start('loopSpell', {inventory_items: this.inventory, prev_scene: this.scene.key})											
-			this.scene.stop('craftSpells')
+			this.scene.stop('resource')
 		}));
 
 		this.add.existing(new Click_Change_Scene(this, 380, 360, 'starIcon', () => {			// create button to go to map
 			this.scene.start('basicSpell', {inventory_items: this.inventory, prev_scene: this.scene.key})											
-			this.scene.stop('craftSpells')
+			this.scene.stop('resource')
 		}));
 		
 
 		//buttons to go back
 		this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// back button
 			this.scene.start('level_1', {inventory_items: this.inventory, prev_scene: this.scene.key})
-			this.scene.stop('craftSpells')
+			this.scene.stop('resource')
 		}));
 
 		

@@ -1,7 +1,7 @@
-
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
 import DraggableImage from '../objects/DragImage';
+import Inventory_Items from '../objects/Inventory_Items';
 
 export default class inventory extends Phaser.Scene {
 	//private count = 0
@@ -15,26 +15,26 @@ export default class inventory extends Phaser.Scene {
 	private redGems= 5
 	private yellowGems = 5
 	private greenGems = 5
-	prev_scene!: string;					
+	prev_scene!: string;		
+	
+	protected inventory!: Inventory_Items
+    protected currentHealth!: number
 
 	constructor() {
 		super('craft_spell')
 	}
 
-	init(data: any) {
-		console.log("spellCraft Scene = ", data);
-		this.blueGems = this.blueGems + data.blueGemsCollected;
-		this.redGems = this.redGems + data.redGemsCollected
-		this.yellowGems = this.yellowGems + data.yellowGemsCollected
-		this.greenGems = this.greenGems + data.greenGemsCollected
-		this.prev_scene = data.prev_scene
+	init (data: any) {
+		console.log('inventory, Craft_Spell', data)
+		this.currentHealth = data.storedHealth
+		this.inventory = data.inventory_items
 	}
 
 	create() {	
 		this.add.image(400, 400, 'inventoryBackground')	
 
 		this.add.existing(new Click_Change_Scene(this, 770, 570, 'exit_icon', () => {		// enter combat button
-			this.scene.start('home')
+			this.scene.start('home', {inventory_items: this.inventory, prev_scene: this.scene.key})
 			this.scene.stop('inventory')
 		}));
 

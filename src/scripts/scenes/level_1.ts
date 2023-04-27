@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import CommonLevel from './CommonLevel'
 import MainCharacter from '../objects/MainCharacter'
+import Enemy from '../objects/Enemy'
 import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class level_1 extends CommonLevel {
@@ -49,7 +50,7 @@ export default class level_1 extends CommonLevel {
 		}));
 
 
-		const enemy = this.physics.add.sprite(300, 485, 'dragon');
+		const enemy = new Enemy(this, 400, 472, 'dragon', 10, 0)
 		this.player = new MainCharacter(this, 80, 480,this.currentHealth)
 		this.player.displayHealth()
 		this.cursors = this.input.keyboard.createCursorKeys()

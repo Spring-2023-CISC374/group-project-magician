@@ -1,11 +1,19 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
+import Inventory_Items from '../objects/Inventory_Items';
 
 
 export default class waterSpellBasic extends Phaser.Scene {
-    public blueGemsCollected: number
+    protected inventory!: Inventory_Items
+    protected currentHealth!: number
+    
 	constructor() {
 		super('waterSpellBasic')
+	}
+    init (data: any) {
+		console.log('waterSpellBasic', data)
+		this.currentHealth = data.storedHealth
+		this.inventory = data.inventory_items
 	}
 
 	create() {	
@@ -17,26 +25,24 @@ export default class waterSpellBasic extends Phaser.Scene {
            this.cameras.main.width/(0.5 * bg.width), this.cameras.main.height/(0.5 * bg.height));
 
         //telling the location
-        const message = this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
+        this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
             fontSize: '32px',
             color: '#ffffff'
-        });
+        });  // message
 
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
-            this.scene.start('basicSpell');
+            this.scene.start('basicSpell', {inventory_items: this.inventory, prev_scene: this.scene.key});
             this.scene.stop('waterSpellBasic');
         }));
 
         this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {            // create button to go to map
-            this.scene.start('map');
+            this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key});
             this.scene.stop('waterSpellBasic');
         }));
 
         this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {        // inventory button
-            this.scene.start('inventory', {
-                "blueGemsCollected": this.blueGemsCollected
-            });
+            this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key});
             this.scene.stop('waterSpellBasic');
         }));
 
@@ -62,10 +68,10 @@ export default class waterSpellBasic extends Phaser.Scene {
             // Perform the loop based on the user input
             let waterSpell = 0;
             for (let i = 0; i < numWaterSpells; i++) {
-                this.blueGemsCollected -= 4;
+                this.inventory.add_blue(-4)
                 waterSpell += 1;
             }
-            this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
+            this.inventory.blueGems = this.inventory.blueGems - numWaterSpells
             this.add.text(20, 425, `You now have ${waterSpell} Water Spells.\nThey are now in your inventory`, {
                 fontSize: '28px',
                 color: '#ffffff',
