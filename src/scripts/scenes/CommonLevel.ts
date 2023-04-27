@@ -34,12 +34,12 @@ export default class CommonLevel extends Phaser.Scene {
     }
 	createButtons(currentScene: Phaser.Scene) {
 		this.add.existing(new Click_Change_Scene(this, 50, 200, 'map_marker', () => {			// create button to go to map
-			this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key})											
+			this.scene.start('map', { inventory_items: this.inventory, prev_scene: this.scene.key })											
 			this.scene.stop(currentScene)
 		}));
         this.add.existing(new Click_Change_Scene(this, 50, 300, 'inventory_icon', () => {		// inventory button
 			console.log(this.inventory)
-			this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key})
+			this.scene.start('inventory', { inventory_items: this.inventory, prev_scene: this.scene.key })
 
 			this.scene.stop(currentScene)
 		}));

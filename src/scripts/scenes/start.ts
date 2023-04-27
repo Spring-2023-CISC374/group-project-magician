@@ -9,10 +9,14 @@ export default class start extends CommonLevel {
 	}
 
 	preload() {
-		//load image  for start screen here
+		this.load.image('bg', 'assets/background/dark_forest.png')
 	}
 
 	create() {	
+		const bg = this.add.image(
+			this.cameras.main.width/2, this.cameras.main.height/2, 'bg')
+		bg.setScale(
+			this.cameras.main.width/bg.width, this.cameras.main.height/bg.height)	
 
 		const inventory: Inventory_Items = new Inventory_Items()
 
