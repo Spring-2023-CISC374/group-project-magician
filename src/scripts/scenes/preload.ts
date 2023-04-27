@@ -1,9 +1,7 @@
 import Phaser from 'phaser'
 
 export default class start extends Phaser.Scene {
-	constructor() {
-		super('preload')
-	}
+	constructor() { super('preload') }
 
 	preload() {
         // loading the buttons
@@ -20,16 +18,9 @@ export default class start extends Phaser.Scene {
 		this.load.spritesheet('dragon', 'assets/enemies/dragon.png',				
 		{frameWidth: 32, frameHeight: 32})										// enemy dragon
 		// background stuff
+		this.load.image('start_background', 'assets/background/dark_forest.png')
 		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
 		this.load.image('text_banner', 'assets/icons/banner.png')
-
-		// spell images
-		/*
-		this.load.spritesheet('fireSpell', 'assets/spells/fireBoltSheet.png', 
-		{frameWidth: 44, frameHeight: 48})
-		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
-		{frameWidth: 48, frameHeight: 32})
-		*/
 
 		// image for inventory button
 		this.load.image('button', 'assets/player.png');
@@ -93,7 +84,7 @@ export default class start extends Phaser.Scene {
 		this.load.image('starIcon', 'assets/Icons/stars-craft.png');
 
 	}
-
+	
 	create() {
 		this.scene.start('start')
 		console.log('started main scene')

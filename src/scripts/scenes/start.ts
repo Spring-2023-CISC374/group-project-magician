@@ -4,23 +4,19 @@ import Inventory_Items from '../objects/Inventory_Items'
 
 export default class start extends CommonLevel {
 	private op_text?: Phaser.GameObjects.Text
-	constructor() {
-		super('start')
-	}
-
-	preload() {
-		this.load.image('bg', 'assets/background/dark_forest.png')
-	}
+	constructor() { super('start') }
 
 	create() {	
 		const bg = this.add.image(
-			this.cameras.main.width/2, this.cameras.main.height/2, 'bg')
+			this.cameras.main.width/2, this.cameras.main.height/2, 'start_background')
 		bg.setScale(
 			this.cameras.main.width/bg.width, this.cameras.main.height/bg.height)	
 
-		const inventory: Inventory_Items = new Inventory_Items()
+		this.physics.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(3)
+		this.add.text(this.cameras.main.width/2, 50, "Magician")
+			.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
 
-		console.log(inventory)
+		const inventory: Inventory_Items = new Inventory_Items()
 
 		this.op_text = this.add.text(175, 250, 'Currently at Start \n Click for Home', {
 			fontSize: '40px',
@@ -35,9 +31,5 @@ export default class start extends CommonLevel {
 			this.scene.start('home', {inventory_items: inventory, prev_scene: 'start', storedHeath: this.currentHealth})
 		})
 
-	}
-
-	update() {
-		//
 	}
 }

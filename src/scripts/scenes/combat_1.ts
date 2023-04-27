@@ -13,11 +13,7 @@ export default class combat_1 extends Phaser.Scene {
 	private currentHealth!: number
 	private spellList!: Array<Spell>
 
-
-
-	constructor() { 
-		super('combat_1') 
-	}
+	constructor() { super('combat_1') }
 
 	init (data: any) {
 		console.log('init', data)
@@ -74,7 +70,8 @@ export default class combat_1 extends Phaser.Scene {
 			fontSize: '12px',
 			color: '#ffffff'
 		})
-			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {		// create button to go to map
+			// create button to go to map
+			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {		
 				this.spell = newSpell
 			}));
 			currentX+=100;

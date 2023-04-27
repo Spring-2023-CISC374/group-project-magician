@@ -1,7 +1,5 @@
 import Phaser from 'phaser'
 import combat_1 from './scenes/combat_1'
-
-
 import home from './scenes/home'
 import inventory from './scenes/inventory'
 import level_1 from './scenes/level_1'

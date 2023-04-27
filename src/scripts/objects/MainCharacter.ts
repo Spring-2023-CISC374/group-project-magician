@@ -62,9 +62,6 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 			player.setVelocityX(160)
             player.anims.play('walk', true)
 		}
-		//else if(cursors.up.isDown && player.body.touching.down){
-		//	player.setVelocityY(-500)
-		//}
         else {
 			player.setVelocityX(0)
             player.anims.play('idle', true)
@@ -72,11 +69,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		if(cursors.up.isDown && player.body.touching.down){
 			player.setVelocityY(-330)
         }
-        //if(cursors.up.isDown && player.body.touching.down){
-        //    player.setVelocityY(-500) 
-        //}
 	}
-
 
     handleEnemyCollision(player: MainCharacter, enemy: Phaser.Physics.Arcade.Sprite, 
         currentScene: string, newScene: string, inventory: Inventory_Items) {
@@ -85,6 +78,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         this.scene.scene.start(newScene, {inventory_items: inventory, storedHealth: this.health})
         })
     }
+
     handleMapCollision(player: MainCharacter, mapElement: Phaser.Physics.Arcade.Image, 
         currentScene: string, newScene: string, inventory: Inventory_Items) {
         this.scene.physics.add.overlap(player, mapElement, () => {
@@ -92,13 +86,16 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         this.scene.scene.start(newScene, {inventory_items: inventory, storedHealth: this.health})
         })
     }
+
     getHealth() {
         return this.health;
     }
+
     setHealth(newHealth: number) {
         this.health = newHealth;
         this.characterHealth
     }
+
     displayHealth() {
         this.characterHealth = this.scene.add.text(20,20, 'Current health is: ' + this.health, {
 			fontSize: '25px',
@@ -106,6 +103,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             fontStyle: "bold"
 		})
     }
+
     displayCombatHealth() {
         this.characterCombatHealth = this.scene.add.text(this.x - 75,this.y - 75, 'Health: ' + this.health, {
 			fontSize: '25px',
@@ -113,6 +111,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             fontStyle: "bold"
 		})
     }
+
     handleAnims() {
         this.anims.create({
             key: 'idle', 
@@ -146,12 +145,15 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 				player.anims.play('idle', true)
 			})
     }
+
     setText() {
         this.characterCombatHealth.setText('Health: ' + this.health)
     }
+
     setVisibility(visible: boolean) {
         this.characterAttack.setVisible(visible)
     }
+
     handleBeingAttacked(enemy: Enemy, damage: number) {
         this.health -= damage
 		enemy.setVisibility(true)
@@ -161,6 +163,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             this.noMoreText = true;
 		}, 5000)	
     }
+
     setAttackText(spell: Spell) {   
         if (spell.name === "Dark Spell") {
             this.characterAttack.setText("You have hit the monster for 30% of their currebt HP!")
@@ -174,19 +177,23 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             this.characterAttack.setText("You have hit the monster for " + spell.getSpellDamage())
         } 
     }
+
     handleLeavingCombat(currentScene: string, newScene: string) {
         setTimeout(()=> {
             this.scene.scene.stop(currentScene)
             this.scene.scene.start(newScene, {storedHealth: this.health})
 		}, 5000)
     }
+
     setSpellPosition(spell: Spell) {
         spell.x = this.x + 30;
         spell.y = this.y;
     }
+
     getNoMoreText() {
         return this.noMoreText;
     }
+    
     setNoMoreText(flag: boolean) {
         this.noMoreText = flag;
     }

@@ -24,15 +24,19 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     getHealth() {
         return this.health;
     }
+    
     setHealth(newHealth: number) {
         this.health = newHealth;
     }
+
     getEnemyDamage() {
         return this.enemyDamage
     }
+
     setEnemyDamage(newDamage: number) {
         this.enemyDamage = newDamage;
     }
+
     displayHealth() {
         this.enemyHealth = this.scene.add.text(this.x-75,this.y - 75, 'Health: ' + this.health, {
 			fontSize: '25px',
@@ -40,6 +44,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 			fontStyle: "bold"
 		})
     }
+
     displayAttack() {
         this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for " + this.enemyDamage + " HP!", 
 		{
@@ -49,6 +54,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		})
         this.enemyAttack.setVisible(false)
     }
+
     handleCharacterAttacked(player: MainCharacter, spell: Spell) {
         if (this.statusEffect === true) {
             this.health -= 5
@@ -74,15 +80,19 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 			player.setVisibility(false)
 		}, 4000)	
     }
+
     setText() {
         this.enemyHealth.setText('Health: ' + this.health)
     }
+
     setVisibility(visible: boolean) {
             this.enemyAttack.setVisible(visible)
     }
+
     setAttackText() {
         this.enemyAttack.setText("You have been hit by the monster for " + this.enemyDamage + " HP!")
     }
+
     displayEnemyAttack() {
         this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for " + this.enemyDamage + " HP!", 
 		{
@@ -92,6 +102,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		})
 		this.enemyAttack.setVisible(false)
     }
+
     handleEnemyDeath(){
         (this as Phaser.Physics.Arcade.Image).setTint(0xff0000);
         setTimeout(()=> {
@@ -104,19 +115,16 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 			color: '#ffffff',
 			backgroundColor: '#ff0000'
 		})
-        /*
-		this.input.on('pointerup', () => {
-            this.scene.stop('combat_1')
-            this.scene.start('level_1')
-		})
-        */
     }
+
     getStatusEffect() {
         return this.statusEffect;
     }
+
     setStatusEffect(effect: boolean) {
         this.statusEffect = effect;
     }
+
     handleEnemyAnims() {
         this.anims.create({
 			key: 'enemyIdle', 
