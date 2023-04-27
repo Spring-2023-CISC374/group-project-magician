@@ -54,9 +54,11 @@ export default class combat_1 extends Phaser.Scene {
 		this.player.handleAnims()
 		this.player.anims.play('idle', true)
 		this.player.displayCombatHealth()
+		
 		this.enemy = new Enemy(this, 400, 525, 'dragon', 50, 10)
 		this.enemy.handleEnemyAnims()
 		this.enemy.anims.play('enemyIdle', true)
+
 		const darkSpell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell',"Dark Spell", 5)
         const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10)
         const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8)

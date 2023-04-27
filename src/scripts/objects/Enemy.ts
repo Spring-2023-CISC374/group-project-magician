@@ -6,6 +6,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private enemyAttack!: Phaser.GameObjects.Text
     private enemyDamage: number
     private statusEffect: boolean
+
     constructor(scene: any, x: any, y: any, enemy: string, healthValue: number, newDamage: number) {
         super(scene, x, y, enemy)
 
@@ -115,5 +116,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     setStatusEffect(effect: boolean) {
         this.statusEffect = effect;
+    }
+    handleEnemyAnims() {
+        this.anims.create({
+			key: 'enemyIdle', 
+			frames: this.anims.generateFrameNumbers('dragon', {
+				start: 0, end: 7
+			}), 
+			frameRate: 5, repeat: -1
+		})
     }
 }

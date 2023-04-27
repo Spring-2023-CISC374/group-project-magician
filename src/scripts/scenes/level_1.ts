@@ -6,7 +6,7 @@ import Click_Change_Scene from '../objects/Click_Change_Scene'
 
 export default class level_1 extends CommonLevel {
 	private player?: MainCharacter
-	private enemy!: Enemy
+	private enemy?: Enemy
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
 
 	constructor() {
@@ -47,9 +47,9 @@ export default class level_1 extends CommonLevel {
 		}));
 
 
-		const enemy = new Enemy(this, 400, 472, 'dragon', 10, 0)
-		this.enemy.handleEnemyAnims()
-		this.enemy.anims.play('enemyIdle', true)
+		this.enemy = new Enemy(this, 400, 472, 'dragon', 10, 0)
+		this.enemy?.handleEnemyAnims()
+		this.enemy?.anims.play('enemyIdle', true)
 
 		this.player = new MainCharacter(this, 80, 480,this.currentHealth)
 		this.player.handleAnims()
@@ -58,7 +58,7 @@ export default class level_1 extends CommonLevel {
 		
 		this.cursors = this.input.keyboard.createCursorKeys()
 
-		this.player.handleEnemyCollision(this.player, enemy, 'level_1', 'combat_1', this.inventory)  // enemy  
+		this.player.handleEnemyCollision(this.player, this.enemy, 'level_1', 'combat_1', this.inventory)  // enemy  
 	}
 
 	update() {

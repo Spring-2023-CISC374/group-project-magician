@@ -7,6 +7,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private characterCombatHealth!: Phaser.GameObjects.Text
     private characterAttack!: Phaser.GameObjects.Text
     private noMoreText!: boolean
+    
     constructor(scene: any, x: any, y: any, healthValue: number) {
         super(scene, x, y, 'mainChar')
         this.noMoreText = true;
@@ -26,17 +27,18 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     }
     
     handleMoving(player: MainCharacter, cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
-		if (!cursors) {
-			return
-		}
+		if (!cursors) { return }
         if (cursors.left.isDown) {
 			player.setVelocityX(-160)
+            player.anims.play('walk', true)
 		}
 		else if(cursors.right.isDown){
 			player.setVelocityX(160)
+            player.anims.play('walk', true)
 		}
         else {
             player.setVelocityX(0)
+            player.anims.play('idle', true)
         }
 		
         if(cursors.down.isDown){
@@ -51,25 +53,25 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 	}
 
     levelhandleMoving(player: MainCharacter, cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
-		if (!cursors) {
-			return
-		}
+		if (!cursors) { return }
         if (cursors.left.isDown) {
 			player.setVelocityX(-160)
+            player.anims.play('walk', true)
 		}
 		else if(cursors.right.isDown){
 			player.setVelocityX(160)
+            player.anims.play('walk', true)
 		}
 		//else if(cursors.up.isDown && player.body.touching.down){
 		//	player.setVelocityY(-500)
 		//}
         else {
 			player.setVelocityX(0)
+            player.anims.play('idle', true)
 		}
 		if(cursors.up.isDown && player.body.touching.down){
 			player.setVelocityY(-330)
         }
-		
         //if(cursors.up.isDown && player.body.touching.down){
         //    player.setVelocityY(-500) 
         //}
@@ -118,6 +120,13 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
                 start: 0, end: 1
             }), 
             frameRate: 5, repeat: -1
+        })
+        this.anims.create({
+            key: 'walk', 
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 25, end: 32
+            }), 
+            frameRate: 8
         })
         this.anims.create({
             key: 'cast', 
