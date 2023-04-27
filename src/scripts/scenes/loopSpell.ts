@@ -114,7 +114,6 @@ const waterButton = this.add.image(175, 230, 'waterIcon');
                 output.setVisible(true);
             }
         });
-
         const options = ['Water Spell', 'Fire Spell', 'Air Spell'];
         const dropdown = this.add.container(250, 250, [
             this.add.rectangle(0, 0, 100, options.length * 40 + 10, 0x333333),
@@ -134,7 +133,6 @@ const waterButton = this.add.image(175, 230, 'waterIcon');
             })
         ])
         .setVisible(false);
-
         //creating output text object
         const output = this.add.text(200, 200, '', {
             fontSize: '24px',
@@ -142,7 +140,6 @@ const waterButton = this.add.image(175, 230, 'waterIcon');
             backgroundColor: '#333333',
             padding: { x: 10, y: 5 }
         });
-
          this.scene.start('loopSpell', {
                 "blueGemsCollected": this.blueGemsCollected
             });

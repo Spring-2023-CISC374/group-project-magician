@@ -4,11 +4,15 @@ export default class Inventory_Items {
     public yellowGems: number
     public greenGems: number
 
+    public waterSpell: number
+
     constructor() {
         this.blueGems = 0
         this.redGems = 0
         this.yellowGems = 0
         this.greenGems = 0
+
+        this.waterSpell = 0
 
     }
 
@@ -27,4 +31,8 @@ export default class Inventory_Items {
     add_green(numCollected: number) {
         this.greenGems = this.greenGems + numCollected
     }
+
+    add_waterSpell(numCollected: number) {
+        this.waterSpell = this.waterSpell + numCollected
+    }    
 }

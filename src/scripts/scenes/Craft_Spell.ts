@@ -1,4 +1,3 @@
-
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
 import DraggableImage from '../objects/DragImage';

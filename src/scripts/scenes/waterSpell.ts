@@ -5,11 +5,13 @@ import Inventory_Items from '../objects/Inventory_Items';
 
 export default class waterSpell extends Phaser.Scene {
     private blueGemsCollected!: number
+    private waterSpellLoop: number	
     protected inventory!: Inventory_Items
     protected currentHealth!: number
     
 	constructor() {
 		super('waterSpell')
+        this.waterSpellLoop = 0
 	}
 
     init (data: any) {
@@ -17,6 +19,7 @@ export default class waterSpell extends Phaser.Scene {
 		this.currentHealth = data.storedHealth
 		this.inventory = data.inventory_items
 	}
+
 
 	create() {	
 		//making background
@@ -31,6 +34,37 @@ export default class waterSpell extends Phaser.Scene {
             fontSize: '32px',
             color: '#ffffff'
         });
+
+        this.time.delayedCall(10000, () => {
+            const userInput = window.prompt('Enter the number of Water Spells you want:');
+    
+            // Initialize gem collected here
+            this.waterSpellLoop = 0;
+            
+            // Check if the user input is not null
+            if (userInput !== null) {
+                // Parse the user input as an integer
+                const numWaterSpells = parseInt(userInput);
+    
+                // Perform the loop based on the user input
+                //let waterSpell = 0;
+                for (let i = 0; i < numWaterSpells; i++) {
+                    this.blueGemsCollected -= 4;
+                    this.waterSpellLoop += 1;
+                }
+                this.inventory.waterSpell += this.waterSpellLoop;
+                this.inventory.blueGems -= 4 * (numWaterSpells)
+                this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
+                this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                    fontSize: '28px',
+                    color: '#ffffff',
+                });
+    
+            } else {
+                // Handle the case where the user input is null
+                console.log('User canceled input dialog');
+            }
+            })  
 
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
@@ -59,32 +93,7 @@ export default class waterSpell extends Phaser.Scene {
             color: '#ffffff',
         });
         
-        this.time.delayedCall(10000, () => {
-        const userInput = window.prompt('Enter the number of Water Spells you want:');
         
-        // Check if the user input is not null
-        if (userInput !== null) {
-            // Parse the user input as an integer
-            const numWaterSpells = parseInt(userInput);
-
-            // Perform the loop based on the user input
-            let waterSpell = 0;
-            for (let i = 0; i < numWaterSpells; i++) {
-                this.blueGemsCollected -= 4;
-                waterSpell += 1;
-            }
-            this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
-            this.add.text(20, 400, `You now have ${waterSpell} Water Spells.\nThey are now in your inventory`, {
-                fontSize: '28px',
-                color: '#ffffff',
-            });
-
-        } else {
-            // Handle the case where the user input is null
-            console.log('User canceled input dialog');
-        }
-        })      
-
 	}
     
 }
