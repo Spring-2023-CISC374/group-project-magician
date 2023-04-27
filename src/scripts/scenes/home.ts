@@ -8,16 +8,15 @@ export default class home extends CommonLevel {
 		super('home')
 	}
 
-	create() {	
-		this.physics.add.image(450, 300, 'home_Background').setScale(1.555)
-		const home_marker = this.physics.add.image(500,400,'home_marker')
-		super.createInformation()
-		super.createButtons(this.scene.scene)
+    create() {  
+        this.physics.add.image(450, 300, 'home_Background').setScale(1.555)
+        const home_marker = this.physics.add.image(500,400,'house')
+            .setScale(0.5)
+        super.createInformation()
+        super.createButtons(this.scene.scene)
 
-		home_marker.setScale(2)
-
-		this.createEmitter("petal"); // cpde for this taken from blog.ourcase.co
-	}
+        this.createEmitter("petal"); // code for this taken from blog.ourcase.co
+    }
 
 	private createEmitter(textureName: string)
 	{
