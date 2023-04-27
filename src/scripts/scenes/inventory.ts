@@ -11,8 +11,6 @@ export default class inventory extends Phaser.Scene {
 	private yellowGemText?: Phaser.GameObjects.Text
 	private greenGemText?: Phaser.GameObjects.Text
 
-	private waterspellLoopText?: Phaser.GameObjects.Text
-
 	public inventory!: Inventory_Items
 	protected currentHealth!: number
 	public prev_scene!: string;					
@@ -76,11 +74,7 @@ export default class inventory extends Phaser.Scene {
 		console.log(this.inventory)
 		
 		//starting spells
-		this.waterspellLoopText = this.add.text(450, 150, 'Water Loop Spell: ', {
-			fontSize: '20px',
-			color: '#ffffff'
-		})
-		this.waterspellLoopText?.setText('Water Loop Spell: ' + this.inventory.waterSpells)
+	
 
 	}
 	//commented out count and count text, removed this.countText = this.add.text from 4 lines.

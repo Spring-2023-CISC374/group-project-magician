@@ -35,20 +35,22 @@ export default class loopSpell extends Phaser.Scene {
         });
 
         //making buttons
-        this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
-            this.scene.start('craftSpells');
-            this.scene.stop('loopSpell');
-        }));
-
-        this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {            // create button to go to map
-            this.scene.start('map');
-            this.scene.stop('loopSpell');
-        }));
+        this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {			// create button to go to map
+			this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key})											
+			this.scene.stop('loopSpell')
+		}));
 
         this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {		// inventory button
 			this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key})
 			this.scene.stop('loopSpell')
 		}));
+
+        //buttons to go back
+		this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {		// back button
+			this.scene.start('craftSpells', {inventory_items: this.inventory, prev_scene: this.scene.key})
+			this.scene.stop('loopSpell')
+		}));
+
 
 		this.add.text(50, 150, 'Click the button below to pick your spell', {
             fontSize: '28px',
