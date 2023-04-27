@@ -2,8 +2,8 @@ import MainCharacter from "./MainCharacter";
 import Spell from "./Spell";
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private health: number
-    private enemyHealth: Phaser.GameObjects.Text;
-    private enemyAttack: Phaser.GameObjects.Text
+    private enemyHealth!: Phaser.GameObjects.Text;
+    private enemyAttack!: Phaser.GameObjects.Text
     private enemyDamage: number
     private statusEffect: boolean
     constructor(scene: any, x: any, y: any, enemy: string, healthValue: number, newDamage: number) {

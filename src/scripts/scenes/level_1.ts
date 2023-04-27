@@ -45,7 +45,7 @@ export default class level_1 extends CommonLevel {
 		}));
 
 		this.add.existing(new Click_Change_Scene(this, 50, 500, 'wand', () => {		// wand button
-			this.scene.start('craftSpells')
+			this.scene.start('craftSpells', {inventory_items: this.inventory, prev_scene: this.scene.key})
 			this.scene.stop('level_1')
 		}));
 
