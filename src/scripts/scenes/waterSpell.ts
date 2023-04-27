@@ -4,6 +4,7 @@ import Inventory_Items from '../objects/Inventory_Items'
 
 
 export default class waterSpell extends Phaser.Scene {
+    private waterSpellScore?: Phaser.GameObjects.Text
     public blueGemsCollected: number
     public inventory!: Inventory_Items
 	protected prev_scene!: string	
@@ -78,11 +79,14 @@ export default class waterSpell extends Phaser.Scene {
                 fontSize: '28px',
                 color: '#ffffff',
             });
+            this.waterSpellScore?.setText('Water Loop Spell: ' + waterSpell)
+
 
         } else {
             // Handle the case where the user input is null
             console.log('User canceled input dialog');
         }
+
         })      
 
 	}
