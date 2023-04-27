@@ -16,15 +16,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
-        this.setScale(2);
-        this.setCollideWorldBounds(true);
+        this.setScale(2).setCollideWorldBounds(true);
 		this.flipX = true	
     }
 
     getHealth() {
         return this.health;
     }
-    
+
     setHealth(newHealth: number) {
         this.health = newHealth;
     }
