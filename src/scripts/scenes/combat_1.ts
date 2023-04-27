@@ -17,7 +17,6 @@ export default class combat_1 extends Phaser.Scene {
 
 	constructor() { 
 		super('combat_1') 
-		//this.playerTurn = true
 	}
 
 	init (data: any) {
@@ -51,11 +50,13 @@ export default class combat_1 extends Phaser.Scene {
 		bg.setScale(
 			this.cameras.main.width/bg.width, this.cameras.main.height/bg.height)		
 		// create assets
-		this.player = new MainCharacter(this, 80, 515, this.currentHealth as number)
+		this.player = new MainCharacter(this, 80, 515, this.currentHealth)
+		this.player.handleAnims()
+		this.player.anims.play('idle', true)
 		this.player.displayCombatHealth()
-		//this.enemy = this.makeEnemy()
 		this.enemy = new Enemy(this, 400, 525, 'dragon', 50, 10)
-		this.makeAnims()
+		this.enemy.handleEnemyAnims()
+		this.enemy.anims.play('enemyIdle', true)
 		const darkSpell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell',"Dark Spell", 5)
         const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10)
         const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8)
@@ -71,25 +72,18 @@ export default class combat_1 extends Phaser.Scene {
 			fontSize: '12px',
 			color: '#ffffff'
 		})
-			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {			// create button to go to map
+			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {		// create button to go to map
 				this.spell = newSpell
 			}));
 			currentX+=100;
 		}
-
-		//this.makeSpellAnims()
 		this.keys = this.input.keyboard.createCursorKeys();
 		// scene text
         this.add.text(20, 45, 'Currently in Combat \nPress Space to attack ', {
 			fontSize: '25px',
 			color: '#ffffff'
 		})
-		this.player.handleIdleAnimation()
-		// player idle animation
-		this.enemy.anims.play('enemyIdle', true)
-		// add collisions
-		
-		
+
 		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {
 			// create button to go to inventory
 			this.scene.start('inventory')											
@@ -122,31 +116,8 @@ export default class combat_1 extends Phaser.Scene {
 			this.spell.resetSpellPosition(this.player)
 		}
 		if (this.enemy.getStatusEffect() === true) {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const flameEffect = this.add.image(this.enemy.x, this.enemy.y - 100, 'flame') 
 		}
 		this.spell?.checkForOverlap(this.player, this.enemy)
-	}
-	//Need to implement for 3 spells depending on which picked, not sure how
-	/*
-	private makeSpellAnims() {
-		this.anims.create({
-				key: 'dark_spell', 
-				frames: this.anims.generateFrameNumbers('darkSpell', {
-					start: 0, end: 6
-				}), 
-				frameRate: 10, repeat: -1
-			}) 		
-	}
-	*/
-	//Make anims for enemy
-	private makeAnims() {
-		this.anims.create({
-			key: 'enemyIdle', 
-			frames: this.anims.generateFrameNumbers('dragon', {
-				start: 0, end: 7
-			}), 
-			frameRate: 10, repeat: -1
-		})
 	}
 }

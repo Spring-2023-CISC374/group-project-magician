@@ -111,7 +111,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             fontStyle: "bold"
 		})
     }
-    handleIdleAnimation() {
+    handleAnims() {
         this.anims.create({
             key: 'idle', 
             frames: this.anims.generateFrameNumbers('player', {
@@ -119,14 +119,13 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             }), 
             frameRate: 5, repeat: -1
         })
-    this.anims.create({
-        key: 'cast', 
-        frames: this.anims.generateFrameNumbers('player', {
-            start: 65, end: 68
-        }), 
-        frameRate: 8
+        this.anims.create({
+            key: 'cast', 
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 65, end: 68
+            }), 
+            frameRate: 8
         })
-    this.anims.play('idle', true)
     }
     
     castSpell(player: MainCharacter, spell: Phaser.Physics.Arcade.Sprite) {
