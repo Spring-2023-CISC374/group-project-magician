@@ -25,14 +25,12 @@ export default class CommonLevel extends Phaser.Scene {
 		//
 	}
 	update() {
-		//n
+		//
 	}
     createInformation() {
-        this.add.text(20, 40, 'Currently at ' + this.scene.key + 
-        '\nPress the Map Icon to go to map\nPress the Chest Icon to go to your inventory', {
-			fontSize: '28px',
-			color: '#ffffff'
-		})
+		this.physics.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
+        this.add.text(this.cameras.main.width/2.5, 30, this.scene.key.toUpperCase())
+            .setColor('black').setFontSize(50).setDepth(1)
     }
 	createButtons(currentScene: Phaser.Scene) {
 		this.add.existing(new Click_Change_Scene(this, 50, 200, 'map_marker', () => {			// create button to go to map
