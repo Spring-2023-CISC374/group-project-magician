@@ -66,4 +66,28 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.add.overlap(enemy, this,
 			() => this?.handleSpell(player, enemy), undefined, this)
   }
+
+  handleSpellAnims() {
+    this.anims.create({
+        key: 'dark_spell', 
+        frames: this.anims.generateFrameNumbers('darkSpell', {
+            start: 0, end: 6
+        }), 
+        frameRate: 10, repeat: -1
+    })
+    this.anims.create({
+        key: 'walk', 
+        frames: this.anims.generateFrameNumbers('fireSpell', {
+            start: 0, end: 6
+        }), 
+        frameRate: 10
+    })
+    this.anims.create({
+        key: 'jump', 
+        frames: this.anims.generateFrameNumbers('iceSpell', {
+            start: 0, end: 6
+        }), 
+        frameRate: 10
+    })
+}
 }

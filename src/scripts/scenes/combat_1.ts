@@ -60,6 +60,7 @@ export default class combat_1 extends Phaser.Scene {
         const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8)
         this.spellList = [darkSpell,fireSpell,iceSpell]
 		this.spell = this.spellList[0]
+		this.spell.handleSpellAnims()
 		this.add.text(10, 300, "Choose Your Spell:" , {
 			fontSize: '12px',
 			color: '#ffffff'
