@@ -22,7 +22,7 @@ export default class CommonLevel extends Phaser.Scene {
 	}
 
     createInformation() {
-		this.physics.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(3)
+		this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(3)
         this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
             .setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
     }
