@@ -51,7 +51,7 @@ export default class combat_1 extends Phaser.Scene {
 		this.player.anims.play('idle', true)
 		this.player.displayCombatHealth()
 		
-		this.enemy = new Enemy(this, 400, 525, 'dragon', 50, 10)
+		this.enemy = new Enemy(this, 400, 525, 'dragon', 80, 10)
 		this.enemy.handleEnemyAnims()
 		this.enemy.anims.play('enemyIdle', true)
 
@@ -72,8 +72,10 @@ export default class combat_1 extends Phaser.Scene {
 			color: '#ffffff'
 		})
 			// create button to go to map
-			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {		
-				this.spell = newSpell
+			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {
+				if (this.player.getNoMoreText() === true && this.spell.active === false) {		
+					this.spell = newSpell
+				}
 			}));
 			currentX+=100;
 		}

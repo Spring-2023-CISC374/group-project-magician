@@ -40,7 +40,7 @@ export default class inventory extends Phaser.Scene {
 		this.add.image(400, 400, 'inventoryBackground')	
 
 		this.add.existing(new Click_Change_Scene(this, 770, 570, 'exit_icon', () => {		// enter combat button
-			this.scene.start(this.prev_scene, {inventory_items: this.inventory, prev_scene: "inventory"})
+			this.scene.start(this.prev_scene, {inventory_items: this.inventory, prev_scene: "inventory", storedHealth: this.currentHealth})
 			console.log("Going to Level 1: ", this.data)
 			this.scene.stop('inventory')
 		}));
