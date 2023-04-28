@@ -21,14 +21,9 @@ export default class level_1 extends CommonLevel {
 		super.createInformation()
 		super.createButtons(this.scene.scene)
 
-		this.add.text(20, 120, 'Press the Resource Icon to go to collect some\nresources', {
-			fontSize: '28px',
-			color: '#ffffff'
-		})
-		this.add.text(20, 170, 'Press the Wand Icon to go to make some spells', {
-			fontSize: '28px',
-			color: '#ffffff'
-		})
+		this.add.text(this.cameras.main.width/2, 200, 'Click HAND icon to collect resources\n' +
+			'Click WAND icon to craft spells\n')
+			.setColor('white').setFontSize(30).setDepth(1).setOrigin(0.5)
 		// resource button
 		this.add.existing(new Click_Change_Scene(this, 50, 400, 'resource1', () => {				
 			this.scene.start('resource', {inventory_items: this.inventory, prev_scene: this.scene.key})

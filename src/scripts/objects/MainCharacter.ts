@@ -30,22 +30,24 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		if (!cursors) { return }
         if (cursors.left.isDown) {
 			player.setVelocityX(-160)
+            player.flipX = true
             player.anims.play('walk', true)
 		}
 		else if(cursors.right.isDown){
 			player.setVelocityX(160)
+            player.flipX = false
             player.anims.play('walk', true)
 		}
         else {
             player.setVelocityX(0)
             player.anims.play('idle', true)
         }
-		
         if(cursors.down.isDown){
 			player.setVelocityY(160)
 		}
 		else if(cursors.up.isDown){
 			player.setVelocityY(-160)
+            player.anims.play('jump', true)
 		}
 		else {
 			player.setVelocityY(0)
@@ -56,18 +58,21 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		if (!cursors) { return }
         if (cursors.left.isDown) {
 			player.setVelocityX(-160)
+            player.flipX = false
             player.anims.play('walk', true)
 		}
 		else if(cursors.right.isDown){
 			player.setVelocityX(160)
+            player.flipX = false
             player.anims.play('walk', true)
 		}
         else {
 			player.setVelocityX(0)
             player.anims.play('idle', true)
 		}
-		if(cursors.up.isDown && player.body.touching.down){
+		if(cursors.up.isDown && player.body.touching.down) {
 			player.setVelocityY(-330)
+            player.anims.play('jump', true)
         }
 	}
 
@@ -75,7 +80,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         currentScene: string, newScene: string, inventory: Inventory_Items) {
         this.scene.physics.add.overlap(player, enemy, () => {
         this.scene.scene.stop(currentScene)
-        this.scene.scene.start(newScene, {inventory_items: inventory, storedHealth: this.health})
+        this.scene.scene.start(newScene, { inventory_items: inventory, storedHealth: this.health })
         })
     }
 
@@ -124,6 +129,13 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             key: 'walk', 
             frames: this.anims.generateFrameNumbers('player', {
                 start: 25, end: 32
+            }), 
+            frameRate: 8
+        })
+        this.anims.create({
+            key: 'jump', 
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 48, end: 55
             }), 
             frameRate: 8
         })

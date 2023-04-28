@@ -31,81 +31,69 @@ export default class resource extends CommonLevel {
 	}
 
 	preload() {
-		//load image  for start screen here
         this.load.image('background-level1', 'assets/background/night_forest.png');
         this.load.image('ground', 'assets/Icons/platform.png');
         this.load.image('backbutton', 'assets/Icons/backbutton.png');
 		this.load.image('bomb', 'assets/Icons/bomb.png' );
-        //this.load.image('background-level1', 'assets/background/night_forest.png');
-        //this.load.image('ground', 'assets/Icons/platform.png');
-        //this.load.image('gem', 'assets/resource/bluegem.png');
-        //this.load.image('backbutton', 'assets/Icons/backbutton.png');
-		//this.load.image('bomb', 'assets/Icons/bomb.png' );
-        
 	}
 
 	create() {
-        //creating background image
 		this.gameOver = false
-
+        
+		// creating background image
         const bg = this.add.image(
 			this.cameras.main.width/2, this.cameras.main.height/2, 'background-level1')
 		bg.setScale(
 			this.cameras.main.width/(1.0005 * bg.width), this.cameras.main.height/(1.0005 * bg.height))
 
-        //Telling location
+        // telling location
 		super.createInformation()
 		this.add.text(20, 115, 'Press the back button to go back to level 1\nCollect as many resources as possible', {
 			fontSize: '28px',
 			color: '#ffffff'
 		})
         
-        //creating platform 
+        // creating platform 
         this.platform = this.physics.add.staticGroup()
 		this.platform.create(400, 568, 'ground').setScale(2).refreshBody()
 		this.platform.create(600, 400, 'ground');
 		this.platform.create(750, 250, 'ground');
         this.platform.create(-25, 300, 'ground');
 
-        //Adding the character
+        // adding the character
         this.player = new MainCharacter(this, 80, 480,this.currentHealth)
-		//this.player.displayHealth()
+		this.player.handleAnims()
+		this.player.anims.play('idle', true)
         this.physics.add.existing(this.player)
 
         this.player.setBounce(0.2)
 		this.player.setCollideWorldBounds(true)
-		//this.player.setBounceY(500)
         this.physics.add.collider(this.player, this.platform)
 		this.cursors = this.input.keyboard.createCursorKeys()
         this.physics.world.gravity.y = 300;
 
-		//adding a bomb to make it diffcult 
+		// adding a bomb to make it diffcult 
 		this.bomb = this.physics.add.group()
 
 		this.physics.add.collider(this.bomb, this.platform)
 		this.physics.add.collider(this.player, this.bomb, this.handleHitBomb, undefined, this)
 
-        //adding the gems - could be any different type
-
+        // adding the gems - could be any different type
 		// select the gem type 
-
 		const gem_type = this.select_gem_type() // function will randomly select the type of gem that will spawn
 		this.get_gem_index(gem_type);
 
-        this.gem = this.physics.add.group(
-			{
-				key: gem_type,
-				repeat: 10,
-				setXY: { x: 12, y: 0, stepX: 70}
-			}
-		)
+        this.gem = this.physics.add.group({
+			key: gem_type,
+			repeat: 10,
+			setXY: { x: 12, y: 0, stepX: 70}
+		})
 
 		this.gem.children.iterate(c => {
 			const child = c as Phaser.Physics.Arcade.Image
 			child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
 			child.setCollideWorldBounds(true);
 			child.setGravityY(10);
-
 		})
         
 		// Initialize gem collected here
@@ -145,20 +133,19 @@ export default class resource extends CommonLevel {
 		}));
 	}
 
-	private handleHitBomb(/*player: Phaser.GameObjects.GameObject, b:Phaser.GameObjects.GameObject*/){
+	private handleHitBomb() {
 		// make the player fly off the screen
-		// make the bomb explode
 		this.physics.pause()
+		// make the bomb explode
+		this.player?.anims.pause()
 		this.player?.setTint(0x00000)
-		this.player?.anims.play('turn')
 		this.gameOver = true
-		this.GemsCollected = 0 				// set the gems collected to 0 because you were hit
+		// set the gems collected to 0 because you were hit
+		this.GemsCollected = 0 				
 		this.gameOverText.visible = true
-
 	}
 	
     private handleCollectStar(player: Phaser.GameObjects.GameObject, s:Phaser.GameObjects.GameObject){
-
 		// make the player have a sparkle animation
 		player; // used to get rid of yellow squiggles
 		const newstar = s as Phaser.Physics.Arcade.Image
@@ -167,17 +154,14 @@ export default class resource extends CommonLevel {
 		this.GemsCollected = this.GemsCollected + 2
 
 		this.bluescoreText?.setText('Gems Collected:' + this.GemsCollected)
-		//transfer data
-		//this.scene.manager.getScene('inventory').data.set('myBlueGemData', this.bluescoreText);
 
 		if(this.gem?.countActive(true) === 0){
 			this.gem.children.iterate(c => {
 				const child = c as Phaser.Physics.Arcade.Image
 				child.enableBody(true, child.x, 0, true, true)
-
 			})
 
-			if(this.player){
+			if (this.player){
 			const x = this.player.x < 400
 			? Phaser.Math.Between(400, 800)
 			: Phaser.Math.Between(0, 400)
@@ -186,15 +170,11 @@ export default class resource extends CommonLevel {
 			bomb.setBounce(1)
 			bomb.setCollideWorldBounds(true)
 			bomb.setVelocityY(Phaser.Math.Between(-200, 200))
-
 			}
-
 		}
-
 	}
 
 	private add_Collected_Gems() {
-		console.log(this.inventory_items)
 		if (this.gem_index == 0) {
 			this.inventory_items.blueGems = this.GemsCollected + this.inventory_items.blueGems;
 		} else if (this.gem_index == 1) {
@@ -218,8 +198,6 @@ export default class resource extends CommonLevel {
 		} else { 
 			gem_type = "green-gem"
 		}
-
-		console.log(gem_type + " " + gem_seed)
 		return gem_type
 	}
 
@@ -236,10 +214,7 @@ export default class resource extends CommonLevel {
 	}
 
 	update() {
-		//this.handleMoving(); 
-		if (!this.player || !this.cursors) {
-			return
-		}
+		if (!this.player || !this.cursors) { return }
 		this.player.levelhandleMoving(this.player, this.cursors);
 	}
 }

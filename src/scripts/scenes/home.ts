@@ -13,6 +13,9 @@ export default class home extends CommonLevel {
 		console.log(home_marker) // to remove warning until implementation
         super.createInformation()
         super.createButtons(this.scene.scene)
+		this.add.text(this.cameras.main.width/2, 200, "Click MAP icon for the Map\n" + 
+			"Click CHEST icon for Inventory\n")
+			.setColor('white').setFontSize(30).setDepth(1).setOrigin(0.5)
 		// code for this taken from blog.ourcase.co
         this.createEmitter("petal"); 
     }
