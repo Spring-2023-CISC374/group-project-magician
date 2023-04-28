@@ -34,7 +34,7 @@ export default class CommonLevel extends Phaser.Scene {
 		}));
         this.add.existing(new Click_Change_Scene(this, 50, 300, 'inventory_icon', () => {		// inventory button
 			console.log(this.inventory)
-			this.scene.start('inventory', { inventory_items: this.inventory, prev_scene: this.scene.key })
+			this.scene.start('inventory', { inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth })
 
 			this.scene.stop(currentScene)
 		}));

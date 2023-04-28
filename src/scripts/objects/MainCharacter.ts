@@ -178,7 +178,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 
     setAttackText(spell: Spell) {   
         if (spell.name === "Dark Spell") {
-            this.characterAttack.setText("You have hit the monster for 30% of their currebt HP!")
+            this.characterAttack.setText("You have hit the monster for 20% of their currebt HP!")
         }
         else if (spell.name === "Fire Spell") {
             this.characterAttack.setText("You have hit the monster for 5, activated fire DOT")

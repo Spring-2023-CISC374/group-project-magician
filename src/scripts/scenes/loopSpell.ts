@@ -43,7 +43,7 @@ export default class loopSpell extends Phaser.Scene {
 
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
-            this.scene.start('craftSpells', {inventory_items: this.inventory, prev_scene: this.scene.key});
+            this.scene.start('craftSpells', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
