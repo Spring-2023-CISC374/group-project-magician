@@ -8,7 +8,6 @@ export default class level_1 extends CommonLevel {
 	private player?: MainCharacter
 	private enemy?: Enemy
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
-
 	constructor() { super('level_1') }
   
 
@@ -26,12 +25,12 @@ export default class level_1 extends CommonLevel {
 			.setColor('white').setFontSize(30).setDepth(1).setOrigin(0.5)
 		// resource button
 		this.add.existing(new Click_Change_Scene(this, 50, 400, 'resource1', () => {				
-			this.scene.start('resource', {inventory_items: this.inventory, prev_scene: this.scene.key})
+			this.scene.start('resource', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth})
 			this.scene.stop('level_1')
 		}));
 		// wand button
 		this.add.existing(new Click_Change_Scene(this, 50, 500, 'wand', () => {		    			
-			this.scene.start('craftSpells', {inventory_items: this.inventory, prev_scene: this.scene.key})
+			this.scene.start('craftSpells', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth})
 			this.scene.stop('level_1')
 		}));
 

@@ -59,7 +59,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.health -= 5
         }
         if (spell.name === "Dark Spell") {
-            this.health = Math.floor(this.health * 0.70);
+            this.health = Math.floor(this.health * 0.80);
          }
         else if (spell.name === "Fire Spell") {
             this.statusEffect = true;
@@ -77,7 +77,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		player.setVisibility(true)
 		setTimeout(()=> {
 			player.setVisibility(false)
-		}, 4000)	
+		}, 5000)	
     }
 
     setText() {
