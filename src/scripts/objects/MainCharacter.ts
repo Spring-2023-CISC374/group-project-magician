@@ -150,11 +150,28 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     
     castSpell(player: MainCharacter, spell: Phaser.Physics.Arcade.Sprite) {
         player.anims.play('cast', true)
-			.once('animationcomplete', () => {
-				spell.setActive(true)
+            .once('animationcomplete', () => {
+                if (spell.name == 'Dark Spell')
+                {
+                    spell.setActive(true)
 					.setVisible(true)
 					.anims.play('dark_spell', true)
-				player.anims.play('idle', true)
+                    player.anims.play('idle', true)
+                }
+                else if (spell.name == 'Fire Spell')
+                {
+                    spell.setActive(true)
+					.setVisible(true)
+					.anims.play('fire_spell', true)
+                    player.anims.play('idle', true)
+                }
+                else if (spell.name == 'Ice Spell')
+                {
+                    spell.setActive(true)
+					.setVisible(true)
+					.anims.play('ice_spell', true)
+                    player.anims.play('idle', true)
+                }
 			})
     }
 
