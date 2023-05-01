@@ -74,6 +74,11 @@ export default class start extends Phaser.Scene {
 		this.load.image('bg', 'assets/background/dark_forest.png')
 		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
 		this.load.image('button', 'assets/Icons/Inventory_Icon.png');
+		this.load.image('flame', 'assets/Icons/smallFlame.png')
+		this.load.spritesheet('fireSpell', 'assets/spells/fireBoltSheet.png', 
+		{frameWidth: 44, frameHeight: 48})
+		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
+		{frameWidth: 48, frameHeight: 32})
 
 		// waterSpell images
 		this.load.image('background-waterspell', 'assets/background/waterSpell_Background.png')
