@@ -12,6 +12,7 @@ export default class combat_1 extends Phaser.Scene {
 	private keys!: Phaser.Types.Input.Keyboard.CursorKeys;
 	private currentHealth!: number
 	private spellList!: Array<Spell>
+	private statusEffect!: Phaser.GameObjects.Image
 
 	constructor() { super('combat_1') }
 
@@ -21,6 +22,7 @@ export default class combat_1 extends Phaser.Scene {
 	}
 
 	preload() {
+		/*
 		// load spritesheets
 		this.load.spritesheet('player', 'assets/player.png',
 		{frameWidth: 32, frameHeight: 32})
@@ -38,6 +40,7 @@ export default class combat_1 extends Phaser.Scene {
 		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
 		this.load.image('chest', 'assets/Icons/Inventory_Icon.png');
 		this.load.image('flame', 'assets/Icons/smallFlame.png')
+		*/
 	}
 
 	create() {
@@ -95,7 +98,8 @@ export default class combat_1 extends Phaser.Scene {
 
 		this.enemy.displayHealth()
 		this.enemy.displayAttack()
-		
+		this.statusEffect = this.add.image(this.enemy.x, this.enemy.y - 100, 'flame') 
+		this.statusEffect.setVisible(false)
     }
 
 	update() {
@@ -105,8 +109,8 @@ export default class combat_1 extends Phaser.Scene {
 		this.enemy?.setText()
 		// update spells
 		if (this.enemy?.getHealth() <= 0) {
-			this.enemy?.handleEnemyDeath()
-			this.player?.handleLeavingCombat("combat_1", "map")
+			//this.enemy?.handleEnemyDeath()
+			this.handleLeavingCombatToMap()
 		}
 		if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true) { 
 			this.player?.castSpell(this.player,this.spell)
@@ -119,9 +123,15 @@ export default class combat_1 extends Phaser.Scene {
 			this.spell.resetSpellPosition(this.player)
 		}
 		if (this.enemy.getStatusEffect() === true) {
-			const flameEffect = this.add.image(this.enemy.x, this.enemy.y - 100, 'flame') 
-			console.log(flameEffect) // to remove warning until implementation
+			this.statusEffect.setVisible(true)
 		}
 		this.spell?.checkForOverlap(this.player, this.enemy)
+	}
+
+	handleLeavingCombatToMap() {
+		setTimeout(()=> {
+			this.scene.stop('combat_1')
+			this.scene.start('map', {storedHealth: this.currentHealth})
+		}, 5000)
 	}
 }
