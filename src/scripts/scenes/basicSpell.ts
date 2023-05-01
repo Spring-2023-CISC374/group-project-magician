@@ -16,6 +16,12 @@ export default class basicSpell extends Phaser.Scene {
 		this.inventory = data.inventory_items
 	}
 
+    createInformation() {
+		this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
+		this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
+			.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
+	}
+
 	preload() {
         //load image for start screen here
 		this.load.image('background-craftSpells', 'assets/background/magicshop_bakground.png');
@@ -32,6 +38,8 @@ export default class basicSpell extends Phaser.Scene {
         //    this.cameras.main.width/2, this.cameras.main.height/2, 'background-spells');
         //bg.setScale(
         //    this.cameras.main.width/(1.5 * bg.width), this.cameras.main.height/(1.75 * bg.height));
+
+        this.createInformation()   
 
         //telling the location
         this.add.text(10, 40, 'Currently at Basic Spell\nPress the Back Button to go to Craft\nSpell', {

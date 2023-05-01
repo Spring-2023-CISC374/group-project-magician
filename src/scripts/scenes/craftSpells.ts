@@ -1,10 +1,12 @@
-import Phaser from 'phaser'
+//import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-import Inventory_Items from '../objects/Inventory_Items';
+//import Inventory_Items from '../objects/Inventory_Items';
+import CommonLevel from './CommonLevel'
 
-export default class craftSpells extends Phaser.Scene {			
-	protected inventory!: Inventory_Items
-    protected currentHealth!: number
+
+export default class craftSpells extends CommonLevel {
+	//protected inventory!: Inventory_Items
+    //protected currentHealth!: number
 
 	constructor() {
 		super('craftSpells')
@@ -15,7 +17,13 @@ export default class craftSpells extends Phaser.Scene {
 		this.currentHealth = data.storedHealth
 		this.inventory = data.inventory_items
 	}
-
+/*
+	createInformation() {
+		this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
+		this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
+			.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
+	}
+*/
 	preload() {
 		//load image  for start screen here
 		this.load.image('background-craftSpells', 'assets/background/magicshop_bakground.png');
@@ -29,15 +37,17 @@ export default class craftSpells extends Phaser.Scene {
 			this.cameras.main.width/2, this.cameras.main.height/2, 'background-craftSpells')
 		bg.setScale(
 			this.cameras.main.width/(1.0005 * bg.width), this.cameras.main.height/(1.0005 * bg.height))
-		
-
+				
+		super.createInformation()
 		//telling the character their location
-        this.add.text(10, 40, 'Currently on Crafting Spells \nClick on Map Button to go to the Map\nClick on Inventory Button to go to\nInventory\nClick on Back Button to return to Level', {
-			fontSize: '32px',
-			color: '#ffffff'
-		})
+        //this.add.text(10, 40, 'Currently on Crafting Spells \nClick on Map Button to go to the Map\nClick on Inventory Button to go to\nInventory\nClick on Back Button to return to Level', {
+		//	fontSize: '32px',
+		//	color: '#ffffff'
+		//})
 
-		this.add.text(150, 215, 'Select Your Spell Template', {
+		//this.createInformation()
+
+		this.add.text(150, 200, 'Select Your Spell Template', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})

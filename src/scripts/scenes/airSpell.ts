@@ -4,19 +4,20 @@ import Click_Change_Scene from '../objects/Click_Change_Scene';
 import CommonLevel from './CommonLevel'
 
 
-export default class waterSpell extends CommonLevel {
-    private blueGemsCollected!: number
-    private waterSpellLoop: number	
+export default class airSpell extends CommonLevel {
+    private yellowGemsCollected!: number
+    private greenGemsCollected!: number
+    private airSpellLoop: number	
     //protected inventory!: Inventory_Items
    // protected currentHealth!: number
     
 	constructor() {
-		super('waterSpell')
-        this.waterSpellLoop = 0
+		super('airSpell')
+        this.airSpellLoop = 0
 	}
 
     init (data: any) {
-		console.log('waterSpell', data)
+		console.log('airSpell', data)
 		this.currentHealth = data.storedHealth
 		this.inventory = data.inventory_items
 	}
@@ -44,26 +45,28 @@ export default class waterSpell extends CommonLevel {
         super.createInformation() 
 
         this.time.delayedCall(1500, () => {
-            const userInput = window.prompt('Enter the number of Water Spells you want:');
+            const userInput = window.prompt('Enter the number of Air Spells you want:');
     
             // Initialize gem collected here
-            this.waterSpellLoop = 0;
+            this.airSpellLoop = 0;
             
             // Check if the user input is not null
             if (userInput !== null) {
                 // Parse the user input as an integer
-                const numWaterSpells = parseInt(userInput);
+                const numairSpells = parseInt(userInput);
     
                 // Perform the loop based on the user input
                 //let waterSpell = 0;
-                for (let i = 0; i < numWaterSpells; i++) {
-                    this.blueGemsCollected -= 4;
-                    this.waterSpellLoop += 1;
+                for (let i = 0; i < numairSpells; i++) {
+                    this.yellowGemsCollected -= 2;
+                    this.greenGemsCollected -= 2;
+                    this.airSpellLoop += 1;
                 }
-                this.inventory.waterSpell += this.waterSpellLoop;
-                this.inventory.blueGems -= 4 * (numWaterSpells)
-                this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
-                this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                this.inventory.waterSpell += this.airSpellLoop;
+                this.inventory.blueGems -= 4 * (numairSpells)
+                this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
+                this.greenGemsCollected = this.greenGemsCollected - numairSpells
+                this.add.text(20, 400, `You now have ${this.airSpellLoop} Water Spells.\nThey are now in your inventory`, {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
