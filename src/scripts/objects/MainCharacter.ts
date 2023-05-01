@@ -153,7 +153,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 			.once('animationcomplete', () => {
 				spell.setActive(true)
 					.setVisible(true)
-					.anims.play('dark_spell', true)
+                    .anims.play('dark_spell', true)
 				player.anims.play('idle', true)
 			})
     }

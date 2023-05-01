@@ -50,7 +50,7 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
     this.spellDamage = newDamage;
   }
   moveSpell() {
-    this.setX(this.x + 2)
+    this.setX(this.x + 6)
   }
   handleSpell(player: MainCharacter, enemy: Enemy) {
 		this.disableBody(true, true);
