@@ -4,7 +4,12 @@ export default class Inventory_Items {
     public yellowGems: number
     public greenGems: number
 
-    public waterSpell: number
+    public basicWaterSpell: number
+    public loopingWaterSpell: number
+    public basicFireSpell: number
+    public loopingFireSpell: number
+    public basicAirSpell: number
+    public loopingAirSpell: number
 
     constructor() {
         this.blueGems = 0
@@ -12,7 +17,12 @@ export default class Inventory_Items {
         this.yellowGems = 0
         this.greenGems = 0
 
-        this.waterSpell = 0
+        this.basicWaterSpell = 0
+        this.loopingWaterSpell = 0
+        this.basicFireSpell = 0
+        this.loopingFireSpell = 0
+        this.basicAirSpell = 0
+        this.loopingAirSpell = 0
 
     }
 
@@ -32,7 +42,25 @@ export default class Inventory_Items {
         this.greenGems = this.greenGems + numCollected
     }
 
-    add_waterSpell(numCollected: number) {
-        this.waterSpell = this.waterSpell + numCollected
+    add_basicWaterSpell(numCollected: number) {
+        this.basicWaterSpell = this.basicWaterSpell + numCollected
     }    
+    add_loopingWaterSpell(numCollected: number) {
+        this.loopingWaterSpell = this.loopingWaterSpell + numCollected
+    }
+
+    add_basicFireSpell(numCollected: number) {
+        this.basicFireSpell = this.basicFireSpell + numCollected
+    }    
+    add_loopingFireSpell(numCollected: number) {
+        this.loopingFireSpell = this.loopingFireSpell + numCollected
+    }
+
+    add_basicAirSpell(numCollected: number) {
+        this.basicAirSpell = this.basicAirSpell + numCollected
+    }    
+    add_loopingAirSpell(numCollected: number) {
+        this.loopingAirSpell = this.loopingAirSpell + numCollected
+    }
+
 }
