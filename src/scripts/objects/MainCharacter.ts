@@ -132,12 +132,58 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     
     castSpell(player: MainCharacter, spell: Phaser.Physics.Arcade.Sprite) {
         player.anims.play('cast', true)
-			.once('animationcomplete', () => {
-				spell.setActive(true)
+            .once('animationcomplete', () => {
+                    spell.setActive(true)
 					.setVisible(true)
-					.anims.play('dark_spell', true)
-				player.anims.play('idle', true)
-			})
+                    if (spell.name==="Dark Spell") {
+                        spell.anims.play('dark_spell', true)
+                    }
+                    else if (spell.name==="Fire Spell") {
+                        spell.anims.play('fire_spell', true)
+                    }
+                    else if (spell.name==="Ice Spell") {
+                        spell.anims.play('ice_spell', true)
+                    }
+			player.anims.play('idle', true)
+		})
+    }
+    setText() {
+        this.characterCombatHealth.setText('Health: ' + this.health)
+    }
+
+    setVisibility(visible: boolean) {
+        this.characterAttack.setVisible(visible)
+    }
+
+    handleBeingAttacked(enemy: Enemy, damage: number) {
+        this.health -= damage
+		enemy.setVisibility(true)
+        this.noMoreText = false;
+		setTimeout(()=> {
+			enemy.setVisibility(false)
+            this.noMoreText = true;
+		}, 5000)	
+    }
+
+    setAttackText(spell: Spell) {   
+        if (spell.name === "Dark Spell") {
+            this.characterAttack.setText("You have hit the monster for 20% of their current HP!")
+        }
+        else if (spell.name === "Fire Spell") {
+            this.characterAttack.setText("You have hit the monster for 5, activated fire DOT")
+        } else if(spell.name === "Ice Spell") {
+            this.characterAttack.setText("You have hit the monster for 5, and reduced their damage")
+        }
+        else {
+            this.characterAttack.setText("You have hit the monster for " + spell.getSpellDamage())
+        } 
+    }
+
+    handleLeavingCombat(currentScene: string, newScene: string) {
+        setTimeout(()=> {
+            this.scene.scene.stop(currentScene)
+            this.scene.scene.start(newScene, {storedHealth: this.health})
+		}, 5000)
     }
 
     setSpellPosition(spell: Spell) {
