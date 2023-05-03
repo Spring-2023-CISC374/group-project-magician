@@ -50,7 +50,7 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
     this.spellDamage = newDamage;
   }
   moveSpell() {
-    this.setX(this.x + 6)
+    this.setX(this.x + 2.5)
   }
   handleSpell(player: MainCharacter, enemy: Enemy) {
 		this.disableBody(true, true);
@@ -78,7 +78,7 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
     this.anims.create({
         key: 'fire_spell', 
         frames: this.anims.generateFrameNumbers('fireSpell', {
-            start: 0, end: 9
+            start: 0, end: 3
         }), 
         frameRate: 10, repeat: -1
     })
@@ -89,5 +89,5 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
         }), 
         frameRate: 10, repeat: -1
     })
-}
+  }
 }
