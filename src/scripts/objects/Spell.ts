@@ -76,14 +76,14 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
         frameRate: 10, repeat: -1
     })
     this.anims.create({
-        key: 'walk', 
+        key: 'fire_spell', 
         frames: this.anims.generateFrameNumbers('fireSpell', {
             start: 0, end: 6
         }), 
         frameRate: 10
     })
     this.anims.create({
-        key: 'jump', 
+        key: 'ice_spell', 
         frames: this.anims.generateFrameNumbers('iceSpell', {
             start: 0, end: 6
         }), 
