@@ -51,7 +51,7 @@ export default class CommonLevel extends Phaser.Scene {
 		const player = new MainCharacter(this, 80, 480,this.currentHealth)
 		player.handleAnims()
 		player.anims.play('idle', true)
-		player.displayHealth()
+		//player.displayHealth()
 		return player
 	}
 }
