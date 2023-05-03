@@ -123,6 +123,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     setStatusEffect(effect: boolean) {
         this.statusEffect = effect;
     }
+    setEnemyHealthBar(visible: boolean) {
+        this.enemyHealth.setVisible(visible)
+    }
 
     handleEnemyAnims() {
         this.anims.create({

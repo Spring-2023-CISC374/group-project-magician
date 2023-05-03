@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import MainCharacter from '../objects/MainCharacter';
 import Enemy from '../objects/Enemy';
-import Click_Change_Scene from '../objects/Click_Change_Scene'
 import Spell from '../objects/Spell'
 import SpellButtons from '../objects/SpellButtons'
 
@@ -78,6 +77,7 @@ export default class combat_1 extends Phaser.Scene {
 			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {
 				if (this.player.getNoMoreText() === true && this.spell.active === false) {		
 					this.spell = newSpell
+					console.log(this.spell.getName())
 				}
 			}));
 			currentX+=100;
@@ -89,12 +89,6 @@ export default class combat_1 extends Phaser.Scene {
 			color: '#ffffff'
 		})
 
-		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {
-			// create button to go to inventory
-			this.scene.start('inventory')											
-			this.scene.stop('combat_1')
-		}))
-
 		this.enemy.displayHealth()
 		this.enemy.displayAttack()
 		this.statusEffect = this.add.image(this.enemy.x, this.enemy.y - 100, 'flame') 
@@ -102,13 +96,14 @@ export default class combat_1 extends Phaser.Scene {
     }
 
 	update() {
+		this.spell.handleSpellAnims()
 		this.player?.setAttackText(this.spell)
 		this.player?.setText()
 		this.enemy?.setAttackText()
 		this.enemy?.setText()
 		// update spells
 		if (this.enemy?.getHealth() <= 0) {
-			//this.enemy?.handleEnemyDeath()
+			this.handleEnemyDeath()
 			this.handleLeavingCombatToMap()
 		}
 		if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true) { 
@@ -133,4 +128,14 @@ export default class combat_1 extends Phaser.Scene {
 			this.scene.start('map', {storedHealth: this.currentHealth})
 		}, 5000)
 	}
+	handleEnemyDeath(){
+        (this.enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
+        this.enemy.setEnemyHealthBar(false);
+		this.enemy.anims.stop();
+		this.add.text(400, 45, 'Enemy Dead', {
+			fontSize: '25px',
+			color: '#ffffff',
+			backgroundColor: '#ff0000'
+		})
+    }
 }

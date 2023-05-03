@@ -153,7 +153,15 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 			.once('animationcomplete', () => {
 				spell.setActive(true)
 					.setVisible(true)
-					.anims.play('dark_spell', true)
+                    if (spell.name==="Dark Spell") {
+                        spell.anims.play('dark_spell', true)
+                    }
+                    else if (spell.name==="Fire Spell") {
+                        spell.anims.play('fire_spell', true)
+                    }
+                    else if (spell.name==="Ice Spell") {
+                        spell.anims.play('ice_spell', true)
+                    }
 				player.anims.play('idle', true)
 			})
     }
@@ -178,7 +186,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 
     setAttackText(spell: Spell) {   
         if (spell.name === "Dark Spell") {
-            this.characterAttack.setText("You have hit the monster for 20% of their currebt HP!")
+            this.characterAttack.setText("You have hit the monster for 20% of their current HP!")
         }
         else if (spell.name === "Fire Spell") {
             this.characterAttack.setText("You have hit the monster for 5, activated fire DOT")
