@@ -41,7 +41,7 @@ export default class CommonLevel extends Phaser.Scene {
 	}
 
 	createEnemy() {
-		const enemy = new Enemy(this, 400, 472, 'dragon', 10, 0)
+		const enemy = new Enemy(this, 400, 472, 'dragon')
 		enemy.handleEnemyAnims()
 		enemy.anims.play('enemyIdle', true)
 		return enemy

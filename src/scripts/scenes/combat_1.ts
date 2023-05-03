@@ -12,8 +12,18 @@ export default class combat_1 extends Phaser.Scene {
 	private keys!: Phaser.Types.Input.Keyboard.CursorKeys;
 	private currentHealth!: number
 	private spellList!: Array<Spell>
+	private noMoreText!: boolean
+	private characterCombatHealth!: Phaser.GameObjects.Text
+	private characterAttack!: Phaser.GameObjects.Text
+    private enemyHealth!: Phaser.GameObjects.Text;
+	private enemyHealthRemaining!: number;
+    private enemyAttack!: Phaser.GameObjects.Text
+    private enemyDamage!: number
 
-	constructor() { super('combat_1') }
+	constructor() { 
+		super('combat_1') 
+		this.noMoreText = true;
+	}
 
 	init (data: any) {
 		console.log('init', data)
@@ -28,16 +38,6 @@ export default class combat_1 extends Phaser.Scene {
 		{frameWidth: 32, frameHeight: 32})
 		this.load.spritesheet('darkSpell', 'assets/spells/darkSkull.png',
 		{frameWidth: 40, frameHeight: 32})
-		//spell images
-		this.load.spritesheet('fireSpell', 'assets/spells/fireBoltSheet.png', 
-		{frameWidth: 44, frameHeight: 48})
-		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
-		{frameWidth: 48, frameHeight: 32})
-		// load images
-		this.load.image('bg', 'assets/background/dark_forest.png')
-		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
-		this.load.image('chest', 'assets/Icons/Inventory_Icon.png');
-		this.load.image('flame', 'assets/Icons/smallFlame.png')
 	}
 
 	create() {
@@ -49,9 +49,11 @@ export default class combat_1 extends Phaser.Scene {
 		this.player = new MainCharacter(this, 80, 515, this.currentHealth)
 		this.player.handleAnims()
 		this.player.anims.play('idle', true)
-		this.player.displayCombatHealth()
+		this.displayPlayerCombatHealth()
 		
-		this.enemy = new Enemy(this, 400, 525, 'dragon', 80, 10)
+		this.enemy = new Enemy(this, 400, 525, 'dragon')
+		this.enemyHealthRemaining = 80;
+        this.enemyDamage = 10;
 		this.enemy.handleEnemyAnims()
 		this.enemy.anims.play('enemyIdle', true)
 
@@ -73,7 +75,7 @@ export default class combat_1 extends Phaser.Scene {
 		})
 			// create button to go to map
 			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {
-				if (this.player.getNoMoreText() === true && this.spell.active === false) {		
+				if (this.getNoMoreTextPlayer() === true && this.spell.active === false) {		
 					this.spell = newSpell
 				}
 			}));
@@ -86,35 +88,45 @@ export default class combat_1 extends Phaser.Scene {
 			color: '#ffffff'
 		})
 
+		this.characterAttack = this.add.text(20,115,"You have hit the monster for 0 HP", 
+		{
+			fontSize: '20px',
+			color: '#ff0000',
+			backgroundColor: '#ffffff'
+		}) // letting the player know what they have done
+        this.characterAttack.setVisible(false)
+
 		this.add.existing(new Click_Change_Scene(this, 770, 525, 'chest', () => {
 			// create button to go to inventory
 			this.scene.start('inventory')											
 			this.scene.stop('combat_1')
 		}))
 
-		this.enemy.displayHealth()
-		this.enemy.displayAttack()
+		this.displayEnemyHealth()
+		this.displayEnemyAttack()
 		
     }
 
+	// attempting to fix 1000 errors
+
 	update() {
-		this.player?.setAttackText(this.spell)
-		this.player?.setText()
-		this.enemy?.setAttackText()
-		this.enemy?.setText()
+		this.setPlayerAttackText(this.spell)
+		this.setTextPlayer()
+		this.setEnemyAttackText()
+		this.setEnemyText()
 		// update spells
-		if (this.enemy?.getHealth() <= 0) {
-			this.enemy?.handleEnemyDeath()
-			this.player?.handleLeavingCombat("combat_1", "map")
+		if (this.getEnemyHealth() <= 0) {
+			if (this.handleEnemyDeath())
+			this.handlePlayerLeavingCombat("combat_1", "map")
 		}
-		if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true) { 
+		if (this.keys?.space.isDown && this.spell?.active==false && this.getNoMoreTextPlayer() === true) { 
 			this.player?.castSpell(this.player,this.spell)
 		}
 		if (this.spell?.active == true) {
 			this.spell.moveSpell()
 		}
 		if (this.spell?.isDisabled() == true) {
-			this.player?.handleBeingAttacked(this.enemy, this.enemy?.getEnemyDamage())
+			this.handlePlayerBeingAttacked(this.enemy, this.getEnemyDamage())
 			this.spell.resetSpellPosition(this.player)
 		}
 		if (this.enemy.getStatusEffect() === true) {
@@ -123,4 +135,152 @@ export default class combat_1 extends Phaser.Scene {
 		}
 		this.spell?.checkForOverlap(this.player, this.enemy)
 	}
+
+	handlePlayerBeingAttacked(enemy: Enemy, damage: number): boolean {
+        this.currentHealth -= damage
+		enemy.setVisible(true)
+        this.noMoreText = false;
+		setTimeout(()=> {
+			enemy.setVisible(false)
+            this.noMoreText = true;
+		}, 5000)	
+        return true // attmpting to avoid premature scene ending
+    }
+
+    setPlayerAttackText(spell: Spell) {   
+        if (spell.name === "Dark Spell") {
+            this.characterAttack.setText("You have hit the monster for 20% of their currebt HP!")
+        }
+        else if (spell.name === "Fire Spell") {
+            this.characterAttack.setText("You have hit the monster for 5, activated fire DOT")
+        } else if(spell.name === "Ice Spell") {
+            this.characterAttack.setText("You have hit the monster for 5, and reduced their damage")
+        }
+        else {
+            this.characterAttack.setText("You have hit the monster for " + spell.getSpellDamage())
+        } 
+    }
+
+	displayPlayerCombatHealth() {
+        this.characterCombatHealth = this.add.text(this.player.x - 75,this.player.y - 75, 'Health: ' + this.currentHealth, {
+			fontSize: '25px',
+			color: '#ff0000',
+            fontStyle: "bold"
+		})
+    }
+
+    handlePlayerLeavingCombat(currentScene: string, newScene: string): boolean {
+        setTimeout(()=> {
+            this.scene.stop(currentScene)
+            this.scene.start(newScene, {storedHealth: this.currentHealth})
+		}, 5000)
+        return true // attmpting to avoid premature scene ending
+    }
+
+	getNoMoreTextPlayer() {
+        return this.noMoreText;
+    }
+
+	setTextPlayer() {
+        this.characterCombatHealth.setText('Health: ' + this.currentHealth)
+    }
+    
+    setNoMoreTextPlayer(flag: boolean) {
+        this.noMoreText = flag;
+    }
+
+	setVisibilityPlayer(visible: boolean) {
+        this.characterAttack.setVisible(visible)
+    }
+
+	// enemy functions 
+
+	getEnemyHealth() {
+        return this.enemyHealthRemaining;
+    }
+
+    setEnemyHealth(newHealth: number) {
+        this.enemyHealthRemaining = newHealth;
+    }
+
+    getEnemyDamage() {
+        return this.enemyDamage
+    }
+
+    setEnemyDamage(newDamage: number) {
+        this.enemyDamage = newDamage;
+    }
+
+    displayEnemyHealth() {
+        this.enemyHealth = this.add.text(this.enemy.x-75,this.enemy.y - 75, 'Health: ' + this.enemyHealthRemaining, {
+			fontSize: '25px',
+			color: '#ff0000',
+			fontStyle: "bold"
+		})
+    }
+
+    displayEnemyAttack() {
+        this.enemyAttack = this.add.text(20,150,"You have been hit by the monster for " + this.enemyDamage + " HP!", 
+		{
+			fontSize: '20px',
+			color: '#ff0000',
+			backgroundColor: '#ffffff'
+		})
+        this.enemyAttack.setVisible(false)
+    }
+
+    handleEnemyAttacked(player: MainCharacter, spell: Spell): boolean { 
+        if (this.enemy.statusEffect === true) {
+            this.enemyHealthRemaining -= 5
+        }
+        if (spell.name === "Dark Spell") {
+            this.enemyHealthRemaining = Math.floor(this.enemyHealthRemaining * 0.80);
+         }
+        else if (spell.name === "Fire Spell") {
+            this.enemy.statusEffect = true;
+            this.enemyHealthRemaining -= 5;
+        } else if(spell.name === "Ice Spell") {
+            this.enemyHealthRemaining -= 5;
+            if (this.enemyDamage > 2) {
+                this.enemyDamage -= 2;
+            }
+        }
+        else {
+            this.enemyHealthRemaining -= spell.getSpellDamage();
+        }
+        
+		player.setVisible(true)
+		setTimeout(()=> {       // timout
+			player.setVisible(false)
+		}, 5000)	
+        return true // attmpting to avoid premature scene ending
+    }
+
+    setEnemyText() {
+        this.enemyHealth.setText('Health: ' + this.enemyHealthRemaining)
+    }
+
+    setEnemyVisibility(visible: boolean) {
+            this.enemyAttack.setVisible(visible)
+    }
+
+    setEnemyAttackText() {
+        this.enemyAttack.setText("You have been hit by the monster for " + this.enemyDamage + " HP!")
+    }
+
+    handleEnemyDeath(): boolean{
+        this.enemy.setTint(0xff0000);    // timeout
+        setTimeout(()=> {
+			this.enemy.disableBody(true, true)
+            this.enemyHealth.setVisible(false)
+		}, 5000)	
+		this.enemy.anims.stop();
+		this.add.text(400, 45, 'Enemy Dead', {
+			fontSize: '25px',
+			color: '#ffffff',
+			backgroundColor: '#ff0000'
+		})
+        return true // attmpting to avoid premature scene ending
+    }
+	
 }
