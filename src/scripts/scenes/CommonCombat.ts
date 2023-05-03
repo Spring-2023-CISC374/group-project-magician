@@ -3,6 +3,7 @@ import MainCharacter from '../objects/MainCharacter';
 import Enemy from '../objects/Enemy';
 import Spell from '../objects/Spell'
 import SpellButtons from '../objects/SpellButtons'
+import Inventory_Items from '../objects/Inventory_Items';
 
 export default class CommonCombat extends Phaser.Scene {
 	protected player!: MainCharacter
@@ -12,6 +13,7 @@ export default class CommonCombat extends Phaser.Scene {
 	protected currentHealth!: number
 	protected spellList!: Array<Spell>
 	protected statusEffect!: Phaser.GameObjects.Image
+	protected inventory!: Inventory_Items
 
 	constructor(key: any) {
 		super(key)
@@ -20,6 +22,7 @@ export default class CommonCombat extends Phaser.Scene {
 	init (data: any) {
 		console.log('init', data)
 		this.currentHealth = data.storedHealth
+		this.inventory = data.inventory_items
         //this.spellList = data.storedSpellList
 	}
 
@@ -57,7 +60,7 @@ export default class CommonCombat extends Phaser.Scene {
 	handleLeavingCombatToMap() {
 		setTimeout(()=> {
 			this.scene.stop(this.scene as unknown as string)
-			this.scene.start('map', {storedHealth: this.currentHealth})
+			this.scene.start('map', {storedHealth: this.currentHealth, inventory_items: this.inventory})
 		}, 5000)
 	}
     onUpdate() {//Need to reuse handle spell anims or animations won't work
