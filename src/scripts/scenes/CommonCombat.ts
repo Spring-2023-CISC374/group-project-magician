@@ -4,40 +4,40 @@ import Enemy from '../objects/Enemy';
 import Spell from '../objects/Spell'
 import SpellButtons from '../objects/SpellButtons'
 
-export default class combat_1 extends Phaser.Scene {
-	private player!: MainCharacter
-	private enemy!: Enemy
-	private spell!: Spell
-	private keys!: Phaser.Types.Input.Keyboard.CursorKeys;
-	private currentHealth!: number
-	private spellList!: Array<Spell>
-	private statusEffect!: Phaser.GameObjects.Image
+export default class CommonCombat extends Phaser.Scene {
+	protected player!: MainCharacter
+	protected enemy!: Enemy
+	protected spell!: Spell
+	protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
+	protected currentHealth!: number
+	protected spellList!: Array<Spell>
+	protected statusEffect!: Phaser.GameObjects.Image
 
-	constructor() { super('combat_1') }
+	constructor(key: any) {
+		super(key)
+	}
 
 	init (data: any) {
 		console.log('init', data)
 		this.currentHealth = data.storedHealth
-        this.spellList = data.storedSpellList
+        //this.spellList = data.storedSpellList
 	}
 
 	preload() {
         //
 	}
 
-	create() {
-		const bg = this.add.image(
-			this.cameras.main.width/2, this.cameras.main.height/2, 'bg')
-		bg.setScale(
-			this.cameras.main.width/bg.width, this.cameras.main.height/bg.height)		
+	create() {	
         //Creates player at 80, 515, and passes the current health
         this.createPlayer(80, 515, this.currentHealth)
+        //this.createEnemy(400, 525, 'dragon', 80, 10)
         //Creates and then plays enemy anims
-		this.enemyAnims()
+		
+        this.enemyAnims()
         //Creates spell list, sets spell to first one in the list, as long as no spell list was passed
 		this.createOriginalSpellList()
 		this.spell = this.spellList[0]
-		this.spell.handleSpellAnims()
+        this.spell.handleSpellAnims()
         //creates spell buttons
 		this.makeSpellButtons()
         //activates keyboard
@@ -128,12 +128,10 @@ export default class combat_1 extends Phaser.Scene {
 		})
     }
     createOriginalSpellList() {
-        if (this.spellList !== undefined) {
-            const darkSpell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell',"Dark Spell", 5)
-            const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10)
-            const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8)
-            this.spellList = [darkSpell,fireSpell,iceSpell]
-        }
+        const darkSpell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell',"Dark Spell", 5)
+        const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10)
+        const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8)
+        this.spellList = [darkSpell,fireSpell,iceSpell]
     }
     enemyAnims() {
         this.enemy.handleEnemyAnims()
