@@ -1,14 +1,24 @@
-//import Enemy from "./Enemy"
+import Enemy from "./Enemy"
 import Inventory_Items from "./Inventory_Items"
 import Spell from "./Spell"
 export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     private health: number
     private characterHealth!: Phaser.GameObjects.Text
+    private characterCombatHealth!: Phaser.GameObjects.Text
+    private characterAttack!: Phaser.GameObjects.Text
+    private noMoreText!: boolean
     
     constructor(scene: any, x: any, y: any, healthValue: number) {
         super(scene, x, y, 'mainChar')
+        this.noMoreText = true;
         this.health = healthValue;
-        
+        this.characterAttack = this.scene.add.text(20,115,"You have hit the monster for 0 HP", 
+		{
+			fontSize: '20px',
+			color: '#ff0000',
+			backgroundColor: '#ffffff'
+		})
+        this.characterAttack.setVisible(false)
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -93,6 +103,14 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 
     displayHealth() {
         this.characterHealth = this.scene.add.text(20,20, 'Current health is: ' + this.health, {
+			fontSize: '25px',
+			color: '#ff0000',
+            fontStyle: "bold"
+		})
+    }
+
+    displayCombatHealth() {
+        this.characterCombatHealth = this.scene.add.text(this.x - 75,this.y - 75, 'Health: ' + this.health, {
 			fontSize: '25px',
 			color: '#ff0000',
             fontStyle: "bold"
@@ -189,5 +207,13 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     setSpellPosition(spell: Spell) {
         spell.x = this.x + 30;
         spell.y = this.y;
+    }
+
+    getNoMoreText() {
+        return this.noMoreText;
+    }
+    
+    setNoMoreText(flag: boolean) {
+        this.noMoreText = flag;
     }
 }
