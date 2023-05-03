@@ -60,7 +60,7 @@ export default class CommonCombat extends Phaser.Scene {
 	handleLeavingCombatToMap() {
 		setTimeout(()=> {
 			this.scene.stop(this.scene as unknown as string)
-			this.scene.start('map', {storedHealth: this.currentHealth, inventory_items: this.inventory})
+			this.scene.start('map', {storedHealth: this.currentHealth, inventory_items: this.inventory}) // fixed adding inventory
 		}, 5000)
 	}
     onUpdate() {//Need to reuse handle spell anims or animations won't work
