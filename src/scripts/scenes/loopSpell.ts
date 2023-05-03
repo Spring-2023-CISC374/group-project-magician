@@ -48,12 +48,12 @@ export default class loopSpell extends Phaser.Scene {
         }));
 
         this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {            // create button to go to map
-            this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key});
+            this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('resource');
         }));
 
         this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {        // inventory button
-            this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key});
+            this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('resource');
         }));
 
@@ -65,17 +65,17 @@ export default class loopSpell extends Phaser.Scene {
         }); // water button text
 
         this.add.existing(new Click_Change_Scene(this, 175, 230, 'waterIcon', () => {        // inventory button
-            this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key});
+            this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
         this.add.existing(new Click_Change_Scene(this, 375, 230, 'airIcon', () => {        // inventory button
-            this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key});
+            this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
         this.add.existing(new Click_Change_Scene(this, 600, 230, 'fireIcon', () => {        // inventory button
-            this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key});
+            this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
