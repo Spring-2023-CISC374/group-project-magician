@@ -81,7 +81,7 @@ export default class CommonCombat extends Phaser.Scene {
 			this.player?.handleBeingAttacked(this.enemy, this.enemy?.getEnemyDamage())
 			this.spell.resetSpellPosition(this.player)
 		}
-		if (this.enemy.getStatusEffect() === true) {
+		if (this.enemy.getStatusEffect() === true && this.enemy?.getHealth() > 0) {
 			this.statusEffect.setVisible(true)
 		}
 		this.spell?.checkForOverlap(this.player, this.enemy)
