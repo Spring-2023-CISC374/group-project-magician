@@ -47,20 +47,20 @@ export default class craftSpells extends CommonLevel {
 
 		//this.createInformation()
 
-		this.add.text(150, 200, 'Select Your Spell Template', {
+		this.add.text(75, 125, 'Select What Spell You Want To Make', {
 			fontSize: '32px',
 			color: '#ffffff'
 		})
 
-		this.add.text(150, 300, 'Looping', {
+		this.add.text(150, 200, 'Looping', {
 			fontSize: '22px',
 			color: '#ffffff'
 		})
-		this.add.text(350, 300, 'Basic', {
+		this.add.text(350, 200, 'Basic', {
 			fontSize: '22px',
 			color: '#ffffff'
 		})
-		this.add.text(550, 300, 'Unlocked!', {
+		this.add.text(550, 200, 'Unlocked!', {
 			fontSize: '22px',
 			color: '#ffffff'
 		})
@@ -76,12 +76,12 @@ export default class craftSpells extends CommonLevel {
 			this.scene.stop('resource')
 		}));
 
-		this.add.existing(new Click_Change_Scene(this, 190, 370, 'loopIcon', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 190, 270, 'loopIcon', () => {			// create button to go to map
 			this.scene.start('loopSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth})											
 			this.scene.stop('resource')
 		}));
 
-		this.add.existing(new Click_Change_Scene(this, 380, 360, 'starIcon', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 380, 260, 'starIcon', () => {			// create button to go to map
 			this.scene.start('basicSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth})											
 			this.scene.stop('resource')
 		}));

@@ -12,7 +12,7 @@ export default class inventory extends Phaser.Scene {
 	private greenGemText?: Phaser.GameObjects.Text
 
 	private waterSpellText?: Phaser.GameObjects.Text
-	//private waterSpell?: number
+	private airSpellText?: Phaser.GameObjects.Text
 	
 
 	public inventory!: Inventory_Items
@@ -30,6 +30,7 @@ export default class inventory extends Phaser.Scene {
 		this.prev_scene = data.prev_scene
 		this.currentHealth = data.storedHealth
 	}
+
 
 	preload() {
 		//load image  for start screen here
@@ -85,6 +86,12 @@ export default class inventory extends Phaser.Scene {
 			color: '#ffffff'
 		})
 		this.waterSpellText?.setText('Water Spell: ' + this.inventory.waterSpell)
+
+		this.airSpellText = this.add.text(400, 250, 'Air Spell: ', {
+			fontSize: '20px',
+			color: '#ffffff'
+		})
+		this.airSpellText?.setText('Air Spell: ' + this.inventory.airSpell)
 
 		
 	

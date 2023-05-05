@@ -5,6 +5,7 @@ export default class Inventory_Items {
     public greenGems: number
 
     public waterSpell: number
+    public airSpell: number
 
     constructor() {
         this.blueGems = 0
@@ -13,6 +14,7 @@ export default class Inventory_Items {
         this.greenGems = 0
 
         this.waterSpell = 0
+        this.airSpell = 0
 
     }
 
@@ -34,5 +36,9 @@ export default class Inventory_Items {
 
     add_waterSpell(numCollected: number) {
         this.waterSpell = this.waterSpell + numCollected
-    }    
+    } 
+    
+    add_airSpell(numCollected: number){
+        this.airSpell = this.airSpell + numCollected
+    }
 }

@@ -51,32 +51,86 @@ export default class waterSpell extends CommonLevel {
             
             // Check if the user input is not null
             if (userInput !== null) {
-                // Parse the user input as an integer
-                const numWaterSpells = parseInt(userInput);
+            
+                // Check if the user input is a valid number
+                if (parseInt(userInput) >= 0) {
+
+            // Parse the user input as an integer
+                    const numWaterSpells = parseInt(userInput);
+            
+            // Perform the loop based on the user input
+            //let waterSpell = 0;
+                    for (let i = 0; i < numWaterSpells; i++) {
+                        this.blueGemsCollected -= 4;
+                        this.waterSpellLoop += 1;
+                    }
+                    this.inventory.waterSpell += this.waterSpellLoop;
+                    this.inventory.blueGems -= 4 * (numWaterSpells)
+                    this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
+           
+                    this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                fontSize: '28px',
+                color: '#ffffff',
+            });
+        } else {
+            // Handle the case where the user input is not a number
+            this.add.text(20, 500, 'Please enter a valid number', {
+                fontSize: '28px',
+                color: '#ffffff',
+            });
+            this.time.delayedCall(1500, () => {
+                const userInput = window.prompt('Enter the number of Water Spells you want:');
+        
+                // Initialize gem collected here
+                this.waterSpellLoop = 0;
+                
+                // Check if the user input is not null
+                if (userInput !== null) {
+                
+                    // Check if the user input is a valid number
+                    if (parseInt(userInput) >= 0) {
     
+                // Parse the user input as an integer
+                        const numWaterSpells = parseInt(userInput);
+                
                 // Perform the loop based on the user input
                 //let waterSpell = 0;
-                for (let i = 0; i < numWaterSpells; i++) {
-                    this.blueGemsCollected -= 4;
-                    this.waterSpellLoop += 1;
-                }
-                this.inventory.waterSpell += this.waterSpellLoop;
-                this.inventory.blueGems -= 4 * (numWaterSpells)
-                this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
-                this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                        for (let i = 0; i < numWaterSpells; i++) {
+                            this.blueGemsCollected -= 4;
+                            this.waterSpellLoop += 1;
+                        }
+                        this.inventory.waterSpell += this.waterSpellLoop;
+                        this.inventory.blueGems -= 4 * (numWaterSpells)
+                        this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
+               
+                        this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
-    
             } else {
-                // Handle the case where the user input is null
-                this.add.text(20, 400, 'User canceled input dialog', {
+                // Handle the case where the user input is not a number
+                this.add.text(20, 500, 'Please enter a valid number', {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
-                //console.log('User canceled input dialog');
             }
-            })  
+        } else {
+            // Handle the case where the user input is null
+            this.add.text(20, 400, 'User canceled input dialog', {
+                fontSize: '28px',
+                color: '#ffffff',
+            });
+        }
+        })  
+        }
+    } else {
+        // Handle the case where the user input is null
+        this.add.text(20, 400, 'User canceled input dialog', {
+            fontSize: '28px',
+            color: '#ffffff',
+        });
+    }
+    })  
 
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button

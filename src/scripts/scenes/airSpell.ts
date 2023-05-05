@@ -32,9 +32,9 @@ export default class airSpell extends CommonLevel {
 		//making background
         //this.add.image(400, 400, 'background-waterspell')
         const bg = this.add.image(
-            this.cameras.main.width/2, this.cameras.main.height/2, 'background-waterspell');
+            this.cameras.main.width/2, this.cameras.main.height/2, 'background-airspell');
        bg.setScale(
-           this.cameras.main.width/(0.5 * bg.width), this.cameras.main.height/(0.5 * bg.height));
+           this.cameras.main.width/(.95 * bg.width), this.cameras.main.height/(.95 * bg.height));
 
         //telling the location
         //this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
@@ -52,28 +52,84 @@ export default class airSpell extends CommonLevel {
             
             // Check if the user input is not null
             if (userInput !== null) {
-                // Parse the user input as an integer
-                const numairSpells = parseInt(userInput);
+            //Check if the user unput is a vaild number 
+                if (parseInt(userInput) >= 0) {
+            // Parse the user input as an integer
+                    const numairSpells = parseInt(userInput);
     
                 // Perform the loop based on the user input
                 //let waterSpell = 0;
-                for (let i = 0; i < numairSpells; i++) {
-                    this.yellowGemsCollected -= 2;
-                    this.greenGemsCollected -= 2;
-                    this.airSpellLoop += 1;
-                }
-                this.inventory.waterSpell += this.airSpellLoop;
-                this.inventory.blueGems -= 4 * (numairSpells)
+                    for (let i = 0; i < numairSpells; i++) {
+                        this.yellowGemsCollected -= 2;
+                        this.greenGemsCollected -= 2;
+                        this.airSpellLoop += 1;
+                    }
+                this.inventory.airSpell += this.airSpellLoop;
+                this.inventory.yellowGems -= 2 * (numairSpells)
+                this.inventory.greenGems -= 2 * (numairSpells)
+                
                 this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
                 this.greenGemsCollected = this.greenGemsCollected - numairSpells
-                this.add.text(20, 400, `You now have ${this.airSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                this.add.text(20, 300, `You now have ${this.airSpellLoop} Air Spells.\nThey are now in your inventory`, {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
-    
+            } else {
+                // Handle the case where the user input is not a number
+                this.add.text(20, 500, 'Please enter a valid number', {
+                    fontSize: '28px',
+                    color: '#ffffff',
+                });
+                this.time.delayedCall(1500, () => {
+                    const userInput = window.prompt('Enter the number of Air Spells you want:');
+            
+                    // Initialize gem collected here
+                    this.airSpellLoop = 0;
+                    
+                    // Check if the user input is not null
+                    if (userInput !== null) {
+                    //Check if the user unput is a vaild number 
+                        if (parseInt(userInput) >= 0) {
+                    // Parse the user input as an integer
+                            const numairSpells = parseInt(userInput);
+            
+                        // Perform the loop based on the user input
+                        //let waterSpell = 0;
+                            for (let i = 0; i < numairSpells; i++) {
+                                this.yellowGemsCollected -= 2;
+                                this.greenGemsCollected -= 2;
+                                this.airSpellLoop += 1;
+                            }
+                        this.inventory.airSpell += this.airSpellLoop;
+                        this.inventory.yellowGems -= 2 * (numairSpells)
+                        this.inventory.greenGems -= 2 * (numairSpells)
+                        
+                        this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
+                        this.greenGemsCollected = this.greenGemsCollected - numairSpells
+                        this.add.text(20, 300, `You now have ${this.airSpellLoop} Air Spells.\nThey are now in your inventory`, {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
+                    } else {
+                        // Handle the case where the user input is not a number
+                        this.add.text(20, 500, 'Please enter a valid number', {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
+                      }    
+                    } else {
+                        // Handle the case where the user input is null
+                        this.add.text(20, 300, 'User canceled input dialog', {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
+                        //console.log('User canceled input dialog');
+                    }
+                    })
+              }    
             } else {
                 // Handle the case where the user input is null
-                this.add.text(20, 400, 'User canceled input dialog', {
+                this.add.text(20, 300, 'User canceled input dialog', {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
@@ -84,21 +140,21 @@ export default class airSpell extends CommonLevel {
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
             this.scene.start('loopSpell',  {inventory_items: this.inventory, prev_scene: this.scene.key});
-            this.scene.stop('waterSpell');
+            this.scene.stop('airSpell');
         }));
 
         this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {            // create button to go to map
             this.scene.start('map',  {inventory_items: this.inventory, prev_scene: this.scene.key});
-            this.scene.stop('waterSpell');
+            this.scene.stop('airSpell');
         }));
 
         this.add.existing(new Click_Change_Scene(this, 760, 560, 'inventory_icon', () => {        // inventory button
             this.scene.start('inventory', {inventory_items: this.inventory, prev_scene: this.scene.key});
-            this.scene.stop('waterSpell');
+            this.scene.stop('airSpell');
         }));
 
         //telling how to make loop
-        this.add.text(20, 150, 'You need to use 4 Blue Gems to make this Spell\nEnter the number of Water Spells you want', {
+        this.add.text(20, 125, 'You need to use 2 Green Gems and 2 Yellow Gems to make this Spell\nEnter the number of Air Spells you want', {
             fontSize: '28px',
             color: '#ffffff',
         });

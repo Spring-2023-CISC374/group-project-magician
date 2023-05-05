@@ -1,11 +1,12 @@
 import Phaser from 'phaser';
 import Click_Change_Scene from '../objects/Click_Change_Scene';
 import Inventory_Items from '../objects/Inventory_Items';
+import CommonLevel from './CommonLevel'
 
-export default class loopSpell extends Phaser.Scene {
+export default class loopSpell extends CommonLevel {
 	private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
-	protected inventory!: Inventory_Items
-    protected currentHealth!: number
+	//protected inventory!: Inventory_Items
+    //protected currentHealth!: number
 
     constructor() {
         super('loopSpell');
@@ -17,11 +18,11 @@ export default class loopSpell extends Phaser.Scene {
 		this.inventory = data.inventory_items
 	}
 
-    createInformation() {
-		this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
-		this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
-			.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
-	}
+    //createInformation() {
+	//	this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
+	//	this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
+	//		.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
+	//}
 
     preload() {
         //load image for start screen here
@@ -47,7 +48,7 @@ export default class loopSpell extends Phaser.Scene {
         //}); // messages 
         //this.cursors// get rid of yellow squiggles
 
-        this.createInformation()     
+        super.createInformation()     
 
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
@@ -65,24 +66,24 @@ export default class loopSpell extends Phaser.Scene {
             this.scene.stop('resource');
         }));
 
-		this.add.text(50, 150, 'Click the button below to pick your spell', {
+		this.add.text(150, 125, 'Click The Button Below To Pick\nWhat Spell You Want To Create', {
             fontSize: '28px',
             color: '#ffffff',
             //backgroundColor: '#333333',
             //padding: { x: 10, y: 5 }
         }); // water button text
 
-        this.add.existing(new Click_Change_Scene(this, 175, 230, 'waterIcon', () => {        // inventory button
+        this.add.existing(new Click_Change_Scene(this, 175, 250, 'waterIcon', () => {        // inventory button
             this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 375, 230, 'airIcon', () => {        // inventory button
-            this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
+        this.add.existing(new Click_Change_Scene(this, 375, 250, 'airIcon', () => {        // inventory button
+            this.scene.start('airSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 600, 230, 'fireIcon', () => {        // inventory button
+        this.add.existing(new Click_Change_Scene(this, 600, 250, 'fireIcon', () => {        // inventory button
             this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
