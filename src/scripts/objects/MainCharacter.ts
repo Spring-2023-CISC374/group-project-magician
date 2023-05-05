@@ -149,10 +149,10 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     }
     
     castSpell(player: MainCharacter, spell: Phaser.Physics.Arcade.Sprite) {
+        console.log("Made it here");
         player.anims.play('cast', true)
             .once('animationcomplete', () => {
-                    spell.setActive(true)
-					.setVisible(true)
+                    spell.setActive(true).setVisible(true)
                     if (spell.name==="Dark Spell") {
                         spell.anims.play('dark_spell', true)
                     }
