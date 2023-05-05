@@ -1,3 +1,4 @@
+import EnemyAttack from "./EnemyAttack";
 import MainCharacter from "./MainCharacter";
 import Spell from "./Spell";
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
@@ -60,8 +61,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
         if (spell.name === "Dark Spell") {
             this.health = Math.floor(this.health * 0.80);
-         }
-        else if (spell.name === "Fire Spell") {
+        } else if (spell.name === "Fire Spell") {
             this.statusEffect = true;
             this.health -= 5;
         } else if(spell.name === "Ice Spell") {
@@ -69,15 +69,21 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             if (this.enemyDamage > 2) {
                 this.enemyDamage -= 2;
             }
-        }
-        else {
+        } else {
             this.health -= spell.getSpellDamage();
         }
-        
+
 		player.setVisibility(true)
 		setTimeout(()=> {
 			player.setVisibility(false)
 		}, 5000)	
+    }
+
+    attackPlayer(enemyAttack: EnemyAttack) {
+        enemyAttack
+            .setActive(true)
+            .setVisible(true)
+        enemyAttack.anims.play('dragon_attack', true)
     }
 
     setText() {
@@ -85,7 +91,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     setVisibility(visible: boolean) {
-            this.enemyAttack.setVisible(visible)
+        this.enemyAttack.setVisible(visible)
     }
 
     setAttackText() {
@@ -129,7 +135,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     handleEnemyAnims() {
         this.anims.create({
-			key: 'enemyIdle', 
+			key: 'enemy_idle', 
 			frames: this.anims.generateFrameNumbers('dragon', {
 				start: 0, end: 7
 			}), 

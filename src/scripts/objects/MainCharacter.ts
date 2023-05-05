@@ -173,8 +173,8 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         this.characterAttack.setVisible(visible)
     }
 
-    handleBeingAttacked(enemy: Enemy, damage: number) {
-        this.health -= damage
+    handleBeingAttacked(enemy: Enemy) {
+        //this.health -= damage
 		enemy.setVisibility(true)
         this.noMoreText = false;
 		setTimeout(()=> {
