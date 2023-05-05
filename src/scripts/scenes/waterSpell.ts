@@ -122,7 +122,7 @@ export default class waterSpell extends Phaser.Scene {
     update() {
         this.spell.handleSpellAnims()
 
-        if (this.test_Spell==true && this.spell?.active==false) { 
+        if ( this.keys.space.isDown == true && this.spell?.active==false) { 
             console.log("spell is being tested");
 			this.player.castSpell(this.player, this.spell)
 		}
@@ -133,7 +133,7 @@ export default class waterSpell extends Phaser.Scene {
 			this.spell.resetSpellPosition(this.player)
             this.test_Spell = false;
 		}
-        this.spell?.checkForOverlap(this.player, this.enemy) // figure out what to interact with
+        this.spell?.checkEndTest(this.player, this.enemy) // figure out what to interact with
     }
 
     createPlayer(x: number, y: number, health: number) {
