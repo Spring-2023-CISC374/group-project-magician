@@ -101,7 +101,7 @@ export default class resource extends CommonLevel {
 
 		this.physics.add.collider(this.gem, this.platform)
 		this.physics.add.overlap(this.player, this.gem, this.handleCollectStar, undefined, this)
-		this.bluescoreText = this.add.text(450, 10, 'Gems Collected: 0', { 
+		this.bluescoreText = this.add.text(500, 10, 'Gems Collected: 0', { 
 			fontSize: '24px' })
 
 		this.gameOverText = this.add.text(425, 300, 'Game Over\nPlease Click\nthe Back Button\nto go to Level 1', { 

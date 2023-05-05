@@ -1,10 +1,11 @@
-import Phaser from 'phaser'
+//import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-import Inventory_Items from '../objects/Inventory_Items';
+//import Inventory_Items from '../objects/Inventory_Items';
+import CommonLevel from './CommonLevel';
 
-export default class basicSpell extends Phaser.Scene {
-	protected inventory!: Inventory_Items
-    protected currentHealth!: number
+export default class basicSpell extends CommonLevel {
+	//protected inventory!: Inventory_Items
+    //protected currentHealth!: number
 
 	constructor() {
 		super('basicSpell')
@@ -14,6 +15,12 @@ export default class basicSpell extends Phaser.Scene {
 		console.log('basic Spell', data)
 		this.currentHealth = data.storedHealth
 		this.inventory = data.inventory_items
+	}
+
+    createInformation() {
+		this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
+		this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
+			.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
 	}
 
 	preload() {
@@ -33,11 +40,17 @@ export default class basicSpell extends Phaser.Scene {
         //bg.setScale(
         //    this.cameras.main.width/(1.5 * bg.width), this.cameras.main.height/(1.75 * bg.height));
 
-        //telling the location
-        this.add.text(10, 40, 'Currently at Basic Spell\nPress the Back Button to go to Craft\nSpell', {
-            fontSize: '32px',
-            color: '#ffffff'
-        }); // message
+        super.createInformation()   
+
+        this.add.text(150, 125, 'Click The Button Below To Pick\nWhat Spell You Want To Create', {
+            fontSize: '28px',
+            color: '#ffffff',
+            //backgroundColor: '#333333',
+            //padding: { x: 10, y: 5 }
+        }); // water button text
+
+
+       
 
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
@@ -55,24 +68,18 @@ export default class basicSpell extends Phaser.Scene {
             this.scene.stop('resource');
         }));
 
-		this.add.text(50, 150, 'Click the button below to pick your spell', {
-            fontSize: '28px',
-            color: '#ffffff',
-            //backgroundColor: '#333333',
-            //padding: { x: 10, y: 5 }
-        }); // water button text
 
-        this.add.existing(new Click_Change_Scene(this, 175, 230, 'waterIcon', () => {        // inventory button
+        this.add.existing(new Click_Change_Scene(this, 175, 250, 'waterIcon', () => {        // inventory button
             this.scene.start('waterSpellBasic', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 375, 230, 'airIcon', () => {        // inventory button
-            this.scene.start('waterSpellBasic', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
+        this.add.existing(new Click_Change_Scene(this, 375, 250, 'airIcon', () => {        // inventory button
+            this.scene.start('airSpellBasic', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 600, 230, 'fireIcon', () => {        // inventory button
+        this.add.existing(new Click_Change_Scene(this, 600, 250, 'fireIcon', () => {        // inventory button
             this.scene.start('waterSpellBasic', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));

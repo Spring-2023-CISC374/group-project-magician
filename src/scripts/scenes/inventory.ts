@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-import DraggableImage from '../objects/DragImage';
+//import DraggableImage from '../objects/DragImage';
 import Inventory_Items from '../objects/Inventory_Items';
 
 export default class inventory extends Phaser.Scene {
@@ -11,6 +11,8 @@ export default class inventory extends Phaser.Scene {
 	private yellowGemText?: Phaser.GameObjects.Text
 	private greenGemText?: Phaser.GameObjects.Text
 
+	private waterSpellText?: Phaser.GameObjects.Text
+	private airSpellText?: Phaser.GameObjects.Text
 	//private waterSpellText?: Phaser.GameObjects.Text
 	//private waterSpell?: number
 	
@@ -30,6 +32,7 @@ export default class inventory extends Phaser.Scene {
 		this.prev_scene = data.prev_scene
 		this.currentHealth = data.storedHealth
 	}
+
 
 	preload() {
 		//load image  for start screen here
@@ -56,7 +59,7 @@ export default class inventory extends Phaser.Scene {
 		})
 		this.redGemText?.setText('Red Gems: ' + this.inventory.redGems)
 
-		this.add.existing(new DraggableImage(this, 50, 150, "red-gem")) // making a draggable red gem image
+		//this.add.existing(new DraggableImage(this, 50, 150, "red-gem")) // making a draggable red gem image
 
 		this.blueGemText = this.add.text(10, 200, 'Blue Gems: ', {
 			fontSize: '20px',
@@ -80,13 +83,18 @@ export default class inventory extends Phaser.Scene {
 		
 		//starting spells
 		//this.waterSpell = this.inventory.waterSpell;
-		/*
+	
 		this.waterSpellText = this.add.text(400, 150, 'Water Spell: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
 		this.waterSpellText?.setText('Water Spell: ' + this.inventory.waterSpell)
-		*/
+
+		this.airSpellText = this.add.text(400, 250, 'Air Spell: ', {
+			fontSize: '20px',
+			color: '#ffffff'
+		})
+		this.airSpellText?.setText('Air Spell: ' + this.inventory.airSpell)
 
 		
 	

@@ -4,6 +4,8 @@ export default class Inventory_Items {
     public yellowGems: number
     public greenGems: number
 
+    public waterSpell: number
+    public airSpell: number
     public basicWaterSpell: number
     public loopingWaterSpell: number
     public basicFireSpell: number
@@ -17,6 +19,8 @@ export default class Inventory_Items {
         this.yellowGems = 0
         this.greenGems = 0
 
+        this.waterSpell = 0
+        this.airSpell = 0
         this.basicWaterSpell = 0
         this.loopingWaterSpell = 0
         this.basicFireSpell = 0
@@ -42,6 +46,13 @@ export default class Inventory_Items {
         this.greenGems = this.greenGems + numCollected
     }
 
+    //add_waterSpell(numCollected: number) {
+    //    this.waterSpell = this.waterSpell + numCollected
+    //} 
+    
+    add_airSpell(numCollected: number){
+        this.airSpell = this.airSpell + numCollected
+    }
     add_basicWaterSpell(numCollected: number) {
         this.basicWaterSpell = this.basicWaterSpell + numCollected
     }    
