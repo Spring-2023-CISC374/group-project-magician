@@ -1,19 +1,19 @@
-//import Phaser from 'phaser'
+import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-//import Inventory_Items from '../objects/Inventory_Items';
-import CommonLevel from './CommonLevel'
+import Inventory_Items from '../objects/Inventory_Items';
+//import CommonLevel from './CommonLevel'
 
 
-export default class airSpell extends CommonLevel {
+export default class airSpell extends Phaser.Scene {
     private yellowGemsCollected!: number
     private greenGemsCollected!: number
-    private airSpellLoop: number	
-    //protected inventory!: Inventory_Items
-   // protected currentHealth!: number
+    //private airSpellLoop: number	
+    protected inventory!: Inventory_Items
+    protected currentHealth!: number
     
 	constructor() {
 		super('airSpell')
-        this.airSpellLoop = 0
+        //this.airSpellLoop = 0
 	}
 
     init (data: any) {
@@ -21,13 +21,12 @@ export default class airSpell extends CommonLevel {
 		this.currentHealth = data.storedHealth
 		this.inventory = data.inventory_items
 	}
-/*
+
     createInformation() {
 		this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
 		this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
 			.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
 	}
-*/
 	create() {	
 		//making background
         //this.add.image(400, 400, 'background-waterspell')
@@ -42,13 +41,13 @@ export default class airSpell extends CommonLevel {
         //    color: '#ffffff'
         //});
 
-        super.createInformation() 
+        this.createInformation() 
 
         this.time.delayedCall(1500, () => {
             const userInput = window.prompt('Enter the number of Air Spells you want:');
     
             // Initialize gem collected here
-            this.airSpellLoop = 0;
+            this.inventory.loopingAirSpell = 0;
             
             // Check if the user input is not null
             if (userInput !== null) {
@@ -62,15 +61,15 @@ export default class airSpell extends CommonLevel {
                     for (let i = 0; i < numairSpells; i++) {
                         this.yellowGemsCollected -= 2;
                         this.greenGemsCollected -= 2;
-                        this.airSpellLoop += 1;
+                        this.inventory.loopingAirSpell += 1;
                     }
-                this.inventory.airSpell += this.airSpellLoop;
+                this.inventory.airSpell += this.inventory.loopingAirSpell;
                 this.inventory.yellowGems -= 2 * (numairSpells)
                 this.inventory.greenGems -= 2 * (numairSpells)
                 
                 this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
                 this.greenGemsCollected = this.greenGemsCollected - numairSpells
-                this.add.text(20, 300, `You now have ${this.airSpellLoop} Air Spells.\nThey are now in your inventory`, {
+                this.add.text(20, 300, `You now have ${this.inventory.loopingAirSpell} Air Spells.\nThey are now in your inventory`, {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
@@ -84,7 +83,7 @@ export default class airSpell extends CommonLevel {
                     const userInput = window.prompt('Enter the number of Air Spells you want:');
             
                     // Initialize gem collected here
-                    this.airSpellLoop = 0;
+                    this.inventory.loopingAirSpell = 0;
                     
                     // Check if the user input is not null
                     if (userInput !== null) {
@@ -98,15 +97,15 @@ export default class airSpell extends CommonLevel {
                             for (let i = 0; i < numairSpells; i++) {
                                 this.yellowGemsCollected -= 2;
                                 this.greenGemsCollected -= 2;
-                                this.airSpellLoop += 1;
+                                this.inventory.loopingAirSpell += 1;
                             }
-                        this.inventory.airSpell += this.airSpellLoop;
+                        this.inventory.airSpell += this.inventory.loopingAirSpell;
                         this.inventory.yellowGems -= 2 * (numairSpells)
                         this.inventory.greenGems -= 2 * (numairSpells)
                         
                         this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
                         this.greenGemsCollected = this.greenGemsCollected - numairSpells
-                        this.add.text(20, 300, `You now have ${this.airSpellLoop} Air Spells.\nThey are now in your inventory`, {
+                        this.add.text(20, 300, `You now have ${this.inventory.loopingAirSpell} Air Spells.\nThey are now in your inventory`, {
                             fontSize: '28px',
                             color: '#ffffff',
                         });

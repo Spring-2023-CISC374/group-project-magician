@@ -1,3 +1,4 @@
+import Click_Change_Scene from '../objects/Click_Change_Scene'
 import CommonLevel from './CommonLevel'
 
 export default class home extends CommonLevel {
@@ -18,6 +19,11 @@ export default class home extends CommonLevel {
 			.setColor('white').setFontSize(30).setDepth(1).setOrigin(0.5)
 		// code for this taken from blog.ourcase.co
         this.createEmitter("petal"); 
+
+		this.add.existing(new Click_Change_Scene(this, 50, 500, 'wand', () => {		    			
+			this.scene.start('craftSpells', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth})
+			this.scene.stop('level_1')
+		}));
     }
 
 	private createEmitter(textureName: string)

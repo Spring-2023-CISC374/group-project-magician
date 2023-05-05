@@ -15,8 +15,10 @@ export default class start extends Phaser.Scene {
 		this.load.spritesheet('mainChar', 'assets/player.png',
 		{frameWidth: 32, frameHeight: 32})
 		// enemy sprites
-		this.load.spritesheet('dragon', 'assets/enemies/dragon.png',				
-		{frameWidth: 32, frameHeight: 32})										// enemy dragon
+		this.load.spritesheet('dragon', 'assets/enemies/dragon.png',				// enemy dragon		
+		{frameWidth: 32, frameHeight: 32})		
+		this.load.spritesheet('dragonAttack', 'assets/enemies/dragon_attack.png',	// enemy dragon attack	
+		{frameWidth: 32, frameHeight: 32})							
 		// background stuff
 		this.load.image('start_background', 'assets/background/dark_forest.png')
 		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
@@ -76,9 +78,11 @@ export default class start extends Phaser.Scene {
 		this.load.image('button', 'assets/Icons/Inventory_Icon.png');
 		this.load.image('flame', 'assets/Icons/smallFlame.png')
 		this.load.spritesheet('fireSpell', 'assets/spells/fireBoltSheet.png', 
-		{frameWidth: 44, frameHeight: 48})
+		{frameWidth: 48, frameHeight: 48})
 		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
 		{frameWidth: 48, frameHeight: 32})
+		//chest icon
+		this.load.image('chest', 'assets/Icons/Inventory_Icon.png');
 
 		// waterSpell images
 		this.load.image('background-waterspell', 'assets/background/waterSpell_Background.png')

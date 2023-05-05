@@ -1,18 +1,27 @@
-//import Phaser from 'phaser'
+import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-//import Inventory_Items from '../objects/Inventory_Items';
-import CommonLevel from './CommonLevel'
+import Inventory_Items from '../objects/Inventory_Items';
+//import CommonLevel from './CommonLevel'
+import Spell from '../objects/Spell';
+import MainCharacter from '../objects/MainCharacter';
+import Enemy from '../objects/Enemy';
 
 
-export default class waterSpell extends CommonLevel {
+export default class waterSpellLoop extends Phaser.Scene {
     private blueGemsCollected!: number
-    private waterSpellLoop: number	
-    //protected inventory!: Inventory_Items
-   // protected currentHealth!: number
+    protected player!: MainCharacter
+    protected statusEffect!: Phaser.GameObjects.Image
+    protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
+    //private loopingWaterSpell: number	
+    protected inventory!: Inventory_Items
+    protected currentHealth!: number
+    protected spell!: Spell
+    protected enemy!: Enemy
+    protected timesCast!: number
     
 	constructor() {
 		super('waterSpell')
-        this.waterSpellLoop = 0
+        //this.loopingWaterSpell = 0
 	}
 
     init (data: any) {
@@ -20,13 +29,12 @@ export default class waterSpell extends CommonLevel {
 		this.currentHealth = data.storedHealth
 		this.inventory = data.inventory_items
 	}
-/*
+
     createInformation() {
 		this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
 		this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
 			.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
 	}
-*/
 	create() {	
 		//making background
         //this.add.image(400, 400, 'background-waterspell')
@@ -35,19 +43,30 @@ export default class waterSpell extends CommonLevel {
        bg.setScale(
            this.cameras.main.width/(0.5 * bg.width), this.cameras.main.height/(0.5 * bg.height));
 
+        this.createPlayer(80, 515, this.currentHealth) // creating a player
+        this.createEnemy(400, 525, 'blue-gem', 80, 10)
+
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
+        this.spell.handleSpellAnims() // water spell will be 
+        this.spell.setDisabled(false)
+        this.spell.setActive(false)
+        this.timesCast = 0;
+        
+        this.keys = this.input.keyboard.createCursorKeys(); // activating keyboard
+
         //telling the location
         //this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
         //    fontSize: '32px',
         //    color: '#ffffff'
         //});
 
-        super.createInformation() 
+        this.createInformation() 
 
-        this.time.delayedCall(1500, () => {
+        this.time.delayedCall(100, () => {
             const userInput = window.prompt('Enter the number of Water Spells you want:');
     
             // Initialize gem collected here
-            this.waterSpellLoop = 0;
+            this.inventory.loopingWaterSpell = 0;
             
             // Check if the user input is not null
             if (userInput !== null) {
@@ -62,13 +81,13 @@ export default class waterSpell extends CommonLevel {
             //let waterSpell = 0;
                     for (let i = 0; i < numWaterSpells; i++) {
                         this.blueGemsCollected -= 4;
-                        this.waterSpellLoop += 1;
+                        this.inventory.loopingWaterSpell += 1;
                     }
-                    this.inventory.waterSpell += this.waterSpellLoop;
+                    this.inventory.waterSpell += this.inventory.loopingWaterSpell;
                     this.inventory.blueGems -= 4 * (numWaterSpells)
                     this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
            
-                    this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                    this.add.text(20, 400, `You now have ${this.inventory.loopingWaterSpell} Water Spells.\nThey are now in your inventory`, {
                 fontSize: '28px',
                 color: '#ffffff',
             });
@@ -82,7 +101,7 @@ export default class waterSpell extends CommonLevel {
                 const userInput = window.prompt('Enter the number of Water Spells you want:');
         
                 // Initialize gem collected here
-                this.waterSpellLoop = 0;
+                this.inventory.loopingWaterSpell = 0;
                 
                 // Check if the user input is not null
                 if (userInput !== null) {
@@ -97,13 +116,13 @@ export default class waterSpell extends CommonLevel {
                 //let waterSpell = 0;
                         for (let i = 0; i < numWaterSpells; i++) {
                             this.blueGemsCollected -= 4;
-                            this.waterSpellLoop += 1;
+                            this.inventory.loopingWaterSpell += 1;
                         }
-                        this.inventory.waterSpell += this.waterSpellLoop;
+                        this.inventory.waterSpell += this.inventory.loopingWaterSpell;
                         this.inventory.blueGems -= 4 * (numWaterSpells)
                         this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
                
-                        this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                        this.add.text(20, 400, `You now have ${this.inventory.loopingWaterSpell} Water Spells.\nThey are now in your inventory`, {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
@@ -159,7 +178,39 @@ export default class waterSpell extends CommonLevel {
         //    color: '#ffffff',
         //});
         
-        
 	}
+    update() {
+        this.spell.handleSpellAnims()
+
+        if ( this.keys.space.isDown == true && this.spell?.active==false) { // initialize the castiung of the spell
+            console.log("first part cast");
+			this.player.castLoopSpell(this.player, this.spell)
+		}
+		if (this.spell?.active == true) {
+			this.spell.moveSpell()
+		}
+		if (this.spell?.isDisabled() == true) {
+			this.spell.resetSpellPosition(this.player)
+            if (this.timesCast < 2) { // once we have cast the spell 3 times, we are done 
+                console.log(this.timesCast);
+                this.player.castLoopSpell(this.player, this.spell)
+                this.timesCast++;
+            } else {
+                this.timesCast = 0; // resetting the number of times the spell was cast
+            }
+            
+		}
+        this.spell?.checkEndTest(this.player, this.enemy) // figure out what to interact with
+    }
+
+    createPlayer(x: number, y: number, health: number) {
+        this.player = new MainCharacter(this, x, y, health)
+		this.player.handleAnims()
+		this.player.anims.play('idle', true)
+    }
+
+    createEnemy(x: number, y: number, sprite: string, health: number, damage: number) {
+        this.enemy = new Enemy(this, x, y, sprite, health, damage)
+    }
     
 }

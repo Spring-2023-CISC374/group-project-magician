@@ -1,18 +1,27 @@
-//import Phaser from 'phaser'
+import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
 //import Inventory_Items from '../objects/Inventory_Items';
-import CommonLevel from './CommonLevel'
+//import CommonLevel from './CommonLevel'
+import Inventory_Items from '../objects/Inventory_Items';
+import Spell from '../objects/Spell';
+import Enemy from '../objects/Enemy';
+import MainCharacter from '../objects/MainCharacter';
 
 
-export default class waterSpellBasic extends CommonLevel {
+export default class waterSpellBasic extends Phaser.Scene {
     private blueGemsCollected!: number
-    private waterSpellLoop: number	
-    //protected inventory!: Inventory_Items
-   // protected currentHealth!: number
+    //private basicWaterSpell: number	
+    protected inventory!: Inventory_Items
+    protected currentHealth!: number
+    protected spell!: Spell
+    protected enemy!: Enemy
+    protected player!: MainCharacter
+    protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
+    
     
 	constructor() {
 		super('waterSpellBasic')
-        this.waterSpellLoop = 0
+        //this.basicWaterSpell = 0
 	}
 
     init (data: any) {
@@ -47,7 +56,7 @@ export default class waterSpellBasic extends CommonLevel {
             const userInput = window.prompt('Enter the number of Water Spells you want:');
     
             // Initialize gem collected here
-            this.waterSpellLoop = 0;
+            this.inventory.basicWaterSpell = 0;
             
             // Check if the user input is not null
             if (userInput !== null) {
@@ -60,12 +69,12 @@ export default class waterSpellBasic extends CommonLevel {
                 //let waterSpell = 0;
                     for (let i = 0; i < numWaterSpells; i++) {
                         this.blueGemsCollected -= 1;
-                        this.waterSpellLoop += 1;
+                        this.inventory.basicWaterSpell += 1;
                     }
-                this.inventory.waterSpell += this.waterSpellLoop;
+                this.inventory.waterSpell += this.inventory.basicWaterSpell;
                 this.inventory.blueGems -= 1 * (numWaterSpells)
                 this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
-                this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                this.add.text(20, 400, `You now have ${this.inventory.basicWaterSpell} Water Spells.\nThey are now in your inventory`, {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
@@ -79,7 +88,7 @@ export default class waterSpellBasic extends CommonLevel {
                     const userInput = window.prompt('Enter the number of Water Spells you want:');
             
                     // Initialize gem collected here
-                    this.waterSpellLoop = 0;
+                    this.inventory.basicWaterSpell = 0;
                     
                     // Check if the user input is not null
                     if (userInput !== null) {
@@ -92,12 +101,12 @@ export default class waterSpellBasic extends CommonLevel {
                         //let waterSpell = 0;
                             for (let i = 0; i < numWaterSpells; i++) {
                                 this.blueGemsCollected -= 1;
-                                this.waterSpellLoop += 1;
+                                this.inventory.basicWaterSpell += 1;
                             }
-                        this.inventory.waterSpell += this.waterSpellLoop;
+                        this.inventory.waterSpell += this.inventory.basicWaterSpell;
                         this.inventory.blueGems -= 1 * (numWaterSpells)
                         this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
-                        this.add.text(20, 400, `You now have ${this.waterSpellLoop} Water Spells.\nThey are now in your inventory`, {
+                        this.add.text(20, 400, `You now have ${this.inventory.basicWaterSpell} Water Spells.\nThey are now in your inventory`, {
                             fontSize: '28px',
                             color: '#ffffff',
                         });
@@ -132,6 +141,16 @@ export default class waterSpellBasic extends CommonLevel {
             }
             })  
 
+        this.createPlayer(80, 515, this.currentHealth) // creating a player
+        this.createEnemy(400, 525, 'blue-gem', 80, 10) // creating a gen the spell will hit
+
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
+        this.spell.handleSpellAnims() // water spell will be 
+        this.spell.setDisabled(false)
+        this.spell.setActive(false)
+        
+        this.keys = this.input.keyboard.createCursorKeys(); // activating keyboard
+
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
             this.scene.start('basicSpell',  {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
@@ -161,5 +180,31 @@ export default class waterSpellBasic extends CommonLevel {
         
         
 	}
+
+    update() {
+        this.spell.handleSpellAnims()
+
+        if ( this.keys.space.isDown == true && this.spell?.active==false) { 
+            console.log("spell is being tested");
+			this.player.castSpell(this.player, this.spell)
+		}
+		if (this.spell?.active == true) {
+			this.spell.moveSpell()
+		}
+		if (this.spell?.isDisabled() == true) {
+			this.spell.resetSpellPosition(this.player)
+		}
+        this.spell?.checkEndTest(this.player, this.enemy) // figure out what to interact with
+    }
+
+    createPlayer(x: number, y: number, health: number) {
+        this.player = new MainCharacter(this, x, y, health)
+		this.player.handleAnims()
+		this.player.anims.play('idle', true)
+    }
+
+    createEnemy(x: number, y: number, sprite: string, health: number, damage: number) {
+        this.enemy = new Enemy(this, x, y, sprite, health, damage)
+    }
     
 }
