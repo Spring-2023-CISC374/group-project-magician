@@ -1,6 +1,6 @@
-import Phaser from 'phaser'
+//import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-import Inventory_Items from '../objects/Inventory_Items';
+//import Inventory_Items from '../objects/Inventory_Items';
 import CommonLevel from './CommonLevel';
 
 export default class basicSpell extends CommonLevel {

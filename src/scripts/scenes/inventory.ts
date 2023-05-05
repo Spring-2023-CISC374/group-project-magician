@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-import DraggableImage from '../objects/DragImage';
+//import DraggableImage from '../objects/DragImage';
 import Inventory_Items from '../objects/Inventory_Items';
 
 export default class inventory extends Phaser.Scene {
@@ -59,7 +59,7 @@ export default class inventory extends Phaser.Scene {
 		})
 		this.redGemText?.setText('Red Gems: ' + this.inventory.redGems)
 
-		this.add.existing(new DraggableImage(this, 50, 150, "red-gem")) // making a draggable red gem image
+		//this.add.existing(new DraggableImage(this, 50, 150, "red-gem")) // making a draggable red gem image
 
 		this.blueGemText = this.add.text(10, 200, 'Blue Gems: ', {
 			fontSize: '20px',
