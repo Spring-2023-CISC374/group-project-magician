@@ -16,7 +16,7 @@ export default class waterSpell extends Phaser.Scene {
     protected currentHealth!: number
     protected spell!: Spell
     protected enemy!: Enemy
-    protected test_Spell!: boolean
+    protected timesCast!: number
     
 	constructor() {
 		super('waterSpell')
@@ -45,6 +45,7 @@ export default class waterSpell extends Phaser.Scene {
         this.spell.handleSpellAnims() // water spell will be 
         this.spell.setDisabled(false)
         this.spell.setActive(false)
+        this.timesCast = 0;
         
         this.keys = this.input.keyboard.createCursorKeys(); // activating keyboard
 
@@ -101,12 +102,6 @@ export default class waterSpell extends Phaser.Scene {
             this.scene.stop('waterSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 400, 400, 'wand', () => {        // inventory button
-            console.log("test spell clicked")
-            this.test_Spell = true;
-            //this.spell.setActive(false)
-        }));
-
         //telling how to make loop
         this.add.text(20, 150, 'You need to use 4 Blue Gems to make this Spell\nEnter the number of Water Spells you want', {
             fontSize: '28px',
@@ -122,16 +117,23 @@ export default class waterSpell extends Phaser.Scene {
     update() {
         this.spell.handleSpellAnims()
 
-        if ( this.keys.space.isDown == true && this.spell?.active==false) { 
-            console.log("spell is being tested");
-			this.player.castSpell(this.player, this.spell)
+        if ( this.keys.space.isDown == true && this.spell?.active==false) { // initialize the castiung of the spell
+            console.log("first part cast");
+			this.player.castLoopSpell(this.player, this.spell)
 		}
 		if (this.spell?.active == true) {
 			this.spell.moveSpell()
 		}
 		if (this.spell?.isDisabled() == true) {
 			this.spell.resetSpellPosition(this.player)
-            this.test_Spell = false;
+            if (this.timesCast < 2) { // once we have cast the spell 3 times, we are done 
+                console.log(this.timesCast);
+                this.player.castLoopSpell(this.player, this.spell)
+                this.timesCast++;
+            } else {
+                this.timesCast = 0; // resetting the number of times the spell was cast
+            }
+            
 		}
         this.spell?.checkEndTest(this.player, this.enemy) // figure out what to interact with
     }
