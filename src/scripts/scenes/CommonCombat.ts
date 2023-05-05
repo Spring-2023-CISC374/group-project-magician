@@ -3,6 +3,7 @@ import MainCharacter from '../objects/MainCharacter';
 import Enemy from '../objects/Enemy';
 import Spell from '../objects/Spell'
 import SpellButtons from '../objects/SpellButtons'
+import Inventory_Items from '../objects/Inventory_Items';
 import EnemyAttack from '../objects/EnemyAttack';
 
 export default class CommonCombat extends Phaser.Scene {
@@ -14,12 +15,14 @@ export default class CommonCombat extends Phaser.Scene {
 	protected currentHealth!: number
 	protected spellList!: Array<Spell>
 	protected statusEffect!: Phaser.GameObjects.Image
+	protected inventory!: Inventory_Items
 
 	constructor(key: any) { super(key) }
 
 	init (data: any) {
 		console.log('init', data)
 		this.currentHealth = data.storedHealth
+		this.inventory = data.inventory_items
         //this.spellList = data.storedSpellList
 	}
 

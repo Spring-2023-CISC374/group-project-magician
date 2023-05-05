@@ -1,11 +1,18 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
 import Inventory_Items from '../objects/Inventory_Items';
+import Spell from '../objects/Spell';
+import Enemy from '../objects/Enemy';
+import MainCharacter from '../objects/MainCharacter';
 
 
 export default class waterSpellBasic extends Phaser.Scene {
     protected inventory!: Inventory_Items
     protected currentHealth!: number
+    protected spell!: Spell
+    protected enemy!: Enemy
+    protected player!: MainCharacter
+    protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
     
 	constructor() {
 		super('waterSpellBasic')
@@ -29,6 +36,16 @@ export default class waterSpellBasic extends Phaser.Scene {
             fontSize: '32px',
             color: '#ffffff'
         });  // message
+
+        this.createPlayer(80, 515, this.currentHealth) // creating a player
+        this.createEnemy(400, 525, 'blue-gem', 80, 10) // creating a gen the spell will hit
+
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
+        this.spell.handleSpellAnims() // water spell will be 
+        this.spell.setDisabled(false)
+        this.spell.setActive(false)
+        
+        this.keys = this.input.keyboard.createCursorKeys(); // activating keyboard
 
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
@@ -84,5 +101,31 @@ export default class waterSpellBasic extends Phaser.Scene {
         })      
 
 	}
+
+    update() {
+        this.spell.handleSpellAnims()
+
+        if ( this.keys.space.isDown == true && this.spell?.active==false) { 
+            console.log("spell is being tested");
+			this.player.castSpell(this.player, this.spell)
+		}
+		if (this.spell?.active == true) {
+			this.spell.moveSpell()
+		}
+		if (this.spell?.isDisabled() == true) {
+			this.spell.resetSpellPosition(this.player)
+		}
+        this.spell?.checkEndTest(this.player, this.enemy) // figure out what to interact with
+    }
+
+    createPlayer(x: number, y: number, health: number) {
+        this.player = new MainCharacter(this, x, y, health)
+		this.player.handleAnims()
+		this.player.anims.play('idle', true)
+    }
+
+    createEnemy(x: number, y: number, sprite: string, health: number, damage: number) {
+        this.enemy = new Enemy(this, x, y, sprite, health, damage)
+    }
     
 }

@@ -149,10 +149,10 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
     }
     
     castSpell(player: MainCharacter, spell: Phaser.Physics.Arcade.Sprite) {
+        console.log("Made it here");
         player.anims.play('cast', true)
             .once('animationcomplete', () => {
-                    spell.setActive(true)
-					.setVisible(true)
+                    spell.setActive(true).setVisible(true)
                     if (spell.name==="Dark Spell") {
                         spell.anims.play('dark_spell', true)
                     }
@@ -165,6 +165,26 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 			player.anims.play('idle', true)
 		})
     }
+
+    castLoopSpell(player: MainCharacter, spell: Phaser.Physics.Arcade.Sprite) {
+        player.anims.play('cast', true)
+            .once('animationcomplete', () => {
+                    spell.setActive(true).setVisible(true)
+                    if (spell.name==="Dark Spell") {
+                        spell.anims.play('dark_spell', true)
+                    }
+                    else if (spell.name==="Fire Spell") {
+                        spell.anims.play('fire_spell', true)
+                    }
+                    else if (spell.name==="Ice Spell") {
+                        spell.anims.repeatDelay = 200;
+                        spell.anims.repeat = 3;
+                        spell.anims.play('ice_spell', true)
+                    }
+			player.anims.play('idle', true)
+		})
+    }
+
     setText() {
         this.characterCombatHealth.setText('Health: ' + this.health)
     }
