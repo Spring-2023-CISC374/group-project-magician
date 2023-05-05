@@ -4,10 +4,12 @@ import Enemy from '../objects/Enemy';
 import Spell from '../objects/Spell'
 import SpellButtons from '../objects/SpellButtons'
 import Inventory_Items from '../objects/Inventory_Items';
+import EnemyAttack from '../objects/EnemyAttack';
 
 export default class CommonCombat extends Phaser.Scene {
 	protected player!: MainCharacter
 	protected enemy!: Enemy
+	protected enemyAttack!: EnemyAttack
 	protected spell!: Spell
 	protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
 	protected currentHealth!: number
@@ -15,9 +17,7 @@ export default class CommonCombat extends Phaser.Scene {
 	protected statusEffect!: Phaser.GameObjects.Image
 	protected inventory!: Inventory_Items
 
-	constructor(key: any) {
-		super(key)
-	}
+	constructor(key: any) { super(key) }
 
 	init (data: any) {
 		console.log('init', data)
@@ -26,17 +26,16 @@ export default class CommonCombat extends Phaser.Scene {
         //this.spellList = data.storedSpellList
 	}
 
-	preload() {
-        //
-	}
-
 	create() {	
         //Creates player at 80, 515, and passes the current health
         this.createPlayer(80, 515, this.currentHealth)
         //this.createEnemy(400, 525, 'dragon', 80, 10)
         //Creates and then plays enemy anims
-		
         this.enemyAnims()
+		this.enemyAttack = new EnemyAttack(this, this.enemy.x - 30, this.enemy.y, 'dragonAttack', 'Dragon Attack', this.enemy.getEnemyDamage())
+			.setActive(false)
+			.setVisible(false)
+		this.enemyAttack.flipX = true
         //Creates spell list, sets spell to first one in the list, as long as no spell list was passed
 		this.createOriginalSpellList()
 		this.spell = this.spellList[0]
@@ -60,11 +59,12 @@ export default class CommonCombat extends Phaser.Scene {
 	handleLeavingCombatToMap() {
 		setTimeout(()=> {
 			this.scene.stop(this.scene as unknown as string)
-			this.scene.start('map', {storedHealth: this.currentHealth, inventory_items: this.inventory})
+			this.scene.start('map', { storedHealth: this.currentHealth })
 		}, 5000)
 	}
-    onUpdate() {//Need to reuse handle spell anims or animations won't work
+    onUpdate() { //Need to reuse handle spell anims or animations won't work
         this.spell.handleSpellAnims()
+		this.enemyAttack.handleAttackAnims()
         this.player?.setAttackText(this.spell)
 		this.player?.setText()
 		this.enemy?.setAttackText()
@@ -79,15 +79,21 @@ export default class CommonCombat extends Phaser.Scene {
 		}
 		if (this.spell?.active == true) {
 			this.spell.moveSpell()
+			this.enemyAttack.resetAttackPosition(this.enemy)
 		}
 		if (this.spell?.isDisabled() == true) {
-			this.player?.handleBeingAttacked(this.enemy, this.enemy?.getEnemyDamage())
+			this.enemy.attackPlayer(this.enemyAttack)
+			this.player?.handleBeingAttacked(this.enemy)
 			this.spell.resetSpellPosition(this.player)
+		}
+		if (this.enemyAttack?.active == true) {
+			this.enemyAttack.moveAttack()
 		}
 		if (this.enemy.getStatusEffect() === true && this.enemy?.getHealth() > 0) {
 			this.statusEffect.setVisible(true)
 		}
 		this.spell?.checkForOverlap(this.player, this.enemy)
+		this.enemyAttack.checkForOverlap(this.player)
     }
     makeInitialStatusEffect(imageKey: string) {
         this.statusEffect = this.add.image(this.enemy.x, this.enemy.y - 100, imageKey) 
@@ -138,7 +144,7 @@ export default class CommonCombat extends Phaser.Scene {
     }
     enemyAnims() {
         this.enemy.handleEnemyAnims()
-		this.enemy.anims.play('enemyIdle', true)
+		this.enemy.anims.play('enemy_idle', true)
     }
     createEnemy(x: number, y: number, sprite: string, health: number, damage: number) {
         this.enemy = new Enemy(this, x, y, sprite, health, damage)
