@@ -66,6 +66,17 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.add.overlap(enemy, this,
 			() => this?.handleSpell(player, enemy), undefined, this)
   }
+  checkEndTest(player: MainCharacter, enemy: Enemy) { // used to handle the spell testing in the crafting. same as Check For Overlap
+    this.scene.physics.add.overlap(enemy, this,
+			() => this?.handleEndTest(player, enemy), undefined, this)
+  }
+
+  handleEndTest(player: MainCharacter, enemy: Enemy) { // used to handle the spell. Same as handle spell minus the handler for the enemy being attacked
+    player
+    enemy
+		this.disableBody(true, true);
+    this.disabled = true;
+  }
 
   handleSpellAnims() {
     this.anims.create({
