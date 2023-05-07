@@ -18,7 +18,10 @@ export default class start extends Phaser.Scene {
 		this.load.spritesheet('dragon', 'assets/enemies/dragon.png',				// enemy dragon		
 		{frameWidth: 32, frameHeight: 32})		
 		this.load.spritesheet('dragonAttack', 'assets/enemies/dragon_attack.png',	// enemy dragon attack	
-		{frameWidth: 32, frameHeight: 32})							
+		{frameWidth: 32, frameHeight: 32})
+		// fire status effect animation
+		this.load.spritesheet('movingFire2', 'assets/newicons/movingFire2.png',	// enemy dragon attack	
+		{frameWidth: 44, frameHeight: 70})							
 		// background stuff
 		this.load.image('start_background', 'assets/background/dark_forest.png')
 		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
@@ -82,6 +85,10 @@ export default class start extends Phaser.Scene {
 		{frameWidth: 48, frameHeight: 48})
 		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
 		{frameWidth: 48, frameHeight: 32})
+		this.load.spritesheet('waterSpell', 'assets/spells/waterSpell2.png', 
+		{frameWidth: 50, frameHeight: 47})
+		this.load.spritesheet('windSpell', 'assets/spells/windSpell.png', 
+		{frameWidth: 32, frameHeight: 32})
 		//chest icon
 		this.load.image('chest', 'assets/newicons/Inventory_Icon.png');
 

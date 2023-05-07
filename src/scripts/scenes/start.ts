@@ -22,10 +22,6 @@ export default class start extends CommonLevel {
 			fontSize: '40px',
 			color: '#ffffff'
 		})
-		this.add.text(175, 350, 'The page has changed', {
-			fontSize: '40px',
-			color: '#ffffff'
-		})
 
 		this.currentHealth = 100
 
