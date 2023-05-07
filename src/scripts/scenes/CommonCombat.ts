@@ -14,7 +14,7 @@ export default class CommonCombat extends Phaser.Scene {
 	protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
 	protected currentHealth!: number
 	protected spellList!: Array<Spell>
-	protected statusEffect!: Phaser.GameObjects.Image
+	protected statusEffect!: Phaser.GameObjects.Sprite
 	protected inventory!: Inventory_Items
 
 	constructor(key: any) { super(key) }
@@ -49,7 +49,7 @@ export default class CommonCombat extends Phaser.Scene {
         //Players health, enemy health, and enemy damage message
         this.player.displayCombatHealth()
 		this.enemy.displayHealth()
-		this.enemy.displayAttack()
+		this.enemy.displayAttack(this.enemyAttack)
     }
 
 	update() {
@@ -67,7 +67,7 @@ export default class CommonCombat extends Phaser.Scene {
 		this.enemyAttack.handleAttackAnims()
         this.player?.setAttackText(this.spell)
 		this.player?.setText()
-		this.enemy?.setAttackText()
+		this.enemy?.setAttackText(this.enemyAttack)
 		this.enemy?.setText()
 		// update spells
 		if (this.enemy?.getHealth() <= 0) {
@@ -75,7 +75,8 @@ export default class CommonCombat extends Phaser.Scene {
 			this.handleLeavingCombatToMap();
 		}
 		if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true
-		&& this.enemy.getNoMoreText() === true && this.enemyAttack.active === false) { 
+		&& this.enemy.getNoMoreText() === true && this.enemyAttack.active === false 
+		&& this.spell.getCantClick() === false ) { 
 			this.player?.castSpell(this.player,this.spell)
 		}
 		if (this.spell?.active == true) {
@@ -101,7 +102,7 @@ export default class CommonCombat extends Phaser.Scene {
 		this.enemyAttack.checkForOverlap(this.player, this.enemy)
     }
     makeInitialStatusEffect(imageKey: string) {
-        this.statusEffect = this.add.image(this.enemy.x, this.enemy.y - 100, imageKey) 
+        this.statusEffect = this.add.sprite(this.enemy.x, this.enemy.y - 120, imageKey) 
 		this.statusEffect.setVisible(false)
     }
     makeSpellButtons() {
@@ -117,8 +118,11 @@ export default class CommonCombat extends Phaser.Scene {
 		})
 			// create button to go to map
 			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {
-				if (this.player.getNoMoreText() === true && this.spell.active === false) {		
+				if (this.player.getNoMoreText() === true && this.spell.active === false &&
+				this.enemy.getNoMoreText() === true && this.enemyAttack.active === false
+				&& this.spell.getCantClick() === false) {		
 					this.spell = newSpell
+					this.spell.displayOnClick(this.player, this.enemy, this.enemyAttack)
 				}
 			}));
 			currentX+=100;

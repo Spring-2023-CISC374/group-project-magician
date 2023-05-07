@@ -47,8 +47,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		})
     }
 
-    displayAttack() {
-        this.enemyAttack = this.scene.add.text(20,230,"You have been hit by the monster for " + this.enemyDamage + " HP!", 
+    displayAttack(attack: EnemyAttack) {
+        this.enemyAttack = this.scene.add.text(20,230,"You have been hit by the monster for " + attack.getattackDamage() + " HP!", 
 		{
 			fontSize: '30px',
 			color: '#ffffff',
@@ -101,12 +101,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.enemyAttack.setVisible(visible)
     }
 
-    setAttackText() {
-        this.enemyAttack.setText("You have been hit by the monster for\n" + this.enemyDamage + " HP!")
+    setAttackText(attack: EnemyAttack) {
+        this.enemyAttack.setText("You have been hit by the monster for\n" + attack.getattackDamage() + " HP!")
     }
 
-    displayEnemyAttack() {
-        this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for " + this.enemyDamage + " HP!", 
+    displayEnemyAttack(attack: EnemyAttack) {
+        this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for " + attack.getattackDamage() + " HP!", 
 		{
 			fontSize: '20px',
 			color: '#ff0000',

@@ -7,6 +7,8 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
   private disabled: boolean
   private spellDamage: number
   public name: string
+  private clickInfo!: Phaser.GameObjects.Text 
+  private cantClick: boolean
     // source: https://programmingmind.net/phaser/fun-with-spells-using-phaser
     
   
@@ -15,6 +17,7 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
         this.disabled = false;
         this.spellDamage = newDamage;
         this.name = newName
+        this.cantClick = false;
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -101,5 +104,27 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
         }), 
         frameRate: 10, repeat: -1
     })
+  }
+  displayOnClick(player: MainCharacter, enemy: Enemy, enemyAttack: EnemyAttack) {
+    if (this.cantClick === false) {
+      this.cantClick = true;
+    if (this.active==false && player.getNoMoreText() === true
+		&& enemy.getNoMoreText() === true && enemyAttack.active === false) {
+      this.clickInfo = this.scene.add.text(10, 390, "You Chose The : " + this.name, {
+        fontSize: '22px',
+        color: '#ffffff',
+        fontStyle: "bold"
+      })
+    }
+  }
+
+    this.clickInfo.setVisible(true);
+    setTimeout(()=> {
+			this.clickInfo.setVisible(false)
+      this.cantClick = false;
+		}, 2000)	
+  }
+  getCantClick() {
+    return this.cantClick
   }
 }
