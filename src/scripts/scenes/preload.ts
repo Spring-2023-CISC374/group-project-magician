@@ -75,6 +75,7 @@ export default class start extends Phaser.Scene {
 		// load images
 		this.load.image('bg', 'assets/background/dark_forest.png')
 		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
+		//Edited here
 		this.load.image('button', 'assets/icons/Inventory_Icon.png');
 		this.load.image('flame', 'assets/icons/smallFlame.png')
 		this.load.spritesheet('fireSpell', 'assets/spells/fireBoltSheet.png', 
@@ -90,6 +91,7 @@ export default class start extends Phaser.Scene {
 		
 		// load image for start screen here - craftSpell
 		this.load.image('background-craftSpells', 'assets/background/magicshop_bakground.png');
+		//Edited Here
 		this.load.image('loopIcon', 'assets/Icons/loopIcon.png');
 		this.load.image('starIcon', 'assets/Icons/stars-craft.png');
 
