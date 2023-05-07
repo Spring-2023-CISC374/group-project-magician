@@ -59,7 +59,7 @@ export default class CommonCombat extends Phaser.Scene {
 	handleLeavingCombatToMap() {
 		setTimeout(()=> {
 			this.scene.stop(this.scene as unknown as string)
-			this.scene.start('map', { storedHealth: this.currentHealth })
+			this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth })
 		}, 5000)
 	}
     onUpdate() { //Need to reuse handle spell anims or animations won't work
@@ -74,7 +74,8 @@ export default class CommonCombat extends Phaser.Scene {
 			this.handleEnemyDeath()
 			this.handleLeavingCombatToMap();
 		}
-		if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true) { 
+		if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true
+		&& this.enemy.getNoMoreText() === true && this.enemyAttack.active === false) { 
 			this.player?.castSpell(this.player,this.spell)
 		}
 		if (this.spell?.active == true) {
@@ -83,17 +84,21 @@ export default class CommonCombat extends Phaser.Scene {
 		}
 		if (this.spell?.isDisabled() == true) {
 			this.enemy.attackPlayer(this.enemyAttack)
-			this.player?.handleBeingAttacked(this.enemy)
 			this.spell.resetSpellPosition(this.player)
 		}
+		/*
+		if (this.enemyAttack.active === true) {
+			this.player?.handleBeingAttacked(this.enemy)
+		}
+		*/
 		if (this.enemyAttack?.active == true) {
 			this.enemyAttack.moveAttack()
 		}
 		if (this.enemy.getStatusEffect() === true && this.enemy?.getHealth() > 0) {
 			this.statusEffect.setVisible(true)
 		}
-		this.spell?.checkForOverlap(this.player, this.enemy)
-		this.enemyAttack.checkForOverlap(this.player)
+		this.spell?.checkForOverlap(this.player, this.enemy, this.enemyAttack)
+		this.enemyAttack.checkForOverlap(this.player, this.enemy)
     }
     makeInitialStatusEffect(imageKey: string) {
         this.statusEffect = this.add.image(this.enemy.x, this.enemy.y - 100, imageKey) 

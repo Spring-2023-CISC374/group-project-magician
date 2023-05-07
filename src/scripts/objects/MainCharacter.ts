@@ -12,11 +12,11 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, 'mainChar')
         this.noMoreText = true;
         this.health = healthValue;
-        this.characterAttack = this.scene.add.text(20,115,"You have hit the monster for 0 HP", 
+        this.characterAttack = this.scene.add.text(20,230,"You have hit the monster for 0 HP", 
 		{
-			fontSize: '20px',
-			color: '#ff0000',
-			backgroundColor: '#ffffff'
+			fontSize: '30px',
+			color: '#ffffff',
+			backgroundColor: '#00ff00'
 		})
         this.characterAttack.setVisible(false)
         scene.add.existing(this);
@@ -200,17 +200,17 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
 		setTimeout(()=> {
 			enemy.setVisibility(false)
             this.noMoreText = true;
-		}, 5000)	
+		}, 3000)	
     }
 
     setAttackText(spell: Spell) {   
         if (spell.name === "Dark Spell") {
-            this.characterAttack.setText("You have hit the monster for 20% of their current HP!")
+            this.characterAttack.setText("You have hit the monster for \n20% of their current HP!")
         }
         else if (spell.name === "Fire Spell") {
-            this.characterAttack.setText("You have hit the monster for 5, activated fire DOT")
+            this.characterAttack.setText("You have hit the monster for 5\n activated fire DOT")
         } else if(spell.name === "Ice Spell") {
-            this.characterAttack.setText("You have hit the monster for 5, and reduced their damage")
+            this.characterAttack.setText("You have hit the monster for 5\n and reduced their damage")
         }
         else {
             this.characterAttack.setText("You have hit the monster for " + spell.getSpellDamage())
