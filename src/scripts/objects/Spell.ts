@@ -104,6 +104,13 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
         }), 
         frameRate: 10, repeat: -1
     })
+    this.anims.create({
+      key: 'water_spell', 
+      frames: this.anims.generateFrameNumbers('waterSpell', {
+          start: 0, end: 11
+      }), 
+      frameRate: 10, repeat: -1
+  })
   }
   displayOnClick(player: MainCharacter, enemy: Enemy, enemyAttack: EnemyAttack) {
     if (this.cantClick === false) {

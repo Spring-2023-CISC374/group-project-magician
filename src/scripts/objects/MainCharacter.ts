@@ -162,6 +162,9 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
                     else if (spell.name==="Ice Spell") {
                         spell.anims.play('ice_spell', true)
                     }
+                    else if (spell.name==="Water Spell") {
+                        spell.anims.play('water_spell', true)
+                    }
 			player.anims.play('idle', true)
 		})
     }

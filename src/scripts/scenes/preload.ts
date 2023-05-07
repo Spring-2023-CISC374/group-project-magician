@@ -85,6 +85,8 @@ export default class start extends Phaser.Scene {
 		{frameWidth: 48, frameHeight: 48})
 		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
 		{frameWidth: 48, frameHeight: 32})
+		this.load.spritesheet('waterSpell', 'assets/spells/waterSpell2.png', 
+		{frameWidth: 50, frameHeight: 47})
 		//chest icon
 		this.load.image('chest', 'assets/newicons/Inventory_Icon.png');
 
