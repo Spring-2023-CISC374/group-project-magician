@@ -150,7 +150,8 @@ export default class CommonCombat extends Phaser.Scene {
         const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10)
         const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 5)
 		const waterSpell = new Spell(this, this.player.x + 30, this.player.y, 'waterSpell',"Water Spell", 10)
-        this.spellList = [darkSpell,fireSpell,iceSpell, waterSpell]
+		const windSpell = new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Wind Spell", 10)
+        this.spellList = [darkSpell,fireSpell,iceSpell, waterSpell, windSpell]
     }
     enemyAnims() {
         this.enemy.handleEnemyAnims()

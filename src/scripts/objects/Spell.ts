@@ -111,6 +111,13 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
       }), 
       frameRate: 10, repeat: -1
   })
+  this.anims.create({
+    key: 'wind_spell', 
+    frames: this.anims.generateFrameNumbers('windSpell', {
+        start: 0, end: 5
+    }), 
+    frameRate: 10, repeat: -1
+})
   }
   displayOnClick(player: MainCharacter, enemy: Enemy, enemyAttack: EnemyAttack) {
     if (this.cantClick === false) {
