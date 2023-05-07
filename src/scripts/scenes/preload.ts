@@ -5,12 +5,12 @@ export default class start extends Phaser.Scene {
 
 	preload() {
         // loading the buttons
-		this.load.image('inventory_icon', 'assets/icons/Inventory_Icon.png')	// button to enter inventory
-		this.load.image('map_marker','assets/icons/map.png')					// button to return to map
-        this.load.image('home_marker','assets/icons/house.png')                 // button to return home
-		this.load.image('house','assets/icons/greenhouse.png')                  // button to return home
-		this.load.image('exit_icon', 'assets/icons/exit_Icon.png');             // button to exit inventory
-		this.load.image('level_1_marker','assets/icons/Pink_1.png')
+		this.load.image('inventory_icon', 'assets/newicons/Inventory_Icon.png')	// button to enter inventory
+		this.load.image('map_marker','assets/newicons/map.png')					// button to return to map
+        this.load.image('home_marker','assets/newicons/house.png')                 // button to return home
+		this.load.image('house','assets/newicons/greenhouse.png')                  // button to return home
+		this.load.image('exit_icon', 'assets/newicons/exit_Icon.png');             // button to exit inventory
+		this.load.image('level_1_marker','assets/newicons/Pink_1.png')
 		// player sprit
 		this.load.spritesheet('mainChar', 'assets/player.png',
 		{frameWidth: 32, frameHeight: 32})
@@ -22,7 +22,7 @@ export default class start extends Phaser.Scene {
 		// background stuff
 		this.load.image('start_background', 'assets/background/dark_forest.png')
 		this.load.image('home_Background', 'assets/background/Cherry_Blossom_Background.png');
-		this.load.image('text_banner', 'assets/icons/banner.png')
+		this.load.image('text_banner', 'assets/newicons/banner.png')
 
 		// image for inventory button
 		this.load.image('button', 'assets/player.png');
@@ -40,19 +40,19 @@ export default class start extends Phaser.Scene {
 		this.load.image('green-gem', 'assets/resource/greengem.png');
 		// resourse preload
 		this.load.image('background-level1', 'assets/background/night_forest.png');
-        this.load.image('ground', 'assets/Icons/platform.png');
+        this.load.image('ground', 'assets/newicons/platform.png');
         this.load.image('gem', 'assets/resource/bluegem.png');
-        this.load.image('backbutton', 'assets/Icons/backbutton.png');
-		this.load.image('bomb', 'assets/Icons/bomb.png' );
+        this.load.image('backbutton', 'assets/newicons/backbutton.png');
+		this.load.image('bomb', 'assets/newicons/bomb.png' );
 
 		// map preload
 		this.load.image('overworld', 'assets/background/overworldResize.png')
-		this.load.image('home_marker','assets/Icons/house.png')
+		this.load.image('home_marker','assets/newicons/house.png')
 
 		// level 1 preload
 		this.load.image('background-level1', 'assets/background/night_forest.png');
-		this.load.image('resource1', 'assets/Icons/resource_icon.png');
-		this.load.image('wand', 'assets/Icons/newand.png')
+		this.load.image('resource1', 'assets/newicons/resource_icon.png');
+		this.load.image('wand', 'assets/newicons/newand.png')
 
 		// inventory preload
 		this.load.image('inventoryBackground', 'assets/background_inventory.png');
@@ -60,9 +60,9 @@ export default class start extends Phaser.Scene {
 		// crafting preload
 		this.load.image('background-level1', 'assets/background/night_forest.png');
 		this.load.image('background-spells', 'assets/background/spellbackground.png');
-		this.load.image('waterIcon', 'assets/Icons/waterIcon.png');
-		this.load.image('airIcon', 'assets/Icons/airIcon.png');
-		this.load.image('fireIcon', 'assets/icons/fireIcon.png');
+		this.load.image('waterIcon', 'assets/newicons/waterIcon.png');
+		this.load.image('airIcon', 'assets/newicons/airIcon.png');
+		this.load.image('fireIcon', 'assets/newicons/fireIcon.png');
 
 		// combat preload
 		// load spritesheets
@@ -74,16 +74,16 @@ export default class start extends Phaser.Scene {
 		{frameWidth: 40, frameHeight: 32})
 		// load images
 		this.load.image('bg', 'assets/background/dark_forest.png')
-		this.load.image('run_away_icon', 'assets/Icons/run_away.png');
+		this.load.image('run_away_icon', 'assets/newicons/run_away.png');
 		//Edited here
-		this.load.image('button', 'assets/icons/Inventory_Icon.png');
-		this.load.image('flame', 'assets/icons/smallFlame.png')
+		this.load.image('button', 'assets/newicons/Inventory_Icon.png');
+		this.load.image('flame', 'assets/newicons/smallFlame.png')
 		this.load.spritesheet('fireSpell', 'assets/spells/fireBoltSheet.png', 
 		{frameWidth: 48, frameHeight: 48})
 		this.load.spritesheet('iceSpell', 'assets/spells/iceSpell.png', 
 		{frameWidth: 48, frameHeight: 32})
 		//chest icon
-		this.load.image('chest', 'assets/Icons/Inventory_Icon.png');
+		this.load.image('chest', 'assets/newicons/Inventory_Icon.png');
 
 		// waterSpell images
 		this.load.image('background-waterspell', 'assets/background/waterSpell_Background.png')
@@ -92,8 +92,8 @@ export default class start extends Phaser.Scene {
 		// load image for start screen here - craftSpell
 		this.load.image('background-craftSpells', 'assets/background/magicshop_bakground.png');
 		//Edited Here
-		this.load.image('loopIcon', 'assets/Icons/loopIcon.png');
-		this.load.image('starIcon', 'assets/Icons/stars-craft.png');
+		this.load.image('loopIcon', 'assets/newicons/loopIcon.png');
+		this.load.image('starIcon', 'assets/newicons/stars-craft.png');
 
 	}
 	
