@@ -219,7 +219,7 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
             this.characterAttack.setText("You have hit the monster for 5\n and reduced their damage")
         }
         else {
-            this.characterAttack.setText("You have hit the monster for " + spell.getSpellDamage())
+            this.characterAttack.setText("You have hit the monster for " + spell.getSpellDamage() + " damage")
         } 
     }
 
