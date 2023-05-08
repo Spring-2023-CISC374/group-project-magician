@@ -43,8 +43,8 @@ export default class waterSpellLoop extends Phaser.Scene {
        bg.setScale(
            this.cameras.main.width/(0.5 * bg.width), this.cameras.main.height/(0.5 * bg.height));
 
-        this.createPlayer(80, 515, this.currentHealth) // creating a player
-        this.createEnemy(400, 525, 'blue-gem', 80, 10)
+        this.createPlayer(100, 350, this.currentHealth) // creating a player
+        this.createEnemy(500, 350, 'blue-gem', 80, 10)
 
         this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
         this.spell.handleSpellAnims() // water spell will be 

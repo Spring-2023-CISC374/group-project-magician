@@ -1,6 +1,9 @@
 //import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
+import Enemy from '../objects/Enemy';
 import Inventory_Items from '../objects/Inventory_Items';
+import MainCharacter from '../objects/MainCharacter';
+import Spell from '../objects/Spell';
 //import CommonLevel from './CommonLevel'
 
 
@@ -10,6 +13,10 @@ export default class airSpellBasic extends Phaser.Scene {
     //private airSpellLoop: number	
     protected inventory!: Inventory_Items
     protected currentHealth!: number
+    protected spell!: Spell
+    protected enemy!: Enemy
+    protected player!: MainCharacter
+    protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
     
 	constructor() {
 		super('airSpellBasic')
@@ -141,6 +148,15 @@ export default class airSpellBasic extends Phaser.Scene {
                 //console.log('User canceled input dialog');
             }
             })  
+        this.createPlayer(100, 350, this.currentHealth) // creating a player
+        this.createEnemy(500, 350, 'blue-gem', 80, 10)
+    
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
+        this.spell.handleSpellAnims() // water spell will be 
+        this.spell.setDisabled(false)
+        this.spell.setActive(false)
+            
+        this.keys = this.input.keyboard.createCursorKeys(); // activating keyboard
 
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
@@ -171,5 +187,31 @@ export default class airSpellBasic extends Phaser.Scene {
         
         
 	}
+
+    update() {
+        this.spell.handleSpellAnims()
+
+        if ( this.keys.space.isDown == true && this.spell?.active==false) { 
+            console.log("spell is being tested");
+			this.player.castSpell(this.player, this.spell)
+		}
+		if (this.spell?.active == true) {
+			this.spell.moveSpell()
+		}
+		if (this.spell?.isDisabled() == true) {
+			this.spell.resetSpellPosition(this.player)
+		}
+        this.spell?.checkEndTest(this.player, this.enemy) // figure out what to interact with
+    }
+
+    createPlayer(x: number, y: number, health: number) {
+        this.player = new MainCharacter(this, x, y, health)
+		this.player.handleAnims()
+		this.player.anims.play('idle', true)
+    }
+
+    createEnemy(x: number, y: number, sprite: string, health: number, damage: number) {
+        this.enemy = new Enemy(this, x, y, sprite, health, damage)
+    }
     
 }

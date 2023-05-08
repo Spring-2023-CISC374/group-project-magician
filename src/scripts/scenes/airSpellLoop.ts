@@ -1,6 +1,9 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
 import Inventory_Items from '../objects/Inventory_Items';
+import Spell from '../objects/Spell';
+import Enemy from '../objects/Enemy';
+import MainCharacter from '../objects/MainCharacter';
 //import CommonLevel from './CommonLevel'
 
 
@@ -10,6 +13,11 @@ export default class airSpell extends Phaser.Scene {
     //private airSpellLoop: number	
     protected inventory!: Inventory_Items
     protected currentHealth!: number
+    protected spell!: Spell
+    protected enemy!: Enemy
+    protected player!: MainCharacter
+    protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
+    protected timesCast!: number
     
 	constructor() {
 		super('airSpell')
@@ -34,6 +42,18 @@ export default class airSpell extends Phaser.Scene {
             this.cameras.main.width/2, this.cameras.main.height/2, 'background-airspell');
        bg.setScale(
            this.cameras.main.width/(.95 * bg.width), this.cameras.main.height/(.95 * bg.height));
+
+        //
+        this.createPlayer(100, 350, this.currentHealth) // creating a player
+        this.createEnemy(500, 350, 'blue-gem', 80, 10)
+   
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
+        this.spell.handleSpellAnims() // water spell will be 
+        this.spell.setDisabled(false)
+        this.spell.setActive(false)
+        this.timesCast = 0;
+           
+        this.keys = this.input.keyboard.createCursorKeys(); // activating keyboard
 
         //telling the location
         //this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
@@ -162,8 +182,39 @@ export default class airSpell extends Phaser.Scene {
         //    fontSize: '26px',
         //    color: '#ffffff',
         //});
-        
-        
 	}
+    update() {
+        this.spell.handleSpellAnims()
+
+        if ( this.keys.space.isDown == true && this.spell?.active==false) { // initialize the castiung of the spell
+            console.log("first part cast");
+			this.player.castLoopSpell(this.player, this.spell)
+		}
+		if (this.spell?.active == true) {
+			this.spell.moveSpell()
+		}
+		if (this.spell?.isDisabled() == true) {
+			this.spell.resetSpellPosition(this.player)
+            if (this.timesCast < 2) { // once we have cast the spell 3 times, we are done 
+                console.log(this.timesCast);
+                this.player.castLoopSpell(this.player, this.spell)
+                this.timesCast++;
+            } else {
+                this.timesCast = 0; // resetting the number of times the spell was cast
+            }
+            
+		}
+        this.spell?.checkEndTest(this.player, this.enemy) // figure out what to interact with
+    }
+
+    createPlayer(x: number, y: number, health: number) {
+        this.player = new MainCharacter(this, x, y, health)
+		this.player.handleAnims()
+		this.player.anims.play('idle', true)
+    }
+
+    createEnemy(x: number, y: number, sprite: string, health: number, damage: number) {
+        this.enemy = new Enemy(this, x, y, sprite, health, damage)
+    }
     
 }

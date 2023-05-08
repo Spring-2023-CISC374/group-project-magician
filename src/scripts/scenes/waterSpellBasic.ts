@@ -141,8 +141,8 @@ export default class waterSpellBasic extends Phaser.Scene {
             }
             })  
 
-        this.createPlayer(80, 515, this.currentHealth) // creating a player
-        this.createEnemy(400, 525, 'blue-gem', 80, 10) // creating a gen the spell will hit
+        this.createPlayer(100, 350, this.currentHealth) // creating a player
+        this.createEnemy(500, 350, 'blue-gem', 80, 10)
 
         this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
         this.spell.handleSpellAnims() // water spell will be 
