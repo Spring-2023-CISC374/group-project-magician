@@ -13,6 +13,8 @@ export default class inventory extends Phaser.Scene {
 
 	private waterSpellText?: Phaser.GameObjects.Text
 	private airSpellText?: Phaser.GameObjects.Text
+
+	private waterSpellBasicText?: Phaser.GameObjects.Text
 	//private waterSpellText?: Phaser.GameObjects.Text
 	//private waterSpell?: number
 	
@@ -89,6 +91,12 @@ export default class inventory extends Phaser.Scene {
 			color: '#ffffff'
 		})
 		this.waterSpellText?.setText('Water Spell: ' + this.inventory.waterSpell)
+
+		this. waterSpellBasicText = this.add.text(400, 200, 'Basic Water Spell: ', {
+			fontSize: '20px',
+			color: '#ffffff'
+		})
+		this. waterSpellBasicText?.setText('Basic Water Spell: ' + this.inventory.basicWaterSpell)
 
 		this.airSpellText = this.add.text(400, 250, 'Air Spell: ', {
 			fontSize: '20px',

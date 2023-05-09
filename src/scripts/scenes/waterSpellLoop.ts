@@ -172,6 +172,11 @@ export default class waterSpellLoop extends Phaser.Scene {
             fontSize: '28px',
             color: '#ffffff',
         });
+        this.add.text(150, 225, 'Since this is a Loop Spell\nthe number you enter will be mutipled by 4\nand then subtracted from your total of Blue Gems', {
+            fontSize: '20px',
+            color: '#ffffff',
+        });
+        
 
        // this.add.text(20,250, 'For(int i = 0; i < number; i++){\n let blueGemsCollected = blueGemsCollected - 4;\n int WaterSpell = WaterSpell + 1\n}\nreturn WaterSpell', {
         //    fontSize: '26px',

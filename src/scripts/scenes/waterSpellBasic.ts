@@ -1,41 +1,44 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
-//import Inventory_Items from '../objects/Inventory_Items';
-//import CommonLevel from './CommonLevel'
 import Inventory_Items from '../objects/Inventory_Items';
 import Spell from '../objects/Spell';
 import Enemy from '../objects/Enemy';
 import MainCharacter from '../objects/MainCharacter';
+import DraggableImage from '../objects/DragImage';
 
 
 export default class waterSpellBasic extends Phaser.Scene {
-    private blueGemsCollected!: number
-    //private basicWaterSpell: number	
-    protected inventory!: Inventory_Items
-    protected currentHealth!: number
-    protected spell!: Spell
-    protected enemy!: Enemy
-    protected player!: MainCharacter
+    private blueGemsCollected!: number;
+    private craftPotCount!: number;
+    protected inventory!: Inventory_Items;
+    protected currentHealth!: number;
+    protected spell!: Spell;
+    protected enemy!: Enemy;
+    protected player!: MainCharacter;
     protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
-    
+    protected craftPot:any;
+
     
 	constructor() {
 		super('waterSpellBasic')
         //this.basicWaterSpell = 0
+        this.craftPotCount = 0;
+        
 	}
 
-    init (data: any) {
-		console.log('waterSpell', data)
-		this.currentHealth = data.storedHealth
-		this.inventory = data.inventory_items
-	}
-
-    createInformation() {
-		this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4)
-        this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
-            .setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
+    init(data: any) {
+        console.log('waterSpell', data);
+        this.currentHealth = data.storedHealth;
+        this.inventory = data.inventory_items;
     }
 
+    createInformation() {
+        this.add.image(this.cameras.main.width/2, 50, 'text_banner').setScale(4);
+        this.add.text(this.cameras.main.width/2, 50, this.scene.key.toUpperCase())
+            .setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5);
+    }
+
+      
 	create() {	
 		//making background
         //this.add.image(400, 400, 'background-waterspell')
@@ -51,7 +54,9 @@ export default class waterSpellBasic extends Phaser.Scene {
         //});
 
         this.createInformation()
+        //this.promptWaterSpellCount();
 
+/*
         this.time.delayedCall(1500, () => {
             const userInput = window.prompt('Enter the number of Water Spells you want:');
     
@@ -140,7 +145,7 @@ export default class waterSpellBasic extends Phaser.Scene {
                 //console.log('User canceled input dialog');
             }
             })  
-
+*/
         this.createPlayer(80, 515, this.currentHealth) // creating a player
         this.createEnemy(400, 525, 'blue-gem', 80, 10) // creating a gen the spell will hit
 
@@ -168,7 +173,7 @@ export default class waterSpellBasic extends Phaser.Scene {
         }));
 
         //telling how to make loop
-        this.add.text(20, 150, 'You need to use 1 Blue Gems to make this Spell\nEnter the number of Water Spells you want', {
+        this.add.text(20, 150, 'You need to use 1 Blue Gems to make this Spell\nDrag the number of Water Spells you want into\nthe bin', {
             fontSize: '28px',
             color: '#ffffff',
         });
@@ -177,11 +182,63 @@ export default class waterSpellBasic extends Phaser.Scene {
         //    fontSize: '26px',
         //    color: '#ffffff',
         //});
-        
-        
+
+        //new idea
+          //  Create a stack of random cards
+          
+          const frames = this.textures.get('blue-gem').getFrameNames();
+
+          let x = 100;
+          let y = 300;
+  
+          for (let i = 0; i < this.inventory.blueGems; i++)
+          {
+              const image = this.add.image(x, y, 'blue-gem', Phaser.Math.RND.pick(frames)).setInteractive({ draggable: true });
+  
+              x += 4; 
+              y += 4;
+
+              this.craftPot = this.physics.add.image(700, 300, 'craftPot')
+             
+              this.physics.add.existing(image);
+              this.physics.add.existing(this.craftPot);
+
+              this.physics.add.collider(image, this.craftPot, () => {
+                image.destroy();
+                this.craftPotCount++;
+                this.inventory.blueGems -= 1;
+
+                const countText = this.add.text(20, 375, `You now have ${this.craftPotCount} Basic Water Spells.\nThey are now in your inventory`, {
+                    fontSize: '28px',
+                    color: '#ffffff',
+                  });
+
+                countText.setText(`You now have ${this.craftPotCount} Basic Water Spells.\nThey are now in your inventory`);
+                this.inventory.basicWaterSpell = this.inventory.basicWaterSpell + this.craftPotCount;
+
+            });         
+          }
+  
+          this.input.on('dragstart',  (pointer:any, gameObject:any) =>
+          {
+  
+              this.children.bringToTop(gameObject);
+  
+          }, this);
+  
+          this.input.on('drag', (pointer: any, gameObject: any, dragX: number, dragY: number) =>
+          {
+  
+              gameObject.x = dragX;
+              gameObject.y = dragY;
+  
+          });
+                    
+      
 	}
 
     update() {
+        
         this.spell.handleSpellAnims()
 
         if ( this.keys.space.isDown == true && this.spell?.active==false) { 
@@ -206,5 +263,4 @@ export default class waterSpellBasic extends Phaser.Scene {
     createEnemy(x: number, y: number, sprite: string, health: number, damage: number) {
         this.enemy = new Enemy(this, x, y, sprite, health, damage)
     }
-    
 }
