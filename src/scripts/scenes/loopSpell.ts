@@ -73,20 +73,20 @@ export default class loopSpell extends CommonLevel {
             //padding: { x: 10, y: 5 }
         }); // water button text
 
-        this.add.existing(new Click_Change_Scene(this, 175, 250, 'waterIcon', () => {        // inventory button
+        this.add.existing(new Click_Change_Scene(this, 250, 250, 'waterIcon', () => {        // inventory button
             this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 375, 250, 'airIcon', () => {        // inventory button
+        this.add.existing(new Click_Change_Scene(this, 500, 250, 'airIcon', () => {        // inventory button
             this.scene.start('airSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 600, 250, 'fireIcon', () => {        // inventory button
-            this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
-            this.scene.stop('loopSpell');
-        }));
+       // this.add.existing(new Click_Change_Scene(this, 600, 250, 'fireIcon', () => {        // inventory button
+        //    this.scene.start('waterSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
+        //    this.scene.stop('loopSpell');
+        //}));
 
 
     }
