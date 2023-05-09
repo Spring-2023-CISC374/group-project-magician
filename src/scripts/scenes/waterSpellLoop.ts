@@ -62,6 +62,26 @@ export default class waterSpellLoop extends Phaser.Scene {
 
         this.createInformation() 
 
+          const newText = this.add.text(50, 350, `You have ${this.inventory.blueGems} Blue Gems`, {
+            fontSize: '18px',
+            color: '#ffffff',
+          });
+
+        const frames = this.textures.get('blue-gem').getFrameNames();
+
+        const x = 100;
+        const y = 300;
+
+        let image = this.add.image(x, y, 'blue-gem', Phaser.Math.RND.pick(frames)).setInteractive({ draggable: true });
+
+        for (let i = 0; i < this.inventory.blueGems; i++){
+            
+            image = this.add.image(x, y, 'blue-gem', Phaser.Math.RND.pick(frames)).setInteractive({ draggable: true });
+
+            x; 
+            y;
+        }
+
         this.time.delayedCall(100, () => {
             const userInput = window.prompt('Enter the number of Water Spells you want:');
     
@@ -80,12 +100,17 @@ export default class waterSpellLoop extends Phaser.Scene {
             // Perform the loop based on the user input
             //let waterSpell = 0;
                     for (let i = 0; i < numWaterSpells; i++) {
+
                         this.blueGemsCollected -= 4;
                         this.inventory.loopingWaterSpell += 1;
+                        image.destroy();
                     }
+                    
                     this.inventory.waterSpell += this.inventory.loopingWaterSpell;
                     this.inventory.blueGems -= 4 * (numWaterSpells)
                     this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
+
+                    newText.setText(`You have ${this.inventory.blueGems} Blue Gems`);
            
                     this.add.text(20, 400, `You now have ${this.inventory.loopingWaterSpell} Water Spells.\nThey are now in your inventory`, {
                 fontSize: '28px',
@@ -172,7 +197,7 @@ export default class waterSpellLoop extends Phaser.Scene {
             fontSize: '28px',
             color: '#ffffff',
         });
-        this.add.text(150, 225, 'Since this is a Loop Spell\nthe number you enter will be mutipled by 4\nand then subtracted from your total of Blue Gems', {
+        this.add.text(150, 225, 'Since this is a Loop Spell\nthe number you enter will be mutipled by 4\nand then subtracted from the total of Blue Gems', {
             fontSize: '20px',
             color: '#ffffff',
         });

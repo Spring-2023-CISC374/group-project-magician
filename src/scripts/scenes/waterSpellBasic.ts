@@ -4,11 +4,11 @@ import Inventory_Items from '../objects/Inventory_Items';
 import Spell from '../objects/Spell';
 import Enemy from '../objects/Enemy';
 import MainCharacter from '../objects/MainCharacter';
-import DraggableImage from '../objects/DragImage';
+//import DraggableImage from '../objects/DragImage';
 
 
 export default class waterSpellBasic extends Phaser.Scene {
-    private blueGemsCollected!: number;
+    //private blueGemsCollected!: number;
     private craftPotCount!: number;
     protected inventory!: Inventory_Items;
     protected currentHealth!: number;
@@ -173,7 +173,7 @@ export default class waterSpellBasic extends Phaser.Scene {
         }));
 
         //telling how to make loop
-        this.add.text(20, 150, 'You need to use 1 Blue Gems to make this Spell\nDrag the number of Water Spells you want into\nthe bin', {
+        this.add.text(20, 150, 'You need to use 1 Blue Gem to make this Spell\n\nDrag the number of Blue Gems you want to use\nto make the Water Spell into the cauldron', {
             fontSize: '28px',
             color: '#ffffff',
         });
@@ -185,18 +185,27 @@ export default class waterSpellBasic extends Phaser.Scene {
 
         //new idea
           //  Create a stack of random cards
+          const countText = this.add.text(20, 400, `You now have ${this.craftPotCount} Basic Water Spells.\nThey are now in your inventory`, {
+            fontSize: '22px',
+            color: '#ffffff',
+          });
+
+          const newText = this.add.text(50, 350, `You have ${this.inventory.blueGems} Blue Gems`, {
+            fontSize: '18px',
+            color: '#ffffff',
+          });
           
           const frames = this.textures.get('blue-gem').getFrameNames();
 
-          let x = 100;
-          let y = 300;
+          const x = 100;
+          const y = 300;
   
           for (let i = 0; i < this.inventory.blueGems; i++)
           {
               const image = this.add.image(x, y, 'blue-gem', Phaser.Math.RND.pick(frames)).setInteractive({ draggable: true });
   
-              x += 4; 
-              y += 4;
+              x; 
+              y;
 
               this.craftPot = this.physics.add.image(700, 300, 'craftPot')
              
@@ -207,18 +216,12 @@ export default class waterSpellBasic extends Phaser.Scene {
                 image.destroy();
                 this.craftPotCount++;
                 this.inventory.blueGems -= 1;
-
-                const countText = this.add.text(20, 375, `You now have ${this.craftPotCount} Basic Water Spells.\nThey are now in your inventory`, {
-                    fontSize: '28px',
-                    color: '#ffffff',
-                  });
-
+                this.inventory.basicWaterSpell = this.craftPotCount;
                 countText.setText(`You now have ${this.craftPotCount} Basic Water Spells.\nThey are now in your inventory`);
-                this.inventory.basicWaterSpell = this.inventory.basicWaterSpell + this.craftPotCount;
-
+                newText.setText(`You have ${this.inventory.blueGems} Blue Gems`);
             });         
           }
-  
+            
           this.input.on('dragstart',  (pointer:any, gameObject:any) =>
           {
   
