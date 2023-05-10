@@ -52,7 +52,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		{
 			fontSize: '30px',
 			color: '#ffffff',
-			backgroundColor: '#ff0000'
+			backgroundColor: '#880000'
 		})
         this.enemyAttack.setVisible(false)
     }
