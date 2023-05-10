@@ -10,7 +10,7 @@ import resource from './scenes/resource'
 import craftSpells from './scenes/craftSpells'
 import loopSpell from './scenes/loopSpell'
 import basicSpell from './scenes/basicSpell'
-import airSpell from './scenes/airSpell'
+import airSpellLoop from './scenes/airSpellLoop'
 import waterSpellLoop from './scenes/waterSpellLoop'
 import waterSpellBasic from './scenes/waterSpellBasic'
 import airSpellBasic from './scenes/airSpellBasic'
@@ -27,7 +27,7 @@ const config: Phaser.Types.Core.GameConfig = {
 			debug: false
 		},
 	},
-	scene: [preload, start, home, map, level_1, combat_1, inventory,resource, craftSpells, loopSpell, basicSpell, waterSpellLoop,waterSpellBasic,airSpell,airSpellBasic]
+	scene: [preload, start, home, map, level_1, combat_1, inventory,resource, craftSpells, loopSpell, basicSpell, waterSpellLoop,waterSpellBasic,airSpellLoop,airSpellBasic]
 };
 
 export default new Phaser.Game(config) 

@@ -8,9 +8,7 @@ import Enemy from '../objects/Enemy';
 import MainCharacter from '../objects/MainCharacter';
 
 
-export default class waterSpellBasic extends Phaser.Scene {
-    private blueGemsCollected!: number
-    //private basicWaterSpell: number	
+export default class waterSpellBasic extends Phaser.Scene {	
     protected inventory!: Inventory_Items
     protected currentHealth!: number
     protected spell!: Spell
@@ -21,7 +19,6 @@ export default class waterSpellBasic extends Phaser.Scene {
     
 	constructor() {
 		super('waterSpellBasic')
-        //this.basicWaterSpell = 0
 	}
 
     init (data: any) {
@@ -54,30 +51,27 @@ export default class waterSpellBasic extends Phaser.Scene {
 
         this.time.delayedCall(1500, () => {
             const userInput = window.prompt('Enter the number of Water Spells you want:');
-    
-            // Initialize gem collected here
-            this.inventory.basicWaterSpell = 0;
             
             // Check if the user input is not null
             if (userInput !== null) {
             //CHeck if the user input is a vaild number
                 if (parseInt(userInput) >= 0) {
-                // Parse the user input as an integer
-                    const numWaterSpells = parseInt(userInput);
-    
-                // Perform the loop based on the user input
-                //let waterSpell = 0;
-                    for (let i = 0; i < numWaterSpells; i++) {
-                        this.blueGemsCollected -= 1;
-                        this.inventory.basicWaterSpell += 1;
+                    const numBasicWaterSpells = parseInt(userInput); // transform the inputted text into number
+
+                    const spellsCrafted = this.inventory.add_basicWaterSpell(numBasicWaterSpells); // craft the spells using spell craft method
+
+                    if (spellsCrafted != 0) { // we were able to craft at leat 1 spell
+                        this.add.text(20, 300, `You now have crafted ${spellsCrafted} Basic Water Spells.\nYou currently have ${this.inventory.basicWaterSpell} in your inventory`, {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
                     }
-                this.inventory.waterSpell += this.inventory.basicWaterSpell;
-                this.inventory.blueGems -= 1 * (numWaterSpells)
-                this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
-                this.add.text(20, 400, `You now have ${this.inventory.basicWaterSpell} Water Spells.\nThey are now in your inventory`, {
-                    fontSize: '28px',
-                    color: '#ffffff',
-                });
+                    else { // we did not have enough resources to craft a spell
+                        this.add.text(20, 300, `You do not have enough resources to craft a Basic Water Spell.\nYou currently have ${this.inventory.basicWaterSpell} in your inventory`, {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
+                    }
             } else {
                 // Handle the case where the user input is not a number
                 this.add.text(20, 500, 'Please enter a valid number', {
@@ -86,30 +80,27 @@ export default class waterSpellBasic extends Phaser.Scene {
                 });
                 this.time.delayedCall(1500, () => {
                     const userInput = window.prompt('Enter the number of Water Spells you want:');
-            
-                    // Initialize gem collected here
-                    this.inventory.basicWaterSpell = 0;
                     
                     // Check if the user input is not null
                     if (userInput !== null) {
                     //CHeck if the user input is a vaild number
                         if (parseInt(userInput) >= 0) {
-                        // Parse the user input as an integer
-                            const numWaterSpells = parseInt(userInput);
-            
-                        // Perform the loop based on the user input
-                        //let waterSpell = 0;
-                            for (let i = 0; i < numWaterSpells; i++) {
-                                this.blueGemsCollected -= 1;
-                                this.inventory.basicWaterSpell += 1;
+                            const numBasicWaterSpells = parseInt(userInput); // transform the inputted text into number
+
+                            const spellsCrafted = this.inventory.add_basicWaterSpell(numBasicWaterSpells); // craft the spells using spell craft method
+        
+                            if (spellsCrafted != 0) { // we were able to craft at leat 1 spell
+                                this.add.text(20, 300, `You now have crafted ${spellsCrafted} Basic Water Spells.\nYou currently have ${this.inventory.basicWaterSpell} in your inventory`, {
+                                    fontSize: '28px',
+                                    color: '#ffffff',
+                                });
                             }
-                        this.inventory.waterSpell += this.inventory.basicWaterSpell;
-                        this.inventory.blueGems -= 1 * (numWaterSpells)
-                        this.blueGemsCollected = this.blueGemsCollected - numWaterSpells
-                        this.add.text(20, 400, `You now have ${this.inventory.basicWaterSpell} Water Spells.\nThey are now in your inventory`, {
-                            fontSize: '28px',
-                            color: '#ffffff',
-                        });
+                            else { // we did not have enough resources to craft a spell
+                                this.add.text(20, 300, `You do not have enough resources to craft a Basic Water Spell.\nYou currently have ${this.inventory.basicWaterSpell} in your inventory`, {
+                                    fontSize: '28px',
+                                    color: '#ffffff',
+                                });
+                            }
                     } else {
                         // Handle the case where the user input is not a number
                         this.add.text(20, 500, 'Please enter a valid number', {
@@ -141,10 +132,10 @@ export default class waterSpellBasic extends Phaser.Scene {
             }
             })  
 
-        this.createPlayer(80, 515, this.currentHealth) // creating a player
-        this.createEnemy(400, 525, 'blue-gem', 80, 10) // creating a gen the spell will hit
+        this.createPlayer(100, 350, this.currentHealth) // creating a player
+        this.createEnemy(500, 350, 'blue-gem', 80, 10)
 
-        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'waterS pell',"Water Spell", 8) // created water spell
         this.spell.handleSpellAnims() // water spell will be 
         this.spell.setDisabled(false)
         this.spell.setActive(false)
