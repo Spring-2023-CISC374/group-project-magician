@@ -8,9 +8,6 @@ import Spell from '../objects/Spell';
 
 
 export default class airSpellBasic extends Phaser.Scene {
-    private yellowGemsCollected!: number
-    private greenGemsCollected!: number
-    //private airSpellLoop: number	
     protected inventory!: Inventory_Items
     protected currentHealth!: number
     protected spell!: Spell
@@ -20,7 +17,6 @@ export default class airSpellBasic extends Phaser.Scene {
     
 	constructor() {
 		super('airSpellBasic')
-        ///this.airSpellLoop = 0
 	}
 
     init (data: any) {
@@ -52,89 +48,75 @@ export default class airSpellBasic extends Phaser.Scene {
 
         this.time.delayedCall(1500, () => {
             const userInput = window.prompt('Enter the number of Air Spells you want:');
-    
-            // Initialize gem collected here
-            this.inventory.basicAirSpell = 0;
-            
+
             // Check if the user input is not null
             if (userInput !== null) {
             
             //Check if user input is a vaild number
                 if (parseInt(userInput) >= 0) {
 
-                // Parse the user input as an integer
-                    const numairSpells = parseInt(userInput);
-    
-                // Perform the loop based on the user input
-                //let waterSpell = 0;
-                    for (let i = 0; i < numairSpells; i++) {
-                        this.yellowGemsCollected -= 1;
-                        this.greenGemsCollected -= 1;
-                        this.inventory.basicAirSpell += 1;
+                // Valid Input, Start Crafting the Spell
+                    const numBasicAirSpells = parseInt(userInput); // transform the inputted text into number
+
+                    const spellsCrafted = this.inventory.add_basicAirSpell(numBasicAirSpells); // craft the spells using spell craft method
+
+                    if (spellsCrafted != 0) { // we were able to craft at leat 1 spell
+                        this.add.text(20, 300, `You now have crafted ${spellsCrafted} Basic Air Spells.\nYou currently have ${this.inventory.basicAirSpell} in your inventory`, {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
                     }
-                this.inventory.airSpell += this.inventory.basicAirSpell;
-                this.inventory.yellowGems -= 1 * (numairSpells)
-                this.inventory.greenGems -= 1 * (numairSpells)
-                
-                this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
-                this.greenGemsCollected = this.greenGemsCollected - numairSpells
-                
-                this.add.text(20, 300, `You now have ${this.inventory.basicAirSpell} Air Spells.\nThey are now in your inventory`, {
-                    fontSize: '28px',
-                    color: '#ffffff',
-                });
-            } else {
+                    else { // we did not have enough resources to craft a spell
+                        this.add.text(20, 300, `You do not have enough resources to craft a basic Air Spells.\nYou currently have ${this.inventory.basicAirSpell} in your inventory`, {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
+                    }
+                } else {
                 // Handle the case where the user input is not a number
-                this.add.text(20, 500, 'Please enter a valid number', {
-                    fontSize: '28px',
-                    color: '#ffffff',
-                });
-                this.time.delayedCall(1500, () => {
-                    const userInput = window.prompt('Enter the number of Air Spells you want:');
+                    this.add.text(20, 500, 'Please enter a valid number', {
+                        fontSize: '28px',
+                        color: '#ffffff',
+                    });
+                    this.time.delayedCall(1500, () => { // set prompt out again
+                        const userInput = window.prompt('Enter the number of Air Spells you want:');
             
-                    // Initialize gem collected here
-                    this.inventory.basicAirSpell = 0;
+                        // Check if the user input is not null
+                        if (userInput !== null) {
                     
-                    // Check if the user input is not null
-                    if (userInput !== null) {
-                    
-                    //Check if user input is a vaild number
-                        if (parseInt(userInput) >= 0) {
+                        //Check if user input is a vaild number
+                            if (parseInt(userInput) >= 0) {
         
-                        // Parse the user input as an integer
-                            const numairSpells = parseInt(userInput);
-            
-                        // Perform the loop based on the user input
-                        //let waterSpell = 0;
-                            for (let i = 0; i < numairSpells; i++) {
-                                this.yellowGemsCollected -= 1;
-                                this.greenGemsCollected -= 1;
-                                this.inventory.basicAirSpell += 1;
-                            }
-                        this.inventory.airSpell += this.inventory.basicAirSpell;
-                        this.inventory.yellowGems -= 1 * (numairSpells)
-                        this.inventory.greenGems -= 1 * (numairSpells)
+                                // Parse the user input as an integer
+                                const numairSpells = parseInt(userInput);
+
+                                const spellsCrafted = this.inventory.add_basicAirSpell(numairSpells); // removing the proper items and adding them into inventory
                         
-                        this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
-                        this.greenGemsCollected = this.greenGemsCollected - numairSpells
-                        
-                        this.add.text(20, 300, `You now have ${this.inventory.basicAirSpell} Air Spells.\nThey are now in your inventory`, {
-                            fontSize: '28px',
-                            color: '#ffffff',
-                        });
-                    } else {
-                        // Handle the case where the user input is not a number
-                        this.add.text(20, 500, 'Please enter a valid number', {
-                            fontSize: '28px',
-                            color: '#ffffff',
-                        });
-                    }    
-                    } else {
-                        // Handle the case where the user input is null
-                        this.add.text(20, 300, 'User canceled input dialog', {
-                            fontSize: '28px',
-                            color: '#ffffff',
-                        });
+                                if (spellsCrafted != 0) { // we were able to craft at leat 1 spell
+                                    this.add.text(20, 300, `You now have crafted ${spellsCrafted} Basic Air Spells.\nYou currently have ${this.inventory.basicAirSpell} in your inventory`, {
+                                        fontSize: '28px',
+                                        color: '#ffffff',
+                                    });
+                                }
+                                else { // we did not have enough resources to craft a spell
+                                    this.add.text(20, 300, `You do not have enough resources to craft a Basic Air Spells.\nYou currently have ${this.inventory.basicAirSpell} in your inventory`, {
+                                        fontSize: '28px',
+                                        color: '#ffffff',
+                                    });
+                                }
+                            } else {
+                                // Handle the case where the user input is not a number
+                                this.add.text(20, 500, 'Please enter a valid number', {
+                                    fontSize: '28px',
+                                    color: '#ffffff',
+                                });
+                            }    
+                        } else {
+                            // Handle the case where the user input is null
+                            this.add.text(20, 300, 'User canceled input dialog', {
+                                fontSize: '28px',
+                                color: '#ffffff',
+                            });
                         //console.log('User canceled input dialog');
                     }
                     })  
@@ -148,10 +130,10 @@ export default class airSpellBasic extends Phaser.Scene {
                 //console.log('User canceled input dialog');
             }
             })  
-        this.createPlayer(100, 350, this.currentHealth) // creating a player
-        this.createEnemy(500, 350, 'blue-gem', 80, 10)
+        this.createPlayer(100, 450, this.currentHealth) // creating a player
+        this.createEnemy(500, 450, 'blue-gem', 80, 10)
     
-        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Wind Spell", 8) // created water spell
         this.spell.handleSpellAnims() // water spell will be 
         this.spell.setDisabled(false)
         this.spell.setActive(false)
@@ -175,7 +157,7 @@ export default class airSpellBasic extends Phaser.Scene {
         }));
 
         //telling how to make loop
-        this.add.text(20, 125, 'You need to use 1 Green Gems and 1 Yellow Gems to make this Spell\nEnter the number of Air Spells you want', {
+        this.add.text(20, 125, 'You need to use 2 Green Gems and 2 Yellow Gems to make this Spell\nEnter the number of Air Spells you want', {
             fontSize: '28px',
             color: '#ffffff',
         });

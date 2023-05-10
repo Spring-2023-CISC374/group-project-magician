@@ -8,9 +8,6 @@ import MainCharacter from '../objects/MainCharacter';
 
 
 export default class airSpell extends Phaser.Scene {
-    private yellowGemsCollected!: number
-    private greenGemsCollected!: number
-    //private airSpellLoop: number	
     protected inventory!: Inventory_Items
     protected currentHealth!: number
     protected spell!: Spell
@@ -47,7 +44,7 @@ export default class airSpell extends Phaser.Scene {
         this.createPlayer(100, 350, this.currentHealth) // creating a player
         this.createEnemy(500, 350, 'blue-gem', 80, 10)
    
-        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 8) // ICE Spell Temporarily
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Air Spell", 8) // created water spell
         this.spell.handleSpellAnims() // water spell will be 
         this.spell.setDisabled(false)
         this.spell.setActive(false)
@@ -65,34 +62,28 @@ export default class airSpell extends Phaser.Scene {
 
         this.time.delayedCall(1500, () => {
             const userInput = window.prompt('Enter the number of Air Spells you want:');
-    
-            // Initialize gem collected here
-            this.inventory.loopingAirSpell = 0;
-            
+ 
             // Check if the user input is not null
             if (userInput !== null) {
             //Check if the user unput is a vaild number 
                 if (parseInt(userInput) >= 0) {
             // Parse the user input as an integer
-                    const numairSpells = parseInt(userInput);
-    
-                // Perform the loop based on the user input
-                //let waterSpell = 0;
-                    for (let i = 0; i < numairSpells; i++) {
-                        this.yellowGemsCollected -= 2;
-                        this.greenGemsCollected -= 2;
-                        this.inventory.loopingAirSpell += 1;
+                    const numLoopingAirSpells = parseInt(userInput); // transform the inputted text into number
+
+                    const spellsCrafted = this.inventory.add_loopingAirSpell(numLoopingAirSpells); // craft the spells using spell craft method
+
+                    if (spellsCrafted != 0) { // we were able to craft at leat 1 spell
+                        this.add.text(20, 300, `You now have crafted ${spellsCrafted} Looping Air Spells.\nYou currently have ${this.inventory.loopingAirSpell} in your inventory`, {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
                     }
-                this.inventory.airSpell += this.inventory.loopingAirSpell;
-                this.inventory.yellowGems -= 2 * (numairSpells)
-                this.inventory.greenGems -= 2 * (numairSpells)
-                
-                this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
-                this.greenGemsCollected = this.greenGemsCollected - numairSpells
-                this.add.text(20, 300, `You now have ${this.inventory.loopingAirSpell} Air Spells.\nThey are now in your inventory`, {
-                    fontSize: '28px',
-                    color: '#ffffff',
-                });
+                    else { // we did not have enough resources to craft a spell
+                        this.add.text(20, 300, `You do not have enough resources to craft a Looping Air Spell.\nYou currently have ${this.inventory.loopingAirSpell} in your inventory`, {
+                            fontSize: '28px',
+                            color: '#ffffff',
+                        });
+                    }
             } else {
                 // Handle the case where the user input is not a number
                 this.add.text(20, 500, 'Please enter a valid number', {
@@ -101,34 +92,28 @@ export default class airSpell extends Phaser.Scene {
                 });
                 this.time.delayedCall(1500, () => {
                     const userInput = window.prompt('Enter the number of Air Spells you want:');
-            
-                    // Initialize gem collected here
-                    this.inventory.loopingAirSpell = 0;
                     
                     // Check if the user input is not null
                     if (userInput !== null) {
                     //Check if the user unput is a vaild number 
                         if (parseInt(userInput) >= 0) {
                     // Parse the user input as an integer
-                            const numairSpells = parseInt(userInput);
-            
-                        // Perform the loop based on the user input
-                        //let waterSpell = 0;
-                            for (let i = 0; i < numairSpells; i++) {
-                                this.yellowGemsCollected -= 2;
-                                this.greenGemsCollected -= 2;
-                                this.inventory.loopingAirSpell += 1;
+                            const numLoopingAirSpells = parseInt(userInput); // transform the inputted text into number
+
+                            const spellsCrafted = this.inventory.add_loopingAirSpell(numLoopingAirSpells); // craft the spells using spell craft method
+
+                            if (spellsCrafted != 0) { // we were able to craft at leat 1 spell
+                                this.add.text(20, 300, `You now have crafted ${spellsCrafted} Looping Air Spells.\nYou currently have ${this.inventory.loopingAirSpell} in your inventory`, {
+                                    fontSize: '28px',
+                                    color: '#ffffff',
+                                });
                             }
-                        this.inventory.airSpell += this.inventory.loopingAirSpell;
-                        this.inventory.yellowGems -= 2 * (numairSpells)
-                        this.inventory.greenGems -= 2 * (numairSpells)
-                        
-                        this.yellowGemsCollected = this.yellowGemsCollected - numairSpells
-                        this.greenGemsCollected = this.greenGemsCollected - numairSpells
-                        this.add.text(20, 300, `You now have ${this.inventory.loopingAirSpell} Air Spells.\nThey are now in your inventory`, {
-                            fontSize: '28px',
-                            color: '#ffffff',
-                        });
+                            else { // we did not have enough resources to craft a spell
+                                this.add.text(20, 300, `You do not have enough resources to craft a Looping Air Spell.\nYou currently have ${this.inventory.loopingAirSpell} in your inventory`, {
+                                    fontSize: '28px',
+                                    color: '#ffffff',
+                                });
+                            }
                     } else {
                         // Handle the case where the user input is not a number
                         this.add.text(20, 500, 'Please enter a valid number', {
@@ -173,7 +158,7 @@ export default class airSpell extends Phaser.Scene {
         }));
 
         //telling how to make loop
-        this.add.text(20, 125, 'You need to use 2 Green Gems and 2 Yellow Gems to make this Spell\nEnter the number of Air Spells you want', {
+        this.add.text(20, 125, 'You need to use 6 Green Gems and 6 Yellow Gems to make this Spell\nEnter the number of Air Spells you want', {
             fontSize: '28px',
             color: '#ffffff',
         });
