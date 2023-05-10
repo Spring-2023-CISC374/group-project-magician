@@ -13,9 +13,10 @@ export default class CommonCombat extends Phaser.Scene {
 	protected spell!: Spell
 	protected keys!: Phaser.Types.Input.Keyboard.CursorKeys;
 	protected currentHealth!: number
-	protected spellList!: Array<Spell>
+	protected basicSpellList!: Array<Spell>
 	protected statusEffect!: Phaser.GameObjects.Sprite
 	protected inventory!: Inventory_Items
+	protected timesCast!: number
 
 	constructor(key: any) { super(key) }
 
@@ -38,7 +39,7 @@ export default class CommonCombat extends Phaser.Scene {
 		this.enemyAttack.flipX = true
         //Creates spell list, sets spell to first one in the list, as long as no spell list was passed
 		this.createOriginalSpellList()
-		this.spell = this.spellList[0]
+		this.spell = this.basicSpellList[0]
         this.spell.handleSpellAnims()
         //creates spell buttons
 		this.makeSpellButtons()
@@ -50,6 +51,7 @@ export default class CommonCombat extends Phaser.Scene {
         this.player.displayCombatHealth()
 		this.enemy.displayHealth()
 		this.enemy.displayAttack(this.enemyAttack)
+		this.timesCast = 0
     }
 
 	update() {
@@ -74,18 +76,43 @@ export default class CommonCombat extends Phaser.Scene {
 			this.handleEnemyDeath()
 			this.handleLeavingCombatToMap();
 		}
-		if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true
-		&& this.enemy.getNoMoreText() === true && this.enemyAttack.active === false 
-		&& this.spell.getCantClick() === false ) { 
-			this.player?.castSpell(this.player,this.spell)
-		}
-		if (this.spell?.active == true) {
-			this.spell.moveSpell()
-			this.enemyAttack.resetAttackPosition(this.enemy)
-		}
-		if (this.spell?.isDisabled() == true) {
-			this.enemy.attackPlayer(this.enemyAttack)
-			this.spell.resetSpellPosition(this.player)
+		if (!this.spell.is_looping) {
+			if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true
+			&& this.enemy.getNoMoreText() === true && this.enemyAttack.active === false 
+			&& this.spell.getCantClick() === false ) { 
+				this.player?.castSpell(this.player,this.spell)
+			}
+			if (this.spell?.active == true) {
+				this.spell.moveSpell()
+				this.enemyAttack.resetAttackPosition(this.enemy)
+			}
+			if (this.spell?.isDisabled() == true) {
+				this.enemy.attackPlayer(this.enemyAttack)
+				this.spell.resetSpellPosition(this.player)
+			}
+		} else {
+			if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true
+			&& this.enemy.getNoMoreText() === true && this.enemyAttack.active === false 
+			&& this.spell.getCantClick() === false && this.keys.space.isDown == true 
+			&& this.spell?.active==false) { // initialize the castiung of the spell
+				console.log("first part cast");
+				this.player.castLoopSpell(this.player, this.spell)
+			}
+			if (this.spell?.active == true) {
+				this.spell.moveSpell()
+			}
+			if (this.spell?.isDisabled() == true) {
+				this.enemy.attackPlayer(this.enemyAttack)
+				this.spell.resetSpellPosition(this.player)
+				if (this.timesCast < 2) { // once we have cast the spell 3 times, we are done 
+					console.log(this.timesCast);
+					this.player.castLoopSpell(this.player, this.spell)
+					this.timesCast++;
+				} else {
+					this.timesCast = 0; // resetting the number of times the spell was cast
+				}
+				
+			}
 		}
 		/*
 		if (this.enemyAttack.active === true) {
@@ -110,14 +137,14 @@ export default class CommonCombat extends Phaser.Scene {
 			fontSize: '12px',
 			color: '#ffffff'
 		})
-		let currentX = 200;
-		for (const newSpell of this.spellList) {
-			this.add.text(currentX-25, 300, newSpell.getName(), {
+		let currentX = 60;
+		for (const newSpell of this.basicSpellList) {
+			this.add.text(currentX-30, 325, newSpell.getName(), {
 			fontSize: '12px',
 			color: '#ffffff'
 		})
 			// create button to go to map
-			this.add.existing(new SpellButtons(this, currentX, 350, newSpell.texture as unknown as string, () => {
+			this.add.existing(new SpellButtons(this, currentX, 375, newSpell.texture as unknown as string, () => {
 				if (this.player.getNoMoreText() === true && this.spell.active === false &&
 				this.enemy.getNoMoreText() === true && this.enemyAttack.active === false
 				&& this.spell.getCantClick() === false) {		
@@ -146,20 +173,32 @@ export default class CommonCombat extends Phaser.Scene {
 		})
     }
     createOriginalSpellList() {
-        const darkSpell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell',"Dark Spell", 5)
-        const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10)
-        const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 5)
-		const waterSpell = new Spell(this, this.player.x + 30, this.player.y, 'waterSpell',"Water Spell", 2)
-		const windSpell = new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Wind Spell", 2)
-        this.spellList = [darkSpell,fireSpell,iceSpell]
-		if (this.inventory.waterSpell > 0) {
-			waterSpell.setSpellDamage(waterSpell.getSpellDamage() * this.inventory.waterSpell)
-			this.spellList.push(waterSpell);
+		const darkSpell = new Spell(this, this.player.x + 30, this.player.y, 'darkSpell',"Dark Spell", 5, false)
+        const fireSpell = new Spell(this, this.player.x + 30, this.player.y, 'fireSpell',"Fire Spell", 10, false)
+        const iceSpell = new Spell(this, this.player.x + 30, this.player.y, 'iceSpell',"Ice Spell", 5, false)
+		
+        this.basicSpellList = [darkSpell,fireSpell, iceSpell]
+		if (this.inventory.basicAirSpell > 0) {
+			this.basicSpellList.push(new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Basic Air", 5, false))
+		} 
+		if (this.inventory.basicWaterSpell > 0) {
+			this.basicSpellList.push(new Spell(this, this.player.x + 30, this.player.y, 'waterSpell',"Basic Water", 5, false))
+		} if (this.inventory.loopingAirSpell > 0) {
+			this.basicSpellList.push(new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Looping Air", 5, true))
 		}
-		if (this.inventory.airSpell) {
-			windSpell.setSpellDamage(windSpell.getSpellDamage() * this.inventory.airSpell)
-			this.spellList.push(windSpell);
+		if (this.inventory.loopingWaterSpell > 0) {
+			this.basicSpellList.push(new Spell(this, this.player.x + 30, this.player.y, 'waterSpell',"Looping Water", 5, true))
 		}
+		console.log("creating the spell list")
+		console.log(this.basicSpellList)
+		//if (this.inventory.waterSpell > 0) {
+		//	waterSpell.setSpellDamage(waterSpell.getSpellDamage() * this.inventory.waterSpell)
+		//	this.spellList.push(waterSpell);
+		//}
+		//if (this.inventory.airSpell) {
+		//	windSpell.setSpellDamage(windSpell.getSpellDamage() * this.inventory.airSpell)
+		//	this.spellList.push(windSpell);
+		//}
     }
     enemyAnims() {
         this.enemy.handleEnemyAnims()

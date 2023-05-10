@@ -133,7 +133,7 @@ export default class airSpellBasic extends Phaser.Scene {
         this.createPlayer(100, 450, this.currentHealth) // creating a player
         this.createEnemy(500, 450, 'blue-gem', 80, 10)
     
-        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Wind Spell", 8) // created water spell
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Wind Spell", 8, false) // created water spell
         this.spell.handleSpellAnims() // water spell will be 
         this.spell.setDisabled(false)
         this.spell.setActive(false)
