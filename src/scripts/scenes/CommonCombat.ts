@@ -189,7 +189,7 @@ export default class CommonCombat extends Phaser.Scene {
 			this.basicSpellList.push(new Spell(this, this.player.x + 30, this.player.y, 'waterSpell',"Looping Water", 5, true))
 		}
 		console.log("creating the spell list")
-		console.log("deploy te")
+		console.log("deploy  ")
 		console.log(this.basicSpellList)
     }
     enemyAnims() {
