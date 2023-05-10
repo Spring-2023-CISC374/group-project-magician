@@ -102,13 +102,13 @@ export default class CommonCombat extends Phaser.Scene {
 				this.spell.moveSpell()
 			}
 			if (this.spell?.isDisabled() == true) {
-				this.enemy.attackPlayer(this.enemyAttack)
 				this.spell.resetSpellPosition(this.player)
 				if (this.timesCast < 2) { // once we have cast the spell 3 times, we are done 
 					console.log(this.timesCast);
 					this.player.castLoopSpell(this.player, this.spell)
 					this.timesCast++;
 				} else {
+					this.enemy.attackPlayer(this.enemyAttack)
 					this.timesCast = 0; // resetting the number of times the spell was cast
 				}
 				
