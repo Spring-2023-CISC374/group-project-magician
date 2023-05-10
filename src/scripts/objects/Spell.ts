@@ -9,10 +9,11 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
   public name: string
   private clickInfo!: Phaser.GameObjects.Text 
   private cantClick: boolean
+  public is_looping: boolean
     // source: https://programmingmind.net/phaser/fun-with-spells-using-phaser
     
   
-    constructor(scene: Phaser.Scene, x: number, y: number, key: string, newName: string, newDamage: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, key: string, newName: string, newDamage: number, looping: boolean) {
         super(scene, x, y, key)
         this.disabled = false;
         this.spellDamage = newDamage;
@@ -20,6 +21,7 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
         this.cantClick = false;
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.is_looping = looping
 
         this.setActive(false)
         this.setVisible(false)

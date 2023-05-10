@@ -135,7 +135,7 @@ export default class waterSpellBasic extends Phaser.Scene {
         this.createPlayer(100, 350, this.currentHealth) // creating a player
         this.createEnemy(500, 350, 'blue-gem', 80, 10)
 
-        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'waterS pell',"Water Spell", 8) // created water spell
+        this.spell = new Spell(this, this.player.x + 30, this.player.y, 'waterS pell',"Water Spell", 8, false) // created water spell
         this.spell.handleSpellAnims() // water spell will be 
         this.spell.setDisabled(false)
         this.spell.setActive(false)

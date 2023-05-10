@@ -17,12 +17,12 @@ export default class Inventory_Items {
         this.yellowGems = 20
         this.greenGems = 20
 
-        this.basicWaterSpell = 0
-        this.loopingWaterSpell = 0
-        this.basicFireSpell = 0
-        this.loopingFireSpell = 0
-        this.basicAirSpell = 0
-        this.loopingAirSpell = 0
+        this.basicWaterSpell = 2
+        this.loopingWaterSpell = 2
+        this.basicFireSpell = 2
+        this.loopingFireSpell = 2
+        this.basicAirSpell = 2
+        this.loopingAirSpell = 2
 
     }
 
@@ -48,13 +48,14 @@ export default class Inventory_Items {
 
     add_basicWaterSpell(SpellsCrafting: number) {
         let waterSpellBasicCrafted = 0
-        if (this.blueGems >= 4 && SpellsCrafting > 0) {
-            waterSpellBasicCrafted++
-            this.basicWaterSpell++
-            SpellsCrafting--
+        
+        while (this.blueGems >= 4 && SpellsCrafting > 0) {
+            waterSpellBasicCrafted++;
+            this.basicWaterSpell++;
+            SpellsCrafting--;
             this.blueGems = this.blueGems - 4
         }
-        return waterSpellBasicCrafted
+        return waterSpellBasicCrafted;
     }    
     add_loopingWaterSpell(SpellsCrafting: number) {
         let waterSpellLoopingCrafted = 0
