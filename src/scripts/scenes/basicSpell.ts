@@ -79,10 +79,10 @@ export default class basicSpell extends CommonLevel {
             this.scene.stop('loopSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 600, 250, 'fireIcon', () => {        // inventory button
-            this.scene.start('waterSpellBasic', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
-            this.scene.stop('loopSpell');
-        }));
+        //this.add.existing(new Click_Change_Scene(this, 600, 250, 'fireIcon', () => {        // inventory button
+        //    this.scene.start('waterSpellBasic', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
+        //    this.scene.stop('loopSpell');
+        //}));
 
 
     }
