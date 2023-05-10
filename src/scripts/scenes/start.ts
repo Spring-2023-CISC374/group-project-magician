@@ -17,7 +17,7 @@ export default class start extends CommonLevel {
 			.setColor('black').setFontSize(30).setDepth(1).setOrigin(0.5)
 
 		const inventory: Inventory_Items = new Inventory_Items()
-
+		console.log("Testing npm run deploy")
 		this.op_text = this.add.text(175, 250, 'Currently at Start \n Click for Home', {
 			fontSize: '40px',
 			color: '#ffffff'
