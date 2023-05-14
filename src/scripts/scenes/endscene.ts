@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import CommonLevel from './CommonLevel'
 
 export default class start extends CommonLevel {
-	private op_text?: Phaser.GameObjects.Text
+	private op_text!: Phaser.GameObjects.Text
 	constructor() { super('end') }
 
 	create() {	
@@ -22,5 +22,8 @@ export default class start extends CommonLevel {
 		})
 
 		this.currentHealth = 100
+	}
+	get_op_text() {
+		return this.op_text;
 	}
 }
