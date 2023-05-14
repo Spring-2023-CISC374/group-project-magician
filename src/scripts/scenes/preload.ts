@@ -91,7 +91,7 @@ export default class start extends Phaser.Scene {
 		{frameWidth: 32, frameHeight: 32})
 		//chest icon
 		this.load.image('chest', 'assets/newicons/Inventory_Icon.png');
-
+		console.log("deploy");
 		// waterSpell images
 		this.load.image('background-waterspell', 'assets/background/waterSpell_Background.png')
 		this.load.image('background-airspell', 'assets/background/airSpell_Background.png')
