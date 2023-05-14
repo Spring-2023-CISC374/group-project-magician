@@ -119,14 +119,14 @@ export default class waterSpellBasic extends Phaser.Scene {
             });         
           }
             
-          this.input.on('dragstart',  (pointer:any, gameObject:any) =>
+          this.input.on('dragstart',  (_pointer:any, gameObject:any) =>
           {
   
               this.children.bringToTop(gameObject);
   
           }, this);
   
-          this.input.on('drag', (pointer: any, gameObject: any, dragX: number, dragY: number) =>
+          this.input.on('drag', (_pointer: any, gameObject: any, dragX: number, dragY: number) =>
           {
   
               gameObject.x = dragX;
