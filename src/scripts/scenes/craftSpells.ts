@@ -52,18 +52,18 @@ export default class craftSpells extends CommonLevel {
 			color: '#ffffff'
 		})
 
-		this.add.text(150, 200, 'Looping', {
+		this.add.text(200, 200, 'Looping', {
 			fontSize: '22px',
 			color: '#ffffff'
 		})
-		this.add.text(350, 200, 'Basic', {
+		this.add.text(500, 200, 'Basic', {
 			fontSize: '22px',
 			color: '#ffffff'
 		})
-		this.add.text(550, 200, 'Unlocked!', {
-			fontSize: '22px',
-			color: '#ffffff'
-		})
+		//this.add.text(550, 200, 'Unlocked!', {
+		//	fontSize: '22px',
+		//	color: '#ffffff'
+		//})
 
 		//adding the buttons to go to different scenes
         this.add.existing(new Click_Change_Scene(this, 655, 560, 'map_marker', () => {			// create button to go to map
@@ -76,12 +76,12 @@ export default class craftSpells extends CommonLevel {
 			this.scene.stop('resource')
 		}));
 
-		this.add.existing(new Click_Change_Scene(this, 190, 270, 'loopIcon', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 240, 270, 'loopIcon', () => {			// create button to go to map
 			this.scene.start('loopSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth})											
 			this.scene.stop('resource')
 		}));
 
-		this.add.existing(new Click_Change_Scene(this, 380, 260, 'starIcon', () => {			// create button to go to map
+		this.add.existing(new Click_Change_Scene(this, 540, 260, 'starIcon', () => {			// create button to go to map
 			this.scene.start('basicSpell', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth})											
 			this.scene.stop('resource')
 		}));

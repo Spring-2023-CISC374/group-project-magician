@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import Click_Change_Scene from '../objects/Click_Change_Scene';
 import Inventory_Items from '../objects/Inventory_Items';
-//import CommonLevel from './CommonLevel'
 import Spell from '../objects/Spell';
 import MainCharacter from '../objects/MainCharacter';
 import Enemy from '../objects/Enemy';
@@ -51,13 +50,28 @@ export default class waterSpellLoop extends Phaser.Scene {
         
         this.keys = this.input.keyboard.createCursorKeys(); // activating keyboard
 
-        //telling the location
-        //this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
-        //    fontSize: '32px',
-        //    color: '#ffffff'
-        //});
-
         this.createInformation() 
+        const newText = this.add.text(50, 275, `You have ${this.inventory.blueGems} Blue Gems`, {
+            fontSize: '18px',
+            color: '#ffffff',
+          });
+        
+        //showing the gems - can visual see how gems are taken away  
+        const frames = this.textures.get('blue-gem').getFrameNames();
+
+        let x = 100;
+        let y = 220;
+
+        let image = this.add.image(x, y, 'blue-gem', Phaser.Math.RND.pick(frames)).setInteractive({ draggable: true });
+
+        for (let i = 0; i < this.inventory.blueGems; i++){
+            
+            image = this.add.image(x, y, 'blue-gem', Phaser.Math.RND.pick(frames)).setInteractive({ draggable: true });
+
+            x += 1; 
+            y += 1;
+        }
+
 
         this.time.delayedCall(100, () => {
             const userInput = window.prompt('Enter the number of Water Spells you want:');
@@ -71,6 +85,11 @@ export default class waterSpellLoop extends Phaser.Scene {
 
                     const spellsCrafted = this.inventory.add_loopingWaterSpell(numLoopingWaterSpells); // craft the spells using spell craft method
 
+                    for (let i = 0; i < numLoopingWaterSpells; i++) {
+                        image.destroy();
+                    }
+                    newText.setText(`You have ${this.inventory.blueGems} Blue Gems`);
+                    
                     if (spellsCrafted != 0) { // we were able to craft at leat 1 spell
                         this.add.text(20, 300, `You now have crafted ${spellsCrafted} Looping Water Spells.\nYou currently have ${this.inventory.loopingWaterSpell} in your inventory`, {
                             fontSize: '28px',
@@ -156,15 +175,9 @@ export default class waterSpellLoop extends Phaser.Scene {
 
         //telling how to make loop
         this.add.text(20, 150, 'You need to use 12 Blue Gems to make this Spell\nEnter the number of Water Spells you want', {
-            fontSize: '28px',
+            fontSize: '26px',
             color: '#ffffff',
         });
-
-       // this.add.text(20,250, 'For(int i = 0; i < number; i++){\n let blueGemsCollected = blueGemsCollected - 4;\n int WaterSpell = WaterSpell + 1\n}\nreturn WaterSpell', {
-        //    fontSize: '26px',
-        //    color: '#ffffff',
-        //});
-        
 	}
     update() {
         this.spell.handleSpellAnims()

@@ -98,9 +98,9 @@ export default class start extends Phaser.Scene {
 		
 		// load image for start screen here - craftSpell
 		this.load.image('background-craftSpells', 'assets/background/magicshop_bakground.png');
-		//Edited Here
-		this.load.image('loopIcon', 'assets/newicons/loopIcon.png');
-		this.load.image('starIcon', 'assets/newicons/stars-craft.png');
+		this.load.image('loopIcon', 'assets/Icons/loopIcon.png');
+		this.load.image('starIcon', 'assets/Icons/stars-craft.png');
+		this.load.image('craftPot','assets/Icons/craftingPot.png');
 
 	}
 	

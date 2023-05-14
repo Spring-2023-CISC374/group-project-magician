@@ -50,8 +50,6 @@ export default class basicSpell extends CommonLevel {
         }); // water button text
 
 
-       
-
         //making buttons
         this.add.existing(new Click_Change_Scene(this, 50, 560, 'backbutton', () => {        // back button
             this.scene.start('craftSpells', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
@@ -69,12 +67,12 @@ export default class basicSpell extends CommonLevel {
         }));
 
 
-        this.add.existing(new Click_Change_Scene(this, 175, 250, 'waterIcon', () => {        // inventory button
+        this.add.existing(new Click_Change_Scene(this, 250, 250, 'waterIcon', () => {        // inventory button
             this.scene.start('waterSpellBasic', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));
 
-        this.add.existing(new Click_Change_Scene(this, 375, 250, 'airIcon', () => {        // inventory button
+        this.add.existing(new Click_Change_Scene(this, 500, 250, 'airIcon', () => {        // inventory button
             this.scene.start('airSpellBasic', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth});
             this.scene.stop('loopSpell');
         }));

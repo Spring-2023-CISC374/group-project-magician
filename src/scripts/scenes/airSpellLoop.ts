@@ -41,8 +41,9 @@ export default class airSpell extends Phaser.Scene {
            this.cameras.main.width/(.95 * bg.width), this.cameras.main.height/(.95 * bg.height));
 
         //
-        this.createPlayer(100, 350, this.currentHealth) // creating a player
-        this.createEnemy(500, 350, 'blue-gem', 80, 10)
+        this.createPlayer(100, 450, this.currentHealth) // creating a player
+        this.createEnemy(500, 450, 'yellow-gem', 20, 10)
+        this.createEnemy(550, 450, 'green-gem', 20, 10)
    
         this.spell = new Spell(this, this.player.x + 30, this.player.y, 'windSpell',"Air Spell", 8, true) // created water spell
         this.spell.handleSpellAnims() // water spell will be 
@@ -52,13 +53,49 @@ export default class airSpell extends Phaser.Scene {
            
         this.keys = this.input.keyboard.createCursorKeys(); // activating keyboard
 
-        //telling the location
-        //this.add.text(10, 40, 'Currently at Water Spell\nPress the Back Button to go to Craft\nSpell', {
-        //    fontSize: '32px',
-        //    color: '#ffffff'
-        //});
-
         this.createInformation() 
+
+        const newText = this.add.text(50, 275, `You have ${this.inventory.yellowGems} Yellow Gems`, {
+            fontSize: '18px',
+            color: '#ffffff',
+          });
+
+        const newTextGreen = this.add.text(475, 275, `You have ${this.inventory.greenGems} Green Gems`, {
+           fontSize: '18px',
+           color: '#ffffff',
+        });
+
+         //showing the gems - can visual see how gems are taken away  
+         const frames = this.textures.get('yellow-gem').getFrameNames();
+
+         let x = 100;
+         let y = 220;
+ 
+         let image = this.add.image(x, y, 'yellow-gem', Phaser.Math.RND.pick(frames)).setInteractive({ draggable: true });
+ 
+         for (let i = 0; i < this.inventory.yellowGems; i++){
+             
+             image = this.add.image(x, y, 'yellow-gem', Phaser.Math.RND.pick(frames)).setInteractive({ draggable: true });
+ 
+             x += 1; 
+             y += 1;
+         }
+
+         //making the image for green gems
+         const framesGreen = this.textures.get('green-gem').getFrameNames();
+
+         let newX = 550;
+         let newY = 220;
+ 
+         let imageGreen = this.add.image(newX, newY, 'green-gem', Phaser.Math.RND.pick(framesGreen)).setInteractive({ draggable: true });
+ 
+         for (let i = 0; i < this.inventory.greenGems; i++){
+             
+             imageGreen = this.add.image(newX, newY, 'green-gem', Phaser.Math.RND.pick(framesGreen)).setInteractive({ draggable: true });
+ 
+             newX += 1; 
+             newY += 1;
+         }
 
         this.time.delayedCall(1500, () => {
             const userInput = window.prompt('Enter the number of Air Spells you want:');
@@ -71,6 +108,14 @@ export default class airSpell extends Phaser.Scene {
                     const numLoopingAirSpells = parseInt(userInput); // transform the inputted text into number
 
                     const spellsCrafted = this.inventory.add_loopingAirSpell(numLoopingAirSpells); // craft the spells using spell craft method
+
+                    for (let i = 0; i < numLoopingAirSpells; i++) {
+                        image.destroy();
+                        imageGreen.destroy();
+                    }
+                    newText.setText(`You have ${this.inventory.yellowGems} Yellow Gems`);
+                    newTextGreen.setText(`You have ${this.inventory.greenGems} Green Gems`);
+                    
 
                     if (spellsCrafted != 0) { // we were able to craft at leat 1 spell
                         this.add.text(20, 300, `You now have crafted ${spellsCrafted} Looping Air Spells.\nYou currently have ${this.inventory.loopingAirSpell} in your inventory`, {
@@ -123,7 +168,7 @@ export default class airSpell extends Phaser.Scene {
                       }    
                     } else {
                         // Handle the case where the user input is null
-                        this.add.text(20, 300, 'User canceled input dialog', {
+                        this.add.text(20, 350, 'User canceled input dialog', {
                             fontSize: '28px',
                             color: '#ffffff',
                         });
@@ -133,7 +178,7 @@ export default class airSpell extends Phaser.Scene {
               }    
             } else {
                 // Handle the case where the user input is null
-                this.add.text(20, 300, 'User canceled input dialog', {
+                this.add.text(20, 350, 'User canceled input dialog', {
                     fontSize: '28px',
                     color: '#ffffff',
                 });
