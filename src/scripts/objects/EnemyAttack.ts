@@ -47,13 +47,15 @@ export default class Attack extends Phaser.Physics.Arcade.Sprite {
     this.disabled = true;
 }
   resetAttackPosition(enemy: Enemy) {
-		this.enableBody(true, enemy.x + 30, enemy.y, true, false)
+		this.enableBody(true, 370, enemy.y, true, false)
 		this.setActive(false)
 		this.disabled = false;
 	}
-  checkForOverlap(player: MainCharacter) {
+  checkForOverlap(player: MainCharacter, enemy: Enemy) {
     this.scene.physics.add.overlap(player, this,
-			() => this?.handleAttack(player), undefined, this)
+			() => {this?.handleAttack(player)
+      player?.handleBeingAttacked(enemy)}
+      ,undefined, this)
   }
 
   handleAttackAnims() {

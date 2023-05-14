@@ -7,6 +7,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private enemyAttack!: Phaser.GameObjects.Text
     private enemyDamage: number
     private statusEffect: boolean
+    private noMoreText!: boolean
 
     constructor(scene: any, x: any, y: any, enemy: string, healthValue: number, newDamage: number) {
         super(scene, x, y, enemy)
@@ -14,6 +15,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.health = healthValue;
         this.enemyDamage = newDamage
         this.statusEffect = false;
+        this.noMoreText = true;
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -45,17 +47,17 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 		})
     }
 
-    displayAttack() {
-        this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for " + this.enemyDamage + " HP!", 
+    displayAttack(attack: EnemyAttack) {
+        this.enemyAttack = this.scene.add.text(20,230,"You have been hit by the monster for " + attack.getattackDamage() + " HP!", 
 		{
-			fontSize: '20px',
-			color: '#ff0000',
-			backgroundColor: '#ffffff'
+			fontSize: '30px',
+			color: '#ffffff',
+			backgroundColor: '#880000'
 		})
         this.enemyAttack.setVisible(false)
     }
 
-    handleCharacterAttacked(player: MainCharacter, spell: Spell) {
+    handleCharacterAttacked(player: MainCharacter, spell: Spell, attack: EnemyAttack) {
         if (this.statusEffect === true) {
             this.health -= 5
         }
@@ -67,23 +69,28 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         } else if(spell.name === "Ice Spell") {
             this.health -= 5;
             if (this.enemyDamage > 2) {
-                this.enemyDamage -= 2;
+                attack.setattackDamage(attack.getattackDamage() - 2);
             }
         } else {
             this.health -= spell.getSpellDamage();
         }
 
+        // Displays the text that the character has attacked the monster
 		player.setVisibility(true)
+        this.noMoreText = false;
 		setTimeout(()=> {
 			player.setVisibility(false)
-		}, 5000)	
+            this.noMoreText = true;
+		}, 3000)	
     }
 
     attackPlayer(enemyAttack: EnemyAttack) {
-        enemyAttack
+        setTimeout(()=> {
+			enemyAttack
             .setActive(true)
             .setVisible(true)
         enemyAttack.anims.play('dragon_attack', true)
+		}, 3000)	
     }
 
     setText() {
@@ -94,12 +101,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.enemyAttack.setVisible(visible)
     }
 
-    setAttackText() {
-        this.enemyAttack.setText("You have been hit by the monster for " + this.enemyDamage + " HP!")
+    setAttackText(attack: EnemyAttack) {
+        this.enemyAttack.setText("You have been hit by the monster for\n" + attack.getattackDamage() + " HP!")
     }
 
-    displayEnemyAttack() {
-        this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for " + this.enemyDamage + " HP!", 
+    displayEnemyAttack(attack: EnemyAttack) {
+        this.enemyAttack = this.scene.add.text(20,150,"You have been hit by the monster for " + attack.getattackDamage() + " HP!", 
 		{
 			fontSize: '20px',
 			color: '#ff0000',
@@ -141,5 +148,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 			}), 
 			frameRate: 5, repeat: -1
 		})
+    }
+    getNoMoreText() {
+        return this.noMoreText;
     }
 }

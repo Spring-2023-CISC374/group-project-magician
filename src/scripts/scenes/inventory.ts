@@ -11,10 +11,10 @@ export default class inventory extends Phaser.Scene {
 	private yellowGemText?: Phaser.GameObjects.Text
 	private greenGemText?: Phaser.GameObjects.Text
 
-	private waterSpellText?: Phaser.GameObjects.Text
-	private airSpellText?: Phaser.GameObjects.Text
-
-	private waterSpellBasicText?: Phaser.GameObjects.Text
+	private basicWaterSpellText?: Phaser.GameObjects.Text
+	private basicAirSpellText?: Phaser.GameObjects.Text
+	private loopingWaterSpellText?: Phaser.GameObjects.Text
+	private loopingAirSpellText?: Phaser.GameObjects.Text
 	//private waterSpellText?: Phaser.GameObjects.Text
 	//private waterSpell?: number
 	
@@ -86,23 +86,29 @@ export default class inventory extends Phaser.Scene {
 		//starting spells
 		//this.waterSpell = this.inventory.waterSpell;
 	
-		this.waterSpellText = this.add.text(400, 150, 'Water Spell: ', {
+		this.basicWaterSpellText = this.add.text(400, 150, 'Basic Water Spell: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this.waterSpellText?.setText('Water Spell: ' + this.inventory.waterSpell)
+		this.basicWaterSpellText?.setText('Basic Water Spell: ' + this.inventory.basicWaterSpell)
 
-		this. waterSpellBasicText = this.add.text(400, 200, 'Basic Water Spell: ', {
+		this.basicAirSpellText = this.add.text(400, 200, 'Basic Air Spell: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this. waterSpellBasicText?.setText('Basic Water Spell: ' + this.inventory.basicWaterSpell)
+		this.basicAirSpellText?.setText('Basic Air Spell: ' + this.inventory.basicAirSpell)
 
-		this.airSpellText = this.add.text(400, 250, 'Air Spell: ', {
+		this.loopingWaterSpellText = this.add.text(400, 350, 'Looping Water Spell: ', {
 			fontSize: '20px',
 			color: '#ffffff'
 		})
-		this.airSpellText?.setText('Air Spell: ' + this.inventory.airSpell)
+		this.loopingWaterSpellText?.setText('Looping Water Spell: ' + this.inventory.loopingWaterSpell)
+
+		this.loopingAirSpellText = this.add.text(400, 400, 'Looping Air Spell: ', {
+			fontSize: '20px',
+			color: '#ffffff'
+		})
+		this.loopingAirSpellText?.setText('Looping Air Spell: ' + this.inventory.loopingAirSpell)
 
 		
 	
