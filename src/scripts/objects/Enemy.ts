@@ -68,7 +68,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.health -= 5;
         } else if(spell.name === "Ice Spell") {
             this.health -= 5;
-            if (this.enemyDamage > 2) {
+            if (attack.getattackDamage() > 2) {
                 attack.setattackDamage(attack.getattackDamage() - 2);
             }
         } else {
