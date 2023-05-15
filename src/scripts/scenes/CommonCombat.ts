@@ -121,13 +121,15 @@ export default class CommonCombat extends Phaser.Scene {
 					this.player.castLoopSpell(this.player, this.spell)
 					this.timesCast++;
 				} else {
-					this.loopEnd = true;
 					this.timesCast = 0; // resetting the number of times the spell was cast
 					this.enemyAttack = new EnemyAttack(this, 370, this.enemy.y, 'dragonAttack', 'Dragon Attack', this.enemy.getEnemyDamage())
 						.setActive(false)
 						.setVisible(false)
 					this.enemyAttack.flipX = true
 					this.enemy.attackPlayer(this.enemyAttack)
+					setTimeout(()=> {
+						this.loopEnd = true;
+					}, 3000)
 				}
 				this.spell.resetSpellPosition(this.player)
 			}
@@ -174,8 +176,8 @@ export default class CommonCombat extends Phaser.Scene {
         this.enemy.setEnemyHealthBar(false);
 		this.enemy.anims.stop();
 		this.enemy.setEnemyDead(true)
-		this.add.text(400, 45, 'Enemy Dead', {
-			fontSize: '25px',
+		this.add.text(200, 150, 'Enemy Defeated', {
+			fontSize: '50px',
 			color: '#ffffff',
 			backgroundColor: '#ff0000'
 		})
