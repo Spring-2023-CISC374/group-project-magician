@@ -17,8 +17,12 @@ export default class CommonCombat extends Phaser.Scene {
 	protected statusEffect!: Phaser.GameObjects.Sprite
 	protected inventory!: Inventory_Items
 	protected timesCast!: number
+	protected loopEnd!: boolean
 
-	constructor(key: any) { super(key) }
+	constructor(key: any) { 
+		super(key) 
+		this.loopEnd = true;
+	}
 
 	init (data: any) {
 		console.log('init', data)
@@ -103,8 +107,9 @@ export default class CommonCombat extends Phaser.Scene {
 			if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true
 			&& this.enemy.getNoMoreText() === true && this.enemyAttack.active === false 
 			&& this.spell.getCantClick() === false && this.keys.space.isDown == true 
-			&& this.spell?.active==false) { // initialize the castiung of the spell
+			&& this.spell?.active==false && this.loopEnd === true) { // initialize the castiung of the spell
 				console.log("first part cast");
+				this.loopEnd = false;
 				this.player.castLoopSpell(this.player, this.spell)
 			}
 			if (this.spell?.active == true) {
@@ -116,6 +121,7 @@ export default class CommonCombat extends Phaser.Scene {
 					this.player.castLoopSpell(this.player, this.spell)
 					this.timesCast++;
 				} else {
+					this.loopEnd = true;
 					this.timesCast = 0; // resetting the number of times the spell was cast
 					this.enemyAttack = new EnemyAttack(this, 370, this.enemy.y, 'dragonAttack', 'Dragon Attack', this.enemy.getEnemyDamage())
 						.setActive(false)
