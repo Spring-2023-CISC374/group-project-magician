@@ -167,6 +167,7 @@ export default class CommonCombat extends Phaser.Scene {
         (this.enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
         this.enemy.setEnemyHealthBar(false);
 		this.enemy.anims.stop();
+		this.enemy.setEnemyDead(true)
 		this.add.text(400, 45, 'Enemy Dead', {
 			fontSize: '25px',
 			color: '#ffffff',
