@@ -126,7 +126,7 @@ export default class Spell extends Phaser.Physics.Arcade.Sprite {
       this.cantClick = true;
     if (this.active==false && player.getNoMoreText() === true
 		&& enemy.getNoMoreText() === true && enemyAttack.active === false) {
-      this.clickInfo = this.scene.add.text(10, 390, "You Chose The : " + this.name, {
+      this.clickInfo = this.scene.add.text(10, 410, "You Chose: " + this.name, {
         fontSize: '22px',
         color: '#ffffff',
         fontStyle: "bold"

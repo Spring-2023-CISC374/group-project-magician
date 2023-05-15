@@ -17,8 +17,12 @@ export default class CommonCombat extends Phaser.Scene {
 	protected statusEffect!: Phaser.GameObjects.Sprite
 	protected inventory!: Inventory_Items
 	protected timesCast!: number
+	protected loopEnd!: boolean
 
-	constructor(key: any) { super(key) }
+	constructor(key: any) { 
+		super(key) 
+		this.loopEnd = true;
+	}
 
 	init (data: any) {
 		console.log('init', data)
@@ -54,10 +58,10 @@ export default class CommonCombat extends Phaser.Scene {
 		this.timesCast = 0
     }
     //functions used in combat and common combat scene
-	handleLeavingCombatToMap() {
+	handleLeavingCombat() {
 		setTimeout(()=> {
 			this.scene.stop(this.scene as unknown as string)
-			this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth })
+			this.scene.start('endscene')
 		}, 5000)
 	}
 
@@ -82,7 +86,7 @@ export default class CommonCombat extends Phaser.Scene {
 
 		if (this.enemy?.getHealth() <= 0) {
 			this.handleEnemyDeath()
-			this.handleLeavingCombatToMap();
+			this.handleLeavingCombat();
 		}
 
 		if (!this.spell.is_looping) {
@@ -103,15 +107,16 @@ export default class CommonCombat extends Phaser.Scene {
 			if (this.keys?.space.isDown && this.spell?.active==false && this.player.getNoMoreText() === true
 			&& this.enemy.getNoMoreText() === true && this.enemyAttack.active === false 
 			&& this.spell.getCantClick() === false && this.keys.space.isDown == true 
-			&& this.spell?.active==false) { // initialize the castiung of the spell
+			&& this.spell?.active==false && this.loopEnd === true) { // initialize the castiung of the spell
 				console.log("first part cast");
+				this.loopEnd = false;
 				this.player.castLoopSpell(this.player, this.spell)
 			}
 			if (this.spell?.active == true) {
 				this.spell.moveSpell()
 			}
 			if (this.spell?.isDisabled() == true) {
-				if (this.timesCast < 2) { // once we have cast the spell 3 times, we are done 
+				if (this.timesCast < 2 && this.enemy.getEnemyDead() === false) { // once we have cast the spell 3 times, we are done 
 					console.log(this.timesCast);
 					this.player.castLoopSpell(this.player, this.spell)
 					this.timesCast++;
@@ -122,6 +127,9 @@ export default class CommonCombat extends Phaser.Scene {
 						.setVisible(false)
 					this.enemyAttack.flipX = true
 					this.enemy.attackPlayer(this.enemyAttack)
+					setTimeout(()=> {
+						this.loopEnd = true;
+					}, 3000)
 				}
 				this.spell.resetSpellPosition(this.player)
 			}
@@ -167,8 +175,9 @@ export default class CommonCombat extends Phaser.Scene {
         (this.enemy as Phaser.Physics.Arcade.Image).setTint(0xff0000);
         this.enemy.setEnemyHealthBar(false);
 		this.enemy.anims.stop();
-		this.add.text(400, 45, 'Enemy Dead', {
-			fontSize: '25px',
+		this.enemy.setEnemyDead(true)
+		this.add.text(200, 150, 'Enemy Defeated', {
+			fontSize: '50px',
 			color: '#ffffff',
 			backgroundColor: '#ff0000'
 		})
