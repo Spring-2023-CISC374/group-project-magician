@@ -32,6 +32,7 @@ export default class CommonCombat extends Phaser.Scene {
 	}
 
 	create() {	
+		console.log("for deploy again");
         //Creates player at 80, 515, and passes the current health
         this.createPlayer(80, 515, this.currentHealth)
         //this.createEnemy(400, 525, 'dragon', 80, 10)
