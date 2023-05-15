@@ -54,10 +54,10 @@ export default class CommonCombat extends Phaser.Scene {
 		this.timesCast = 0
     }
     //functions used in combat and common combat scene
-	handleLeavingCombatToMap() {
+	handleLeavingCombat() {
 		setTimeout(()=> {
 			this.scene.stop(this.scene as unknown as string)
-			this.scene.start('map', {inventory_items: this.inventory, prev_scene: this.scene.key, storedHealth: this.currentHealth })
+			this.scene.start('endscene')
 		}, 5000)
 	}
 
@@ -82,7 +82,7 @@ export default class CommonCombat extends Phaser.Scene {
 
 		if (this.enemy?.getHealth() <= 0) {
 			this.handleEnemyDeath()
-			this.handleLeavingCombatToMap();
+			this.handleLeavingCombat();
 		}
 
 		if (!this.spell.is_looping) {
