@@ -111,7 +111,7 @@ export default class CommonCombat extends Phaser.Scene {
 				this.spell.moveSpell()
 			}
 			if (this.spell?.isDisabled() == true) {
-				if (this.timesCast < 2) { // once we have cast the spell 3 times, we are done 
+				if (this.timesCast < 2 && this.enemy.getEnemyDead() === false) { // once we have cast the spell 3 times, we are done 
 					console.log(this.timesCast);
 					this.player.castLoopSpell(this.player, this.spell)
 					this.timesCast++;
