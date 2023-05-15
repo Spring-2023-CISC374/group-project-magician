@@ -162,10 +162,10 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
                     else if (spell.name==="Ice Spell") {
                         spell.anims.play('ice_spell', true)
                     }
-                    else if (spell.name==="Water Spell") {
+                    else if (spell.name==="Water Spell" || spell.name==="Basic Water" || spell.name==="Looping Water") {
                         spell.anims.play('water_spell', true)
                     }
-                    else if (spell.name==="Wind Spell") {
+                    else if (spell.name==="Wind Spell" || spell.name==="Basic Air" || spell.name==="Looping Air") {
                         spell.anims.play('wind_spell', true)
                     }
 			player.anims.play('idle', true)
@@ -186,6 +186,12 @@ export default class MainCharacter extends Phaser.Physics.Arcade.Sprite {
                         spell.anims.repeatDelay = 200;
                         spell.anims.repeat = 3;
                         spell.anims.play('ice_spell', true)
+                    }
+                    else if (spell.name==="Water Spell" || spell.name==="Basic Water" || spell.name==="Looping Water") {
+                        spell.anims.play('water_spell', true)
+                    }
+                    else if (spell.name==="Wind Spell" || spell.name==="Basic Air" || spell.name==="Looping Air") {
+                        spell.anims.play('wind_spell', true)
                     }
 			player.anims.play('idle', true)
 		})
